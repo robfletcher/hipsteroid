@@ -29,6 +29,9 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
+		compile ':cache-headers:1.1.5'
+
+		runtime ":mongodb:1.0.0.GA"
         runtime ':jquery:1.8.3'
         runtime ':resources:1.2.RC2'
         runtime ':zipped-resources:1.0'
