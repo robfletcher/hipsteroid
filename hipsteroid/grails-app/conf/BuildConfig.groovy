@@ -13,6 +13,7 @@ grails.project.dependency.resolution = {
     checksums true
 
     repositories {
+
         inherits true
 
 		mavenLocal()
@@ -22,22 +23,27 @@ grails.project.dependency.resolution = {
         grailsCentral()
 
         mavenCentral()
+
     }
 
     dependencies {
 
+		compile 'org.twitter4j:twitter4j-core:2.2.6'
+
     }
 
     plugins {
+
 		compile ':cache-headers:1.1.5'
 
-		runtime ":mongodb:1.0.0.GA"
-        runtime ':jquery:1.8.3'
-        runtime ':resources:1.2.RC2'
-        runtime ':zipped-resources:1.0'
-        runtime ':cached-resources:1.0'
-        runtime ':yui-minify-resources:0.1.5'
+		runtime ':mongodb:1.0.0.GA',
+				':jquery:1.8.3',
+				':resources:1.2.RC2',
+				':zipped-resources:1.0',
+				':cached-resources:1.0',
+				':yui-minify-resources:0.1.5'
 
         build ":tomcat:$grailsVersion"
+
     }
 }
