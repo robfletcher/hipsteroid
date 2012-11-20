@@ -1,13 +1,28 @@
 class UrlMappings {
 
 	static mappings = {
-		"/$controller/$action?/$id?"{
+
+		name login: '/login' {
+			controller = 'auth'
+			action = 'login'
+		}
+
+		name logout: '/logout' {
+			controller = 'auth'
+			action = 'logout'
+		}
+
+		name oauthCallback: '/oauth/callback' {
+			controller = 'auth'
+			action = 'callback'
+		}
+
+		"/$controller/$action?/$id?" {
 			constraints {
-				// apply constraints here
 			}
 		}
 
-		"/"(view:"/index")
-		"500"(view:'/error')
+		'/'(view: '/index')
+		'500'(view: '/error')
 	}
 }
