@@ -9,9 +9,9 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST
  */
 class AuthController {
 
-	static allowedMethods = [login: 'POST', logout: 'POST', callback: 'GET']
+	static allowedMethods = [signIn: 'POST', signOut: 'POST', callback: 'GET']
 
-    def login() {
+    def signIn() {
 
 		def twitter = new TwitterFactory().instance
 		session.twitter = twitter
@@ -24,7 +24,7 @@ class AuthController {
 
 	}
 
-	def logout() {
+	def signOut() {
 
 		session.invalidate()
 

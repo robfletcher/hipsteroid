@@ -6,9 +6,13 @@
 	</head>
 
 	<body>
-		<h1>Hipsteroid</h1>
+		<header>
+			<h1>Hipsteroid</h1>
 
-		<auth:currentUser/>
-		<auth:button/>
+			<div class="auth">
+				<auth:currentUser/>
+				<auth:button/>
+			</div>
+		</header>
 	</body>
 </html>

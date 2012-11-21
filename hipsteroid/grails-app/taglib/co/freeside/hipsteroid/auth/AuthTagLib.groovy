@@ -18,12 +18,12 @@ class AuthTagLib {
 		Twitter twitter = session.twitter
 
 		if (twitter) {
-			out << g.form(controller: 'auth', action: 'logout') {
-				out << '<button type="submit">Log out</button>'
+			out << g.form(controller: 'auth', action: 'signOut') {
+				out << '<button type="submit">Sign out</button>'
 			}
 		} else {
-			out << g.form(controller: 'auth', action: 'login') {
-				out << '<button type="submit">Log in with Twitter</button>'
+			out << g.form(controller: 'auth', action: 'signIn') {
+				out << '<button type="submit">Sign in with Twitter</button>'
 			}
 		}
 	}
