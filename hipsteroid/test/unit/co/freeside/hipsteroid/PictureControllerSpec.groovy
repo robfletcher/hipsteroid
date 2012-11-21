@@ -1,12 +1,15 @@
 package co.freeside.hipsteroid
 
 import javax.servlet.http.HttpServletResponse
+import co.freeside.hipsteroid.auth.AuthService
 import grails.converters.JSON
 import grails.test.mixin.*
 import org.bson.types.ObjectId
+import org.springframework.mock.web.MockMultipartFile
 import spock.lang.*
 import twitter4j.*
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND
+import static co.freeside.hipsteroid.PictureController.SC_UNPROCESSABLE_ENTITY
+import static javax.servlet.http.HttpServletResponse.*
 
 @TestFor(PictureController)
 @Mock(Picture)
@@ -35,10 +38,10 @@ class PictureControllerSpec extends Specification {
 
 	void setup() {
 		HttpServletResponse.metaClass.getContentAsJSON = {->
-			println delegate.contentAsString
 			JSON.parse(delegate.contentAsString)
 		}
 
+		controller.authService = Mock(AuthService)
 		session.twitter = Mock(Twitter) {
 			showUser(user.id) >> user
 		}
@@ -55,7 +58,7 @@ class PictureControllerSpec extends Specification {
 		picture.save(failOnError: true, flush: true)
 
 		when:
-		controller.show(picture.id)
+		controller.show picture.id.toString()
 
 		then:
 		response.contentType == 'image/jpeg'
@@ -67,7 +70,7 @@ class PictureControllerSpec extends Specification {
 	void 'responds with a 404 when an invalid image id is used for show'() {
 
 		when:
-		controller.show(new ObjectId())
+		controller.show new ObjectId().toString()
 
 		then:
 		response.status == SC_NOT_FOUND
@@ -92,6 +95,63 @@ class PictureControllerSpec extends Specification {
 		json.pictures.every { it.uploadedBy == user.screenName }
 		json.pictures[0].url == "/picture/show/${pictures[0].id}"
 		json.pictures[0].dateCreated == pictures[0].dateCreated.format("yyyy-MM-dd'T'HH:mm:ss'Z'")
+
+	}
+
+	void 'can create a picture'() {
+
+		given:
+		controller.authService.authenticated >> true
+		controller.authService.currentUserId >> user.id
+
+		and:
+		Picture.metaClass.imageRoot = {-> imageRoot }
+
+		and:
+		request.addFile new MockMultipartFile('image', jpgImages[0].bytes)
+
+		when:
+		controller.save()
+
+		then:
+		response.status == SC_CREATED
+		String id = response.contentAsJSON.id
+
+		and:
+		Picture.count() == old(Picture.count()) + 1
+		def picture = Picture.get(new ObjectId(id))
+		picture.file.bytes == jpgImages[0].bytes
+		picture.uploadedBy == user.id
+
+	}
+
+	void 'cannot create a picture if not authenticated'() {
+
+		given:
+		controller.authService.authenticated >> false
+
+		request.addFile new MockMultipartFile('image', jpgImages[0].bytes)
+
+		when:
+		controller.save()
+
+		then:
+		response.status == SC_UNAUTHORIZED
+
+	}
+
+	void 'save responds with 422 if upload data is invalid or missing'() {
+
+		given:
+		controller.authService.authenticated >> true
+		controller.authService.currentUserId >> user.id
+
+		when:
+		controller.save()
+
+		then:
+		response.status == SC_UNPROCESSABLE_ENTITY
+		response.contentAsJSON.errors[0] == "Property [image] of class [$Picture] cannot be null"
 
 	}
 

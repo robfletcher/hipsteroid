@@ -1,14 +1,18 @@
 package co.freeside.hipsteroid
 
+import grails.converters.JSON
 import org.bson.types.ObjectId
 import twitter4j.Twitter
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND
+import static javax.servlet.http.HttpServletResponse.*
 
 class PictureController {
 
-	def show(ObjectId id) {
+	public static final int SC_UNPROCESSABLE_ENTITY = 422
+	def authService
 
-		def picture = Picture.get(id)
+	def show(String id) {
+
+		def picture = Picture.get(new ObjectId(id))
 
 		if (picture) {
 			response.contentType = 'image/jpeg'
@@ -36,4 +40,25 @@ class PictureController {
 		}
 	}
 
+	def save() {
+
+		if (!authService.isAuthenticated()) {
+			response.sendError SC_UNAUTHORIZED
+			return
+		}
+
+		def picture = new Picture(params)
+		picture.uploadedBy = authService.currentUserId
+
+		if (picture.save(flush: true)) {
+			response.status = SC_CREATED
+			def model = [id: picture.id.toString()]
+			render model as JSON
+		} else {
+			response.status = SC_UNPROCESSABLE_ENTITY
+			def model = [errors: picture.errors.allErrors.collect { message(error: it) }]
+			render model as JSON
+		}
+
+	}
 }
