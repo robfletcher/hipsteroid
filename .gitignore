@@ -2,3 +2,4 @@
 *.iml
 /hipsteroid/target/
 /hipsteroid/grails-app/conf/twitter4j.properties
+/out/
