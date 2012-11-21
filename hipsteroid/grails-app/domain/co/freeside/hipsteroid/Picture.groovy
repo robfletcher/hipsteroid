@@ -19,13 +19,11 @@ class Picture {
 
 	void onLoad() {
 		file = new File(dir(), "${id}.jpg")
-		println "Reading >> $file.absolutePath"
 	}
 
 	void afterInsert() {
 		file = new File(dir(), "${id}.jpg")
 		file.parentFile.mkdirs()
-		println "Writing << $file.absolutePath"
 		file << image
 	}
 

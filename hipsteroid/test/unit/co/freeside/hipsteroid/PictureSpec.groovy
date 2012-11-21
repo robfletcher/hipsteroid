@@ -11,7 +11,7 @@ class PictureSpec extends Specification {
 	@Shared File jpgImage = new File(PictureSpec.getResource('/manhattan.jpg').toURI())
 	@Shared File tmpDir = new File(System.properties.'java.io.tmpdir')
 	@Shared File imageRoot = new File(tmpDir, 'PictureSpec')
-	@Shared User user = Mock(User)
+	@Shared User user = [getId: {-> 1L }] as User
 
 	void setupSpec() {
 		imageRoot.mkdirs()
