@@ -6,6 +6,8 @@ class AuthTagLib {
 
 	static namespace = 'auth'
 
+	def authService
+
 	def currentUser = { attrs ->
 		User user = session.user
 
@@ -17,7 +19,7 @@ class AuthTagLib {
 	def button = { attrs ->
 		Twitter twitter = session.twitter
 
-		if (twitter) {
+		if (authService.isAuthenticated()) {
 			out << g.form(controller: 'auth', action: 'signOut') {
 				out << '<button type="submit">Sign out</button>'
 			}
