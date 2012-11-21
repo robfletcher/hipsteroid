@@ -45,5 +45,7 @@ grails.project.dependency.resolution = {
 
         build ":tomcat:$grailsVersion"
 
+		test ':spock:0.7'
+
     }
 }
