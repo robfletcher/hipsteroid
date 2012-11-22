@@ -16,6 +16,10 @@ class Picture {
 	static constraints = {
 		image bindable: true
 		file nullable: true
+		dateCreated bindable: false
+		lastUpdated bindable: false
+		checksum bindable: false
+		file bindable: false
 	}
 
 	void setImage(byte[] bytes) {
