@@ -11,15 +11,12 @@ class Picture {
 	Long uploadedBy
 	String checksum
 	transient byte[] image
-	transient File file
 
 	static constraints = {
 		image bindable: true
-		file nullable: true
 		dateCreated bindable: false
 		lastUpdated bindable: false
 		checksum bindable: false
-		file bindable: false
 	}
 
 	static mapping = {
@@ -33,14 +30,13 @@ class Picture {
 		checksum = Long.toHexString(crc.value)
 	}
 
-	void onLoad() {
-		file = new File(dir(), "${id}.jpg")
+	transient File getFile() {
+		dateCreated ? new File(imageRoot(), "${dateCreated.format('yyyy/MM/dd')}/${id}.jpg") : null
 	}
 
 	void afterInsert() {
-		file = new File(dir(), "${id}.jpg")
 		file.parentFile.mkdirs()
-		file << image
+		file.bytes = image
 	}
 
 	void afterUpdate() {
@@ -49,10 +45,6 @@ class Picture {
 
 	void afterDelete() {
 		file.delete()
-	}
-
-	private File dir() {
-		new File(imageRoot(), dateCreated.format('yyyy/MM/dd'))
 	}
 
 	def grailsApplication
