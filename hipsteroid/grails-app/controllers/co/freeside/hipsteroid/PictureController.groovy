@@ -15,7 +15,7 @@ class PictureController {
 		def picture = Picture.get(new ObjectId(id))
 
 		if (picture) {
-			response.contentType = 'image/jpeg'
+			response.contentType = 'image/jpeg' // TODO: depends on image
 			response.contentLength = picture.file.length()
 			response.outputStream << picture.file.bytes
 		} else {
@@ -34,6 +34,7 @@ class PictureController {
 						url = createLink(action: 'show', id: p.id)
 						uploadedBy = twitter.showUser(p.uploadedBy).screenName
 						dateCreated = p.dateCreated
+						lastUpdated = p.lastUpdated
 					}
 				}
 			}
