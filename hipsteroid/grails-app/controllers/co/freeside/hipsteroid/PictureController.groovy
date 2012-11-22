@@ -8,6 +8,9 @@ import static javax.servlet.http.HttpServletResponse.*
 class PictureController {
 
 	public static final int SC_UNPROCESSABLE_ENTITY = 422
+
+	static allowedMethods = [show: ['GET', 'HEAD'], list: ['GET', 'HEAD'], save: 'POST', update: 'PUT', delete: 'DELETE']
+
 	def authService
 
 	def show(String id) {
