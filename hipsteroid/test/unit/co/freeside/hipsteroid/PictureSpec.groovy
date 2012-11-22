@@ -9,13 +9,17 @@ import static org.apache.commons.io.FileUtils.checksumCRC32
 class PictureSpec extends Specification {
 
 	@Shared File jpgImage = new File(PictureSpec.getResource('/manhattan.jpg').toURI())
+	@Shared File jpgImage2 = new File(PictureSpec.getResource('/oldfashioned.jpg').toURI())
 	@Shared File tmpDir = new File(System.properties.'java.io.tmpdir')
 	@Shared File imageRoot = new File(tmpDir, 'PictureSpec')
 	@Shared User user = [getId: {-> 1L }] as User
 
 	void setupSpec() {
 		imageRoot.mkdirs()
-		grailsApplication.config.hipsteroid.image.root = imageRoot
+	}
+
+	void setup() {
+		Picture.metaClass.imageRoot = {-> imageRoot }
 	}
 
 	void cleanupSpec() {
@@ -26,7 +30,6 @@ class PictureSpec extends Specification {
 
 		given:
 		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user.id)
-		picture.grailsApplication = grailsApplication
 
 		when:
 		picture.save(failOnError: true, flush: true)
@@ -41,7 +44,6 @@ class PictureSpec extends Specification {
 
 		given:
 		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user.id)
-		picture.grailsApplication = grailsApplication
 		picture.save(failOnError: true, flush: true)
 
 		when:
@@ -50,6 +52,36 @@ class PictureSpec extends Specification {
 		then:
 		file.isFile()
 		checksumCRC32(file) == checksumCRC32(jpgImage)
+
+	}
+
+	void 'a picture can be updated with new image data'() {
+
+		given:
+		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user.id)
+		picture.save(failOnError: true, flush: true)
+
+		when:
+		picture.image = jpgImage2.bytes
+		picture.save(flush: true)
+
+		then:
+		picture.checksum != old(picture.checksum)
+		picture.file.bytes == jpgImage2.bytes
+
+	}
+
+	void 'when a picture is deleted the image file is wiped from disk'() {
+
+		given:
+		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user.id)
+		picture.save(failOnError: true, flush: true)
+
+		when:
+		picture.delete(flush: true)
+
+		then:
+		!picture.file.isFile()
 
 	}
 

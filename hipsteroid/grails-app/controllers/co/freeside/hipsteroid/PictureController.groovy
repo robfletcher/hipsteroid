@@ -61,4 +61,61 @@ class PictureController {
 		}
 
 	}
+
+	def update(String id) {
+
+		if (!authService.isAuthenticated()) {
+			response.sendError SC_UNAUTHORIZED
+			return
+		}
+
+		def picture = Picture.get(new ObjectId(id))
+
+		if (!picture) {
+			response.sendError SC_NOT_FOUND
+			return
+		} else if (authService.currentUserId != picture.uploadedBy) {
+			response.sendError SC_UNAUTHORIZED
+			return
+		}
+
+		picture.properties = params
+
+		if (picture.save(flush: true)) {
+			response.status = SC_OK
+			def model = [id: picture.id.toString()]
+			render model as JSON
+		} else {
+			response.status = SC_UNPROCESSABLE_ENTITY
+			def model = [errors: picture.errors.allErrors.collect { message(error: it) }]
+			render model as JSON
+		}
+
+	}
+
+	def delete(String id) {
+
+		if (!authService.isAuthenticated()) {
+			response.sendError SC_UNAUTHORIZED
+			return
+		}
+
+		def picture = Picture.get(new ObjectId(id))
+
+		if (!picture) {
+			response.sendError SC_NOT_FOUND
+			return
+		} else if (authService.currentUserId != picture.uploadedBy) {
+			response.sendError SC_UNAUTHORIZED
+			return
+		}
+
+		picture.delete()
+
+		response.status = SC_ACCEPTED
+		def model = [id: picture.id.toString()]
+		render model as JSON
+
+	}
+
 }

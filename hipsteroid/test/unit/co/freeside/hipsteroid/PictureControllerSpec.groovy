@@ -13,6 +13,7 @@ import static javax.servlet.http.HttpServletResponse.*
 
 @TestFor(PictureController)
 @Mock(Picture)
+@Unroll
 class PictureControllerSpec extends Specification {
 
 	@Shared Collection<File> jpgImages = ['gibson', 'manhattan', 'martini', 'oldfashioned'].collect {
@@ -29,7 +30,6 @@ class PictureControllerSpec extends Specification {
 
 	void setupSpec() {
 		imageRoot.mkdirs()
-		grailsApplication.config.hipsteroid.image.root = imageRoot
 	}
 
 	void cleanupSpec() {
@@ -37,6 +37,8 @@ class PictureControllerSpec extends Specification {
 	}
 
 	void setup() {
+		Picture.metaClass.imageRoot = {-> imageRoot }
+
 		HttpServletResponse.metaClass.getContentAsJSON = {->
 			JSON.parse(delegate.contentAsString)
 		}
@@ -67,16 +69,6 @@ class PictureControllerSpec extends Specification {
 
 	}
 
-	void 'responds with a 404 when an invalid image id is used for show'() {
-
-		when:
-		controller.show new ObjectId().toString()
-
-		then:
-		response.status == SC_NOT_FOUND
-
-	}
-
 	void 'can list pictures'() {
 
 		given:
@@ -98,14 +90,11 @@ class PictureControllerSpec extends Specification {
 
 	}
 
-	void 'can create a picture'() {
+	void 'authenticated user can create a picture'() {
 
 		given:
 		controller.authService.authenticated >> true
 		controller.authService.currentUserId >> user.id
-
-		and:
-		Picture.metaClass.imageRoot = {-> imageRoot }
 
 		and:
 		request.addFile new MockMultipartFile('image', jpgImages[0].bytes)
@@ -125,21 +114,6 @@ class PictureControllerSpec extends Specification {
 
 	}
 
-	void 'cannot create a picture if not authenticated'() {
-
-		given:
-		controller.authService.authenticated >> false
-
-		request.addFile new MockMultipartFile('image', jpgImages[0].bytes)
-
-		when:
-		controller.save()
-
-		then:
-		response.status == SC_UNAUTHORIZED
-
-	}
-
 	void 'save responds with 422 if upload data is invalid or missing'() {
 
 		given:
@@ -152,6 +126,113 @@ class PictureControllerSpec extends Specification {
 		then:
 		response.status == SC_UNPROCESSABLE_ENTITY
 		response.contentAsJSON.errors[0] == "Property [image] of class [$Picture] cannot be null"
+
+	}
+
+	void 'uploader can update a picture'() {
+
+		given:
+		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user.id)
+		picture.grailsApplication = grailsApplication
+		picture.save(failOnError: true, flush: true)
+
+		and:
+		controller.authService.authenticated >> true
+		controller.authService.currentUserId >> user.id
+
+		and:
+		request.addFile new MockMultipartFile('image', jpgImages[1].bytes)
+
+		when:
+		controller.update picture.id.toString()
+
+		then:
+		response.status == SC_OK
+
+		and:
+		picture.file.bytes == jpgImages[1].bytes
+
+	}
+
+	void 'uploader can delete a picture'() {
+
+		given:
+		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user.id)
+		picture.grailsApplication = grailsApplication
+		picture.save(failOnError: true, flush: true)
+
+		and:
+		controller.authService.authenticated >> true
+		controller.authService.currentUserId >> user.id
+
+		when:
+		controller.delete picture.id.toString()
+
+		then:
+		response.status == SC_ACCEPTED
+
+		and:
+		Picture.count() == old(Picture.count()) - 1
+		Picture.get(picture.id) == null
+
+		and:
+		!picture.file.isFile()
+
+	}
+
+	void '#action responds with a 404 if picture id is incorrect'() {
+
+		given:
+		controller.authService.authenticated >> true
+		controller.authService.currentUserId >> user.id
+
+		when:
+		controller."$action" new ObjectId().toString()
+
+		then:
+		response.status == SC_NOT_FOUND
+
+		where:
+		action << ['show', 'update', 'delete']
+
+	}
+
+	void '#action responds with a 401 if no user is authenticated'() {
+
+		given:
+		controller.authService.authenticated >> false
+
+		when:
+		controller.invokeMethod(action, args as Object[])
+
+		then:
+		response.status == SC_UNAUTHORIZED
+
+		where:
+		action << ['save', 'update', 'delete']
+		args << [[], [new ObjectId().toString()]]
+
+	}
+
+	void '#action responds with 401 if wrong user is logged in'() {
+
+		given:
+		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user.id)
+		picture.grailsApplication = grailsApplication
+		picture.save(failOnError: true, flush: true)
+
+		and:
+		controller.authService.authenticated >> true
+		controller.authService.currentUserId >> user.id + 1
+
+		when:
+		controller."$action" picture.id.toString()
+
+		then:
+		response.status == SC_UNAUTHORIZED
+
+		where:
+		action << ['update', 'delete']
 
 	}
 
