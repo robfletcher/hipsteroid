@@ -22,6 +22,10 @@ class Picture {
 		file bindable: false
 	}
 
+	static mapping = {
+		uploadedBy updateable: false
+	}
+
 	void setImage(byte[] bytes) {
 		image = bytes
 		def crc = new CRC32()

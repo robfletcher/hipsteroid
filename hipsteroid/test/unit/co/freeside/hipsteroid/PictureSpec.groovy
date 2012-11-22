@@ -85,4 +85,19 @@ class PictureSpec extends Specification {
 
 	}
 
+	void 'cannot change the uploading user of a picture'() {
+
+		given:
+		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user.id)
+		picture.save(failOnError: true, flush: true)
+
+		when:
+		picture.uploadedBy++
+		picture.save()
+
+		then:
+		picture.refresh().uploadedBy == old(picture.uploadedBy)
+
+	}
+
 }
