@@ -85,6 +85,7 @@ class PictureSpec extends Specification {
 
 	}
 
+	@Ignore('not possible to check this in a unit test')
 	void 'cannot change the uploading user of a picture'() {
 
 		given:
