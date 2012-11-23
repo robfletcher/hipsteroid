@@ -1,5 +1,8 @@
 package co.freeside.hipsteroid.auth
 
+import groovy.transform.EqualsAndHashCode
+
+@EqualsAndHashCode(includes = 'id')
 class User {
 
 	transient springSecurityService
@@ -43,7 +46,6 @@ class User {
 	private boolean isDirty(String propertyName) {
 		def persistedValue = User.collection.findOne(id)[propertyName]
 		def newValue = this[propertyName]
-		println "old value: $persistedValue, new value: $newValue"
 		persistedValue != newValue
 	}
 
