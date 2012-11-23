@@ -1,15 +1,16 @@
 import co.freeside.hipsteroid.*
+import grails.util.Environment
+import static grails.util.Environment.*
 
 class BootStrap {
 
+	def fixtureLoader
+
 	def init = { servletContext ->
 
-		if (Picture.count() == 0) {
+		if (Environment.current in [DEVELOPMENT, TEST] && Picture.count() == 0) {
 
-			['gibson', 'manhattan', 'martini', 'oldfashioned'].each {
-				def image = new File(BootStrap.getResource("/${it}.jpg").toURI())
-				new Picture(image: image.bytes, uploadedBy: 61233112).save(failOnError: true)
-			}
+			fixtureLoader.load 'pictures/cocktails'
 
 		}
 
@@ -17,4 +18,5 @@ class BootStrap {
 
 	def destroy = {
 	}
+
 }

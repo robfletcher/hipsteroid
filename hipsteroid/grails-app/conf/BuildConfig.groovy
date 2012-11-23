@@ -41,7 +41,8 @@ grails.project.dependency.resolution = {
 				':resources:1.2.RC2',
 				':zipped-resources:1.0',
 				':cached-resources:1.0',
-				':yui-minify-resources:0.1.5'
+				':yui-minify-resources:0.1.5',
+				':fixtures:1.2'
 
         build ":tomcat:$grailsVersion"
 

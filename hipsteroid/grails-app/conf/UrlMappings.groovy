@@ -13,6 +13,8 @@ class UrlMappings {
 			action = [GET: 'show', PUT: 'update', DELETE: 'delete']
 		}
 
+		"/fixture/$name**"(controller: 'fixture', action: 'load')
+
 		"/$controller/$action?/$id?" {
 			constraints {
 			}
