@@ -17,7 +17,6 @@
 
 * design!
 * image upload
-* proper persistent auth
 * pagination on timeline
 
 # Nice to haves
@@ -26,3 +25,4 @@
 * no javascript support
 * coffescript
 * infinite scroll on timeline
+* skip the link account page when signing in via twitter

@@ -15,8 +15,6 @@
  */
 package co.freeside.hipsteroid.auth
 
-import co.freeside.hipsteroid.auth.User
-
 /**
  * Simple domain class that records the identities of users authenticating via
  * an OAuth provider. Each identity consists of the OAuth account name and the
@@ -35,8 +33,8 @@ class OAuthID implements Serializable {
     }
 
     static mapping = {
-        provider    index: "identity_idx"
-        accessToken index: "identity_idx"
+        provider    index: 'identity_idx'
+        accessToken index: 'identity_idx'
     }
 
 }

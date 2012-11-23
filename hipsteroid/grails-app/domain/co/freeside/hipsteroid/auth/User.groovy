@@ -39,4 +39,12 @@ class User {
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)
 	}
+
+	private boolean isDirty(String propertyName) {
+		def persistedValue = User.collection.findOne(id)[propertyName]
+		def newValue = this[propertyName]
+		println "old value: $persistedValue, new value: $newValue"
+		persistedValue != newValue
+	}
+
 }
