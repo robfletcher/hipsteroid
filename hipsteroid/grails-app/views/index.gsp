@@ -32,7 +32,7 @@
 
 		<script>
 			URLMappings = {
-				pictures: '${createLink(mapping: 'pictures')}'
+				pictures: '${createLink(controller: 'picture')}'
 			}
 		</script>
 		<script id="picture-template" type="text/x-handlebars-template">
@@ -49,6 +49,7 @@
 						<dt>Updated at</dt>
 						<dd>{{lastUpdated}}</dd>
 					</dl>
+					<button type="button" class="delete">Delete</button>
 				</figcaption>
 			</figure>
 		</script>

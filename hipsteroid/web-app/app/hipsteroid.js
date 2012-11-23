@@ -14,24 +14,29 @@ hipsteroid.PictureCollection = Backbone.Collection.extend({
 	}
 });
 
-hipsteroid.PictureTimeline = Backbone.View.extend({
+hipsteroid.PictureView = Backbone.View.extend({
 
-	tagName: 'section',
-	className: 'timeline',
+	tagName: 'li',
 	template: Handlebars.compile($('script#picture-template').html()),
+
+	events: {
+		'click button.delete': 'delete'
+	},
 
 	initialize: function(options) {
 		_.bindAll(this);
 		this.model = options.model;
-		this.model.on('all', this.render);
+		this.model.on('change', this.render);
+		this.model.on('destroy', this.remove);
 	},
 
 	render: function() {
-		this.model.each(this.append);
+		this.$el.append(this.template(this.model.toJSON()));
+		return this;
 	},
 
-	append: function(model) {
-		this.$el.append(this.template(model.toJSON()));
+	delete: function() {
+		this.model.destroy();
 	}
 
 });
@@ -41,12 +46,26 @@ hipsteroid.AppView = Backbone.View.extend({
 	el: $('#app'),
 
 	initialize: function() {
+		_.bindAll(this);
 
 		this.pictures = new hipsteroid.PictureCollection;
-		this.timeline = new hipsteroid.PictureTimeline({model: this.pictures});
-		this.$el.append(this.timeline.el);
-		this.pictures.fetch();
+		this.pictures.on('add', this.addOne);
+		this.pictures.on('reset', this.addAll);
+		this.pictures.on('all', this.render);
 
+		this.timeline = $('<section class="timeline"/>');
+		this.$el.html(this.timeline);
+
+		this.pictures.fetch();
+	},
+
+	addOne: function(picture) {
+		var view = new hipsteroid.PictureView({model: picture});
+		this.timeline.prepend(view.render().el);
+	},
+
+	addAll: function() {
+		this.pictures.each(this.addOne);
 	}
 
 });

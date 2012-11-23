@@ -6,9 +6,11 @@ class UrlMappings {
 		'/signOut' controller: 'auth', action: 'signOut'
 		'/oauth/callback' controller: 'auth', action: 'callback'
 
-		name pictures: '/pictures'(controller: 'picture', action: 'list')
-		name picture: "/picture/$id"(controller: 'picture') {
-			action = [GET: 'show', PUT: 'update', DELETE: 'delete', POST: 'save']
+		"/pictures"(controller: 'picture') {
+			action = [GET: 'list', POST: 'save']
+		}
+		"/pictures/$id"(controller: 'picture') {
+			action = [GET: 'show', PUT: 'update', DELETE: 'delete']
 		}
 
 		"/$controller/$action?/$id?" {
