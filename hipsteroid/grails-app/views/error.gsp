@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
-		<title>Grails Runtime Exception</title>
+		<title>Oops&hellip;</title>
 		<meta name="layout" content="main">
-		<link rel="stylesheet" href="${resource(dir: 'css', file: 'errors.css')}" type="text/css">
 	</head>
+
 	<body>
-		<g:renderException exception="${exception}" />
+		<h1>Oops&hellip; that's not right!</h1>
+		<g:renderException exception="${exception}"/>
 	</body>
 </html>
