@@ -1,3 +1,5 @@
+grails.config.locations = ["classpath:oauth-config.properties"]
+
 grails.project.groupId = 'co.freeside'
 grails.mime.file.extensions = true
 grails.mime.use.accept.header = false
@@ -62,8 +64,6 @@ oauth {
 	providers {
 		twitter {
 			api = org.scribe.builder.api.TwitterApi
-			key = 'BNQ7s31dkCObh9RMizWA'
-			secret = 'aadg5VjsnQpCgPqBQmpmGXX3kdrCpcQA6wSwwIEH8'
 			successUri = '/oauth/twitter/success'
 			failureUri = '/'
 			callback = 'http://localhost:8080/hipsteroid/oauth/twitter/callback'
@@ -75,3 +75,7 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'co.freeside.hips
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'co.freeside.hipsteroid.auth.UserRole'
 grails.plugins.springsecurity.authority.className = 'co.freeside.hipsteroid.auth.Role'
 grails.plugins.springsecurity.oauth.domainClass = 'co.freeside.hipsteroid.auth.OAuthID'
+
+hipsteroid {
+	image.root = new File('target/uploads')
+}
