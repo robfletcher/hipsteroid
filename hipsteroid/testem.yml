@@ -1,0 +1,14 @@
+framework: jasmine
+before_tests: coffee -c test/js/*.coffee
+src_files:
+- web-app/app/*.js
+- test/js/**/*.coffee
+serve_files:
+- target/plugins/jquery-1.8.3/web-app/js/jquery/jquery-1.8.3.min.js
+- web-app/lib/underscore/*.js
+- web-app/lib/backbone/*.js
+- web-app/lib/handlebars/*.js
+- web-app/lib/moment/*.js
+- web-app/app/*.js
+- test/js/**/*.js
+on_exit: find test/js -name "*.js" -exec rm {} \;

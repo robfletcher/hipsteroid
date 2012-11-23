@@ -45,16 +45,7 @@
 			<figure>
 				<img src="{{url}}">
 				<figcaption>
-					<dl>
-						<dt>Uploaded by</dt>
-						{{#with uploadedBy}}
-						<dd>{{screenName}}</dd>
-						{{/with}}
-						<dt>Uploaded at</dt>
-						<dd>{{dateCreated}}</dd>
-						<dt>Updated at</dt>
-						<dd>{{lastUpdated}}</dd>
-					</dl>
+					<span class="meta">Uploaded {{friendlyTime dateCreated}} by {{uploadedBy.screenName}}</span>
 					<button type="button" class="delete">Delete</button>
 				</figcaption>
 			</figure>

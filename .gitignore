@@ -11,3 +11,6 @@
 
 # OAuth keys
 /hipsteroid/grails-app/conf/oauth-config.properties
+
+# Compiled Coffeescript
+hipsteroid/test/js/*.js
