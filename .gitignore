@@ -1,6 +1,13 @@
-/.idea/
-*.iml
-/hipsteroid/target/
-/hipsteroid/grails-app/conf/oauth-config.properties
-/out/
+# OSX
 .DS_Store
+
+# IntelliJ
+/.idea/
+/out/
+*.iml
+
+# Grails output
+/hipsteroid/target/
+
+# OAuth keys
+/hipsteroid/grails-app/conf/oauth-config.properties
