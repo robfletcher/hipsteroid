@@ -2,9 +2,8 @@ class UrlMappings {
 
 	static mappings = {
 
-		'/signIn' controller: 'auth', action = 'signIn'
-		'/signOut' controller: 'auth', action: 'signOut'
-		'/oauth/callback' controller: 'auth', action: 'callback'
+		"/oauth/$provider/success" controller: 'springSecurityOAuth', action: 'onSuccess'
+		"/oauth/$provider/failure" controller: 'springSecurityOAuth', action: 'onFailure'
 
 		"/pictures"(controller: 'picture') {
 			action = [GET: 'list', POST: 'save']
@@ -13,7 +12,7 @@ class UrlMappings {
 			action = [GET: 'show', PUT: 'update', DELETE: 'delete']
 		}
 
-		"/fixture/$name**"(controller: 'fixture', action: 'load')
+		"/fixture/$name**" controller: 'fixture', action: 'load'
 
 		"/$controller/$action?/$id?" {
 			constraints {
@@ -22,5 +21,6 @@ class UrlMappings {
 
 		'/' view: '/index'
 		'500' view: '/error'
+
 	}
 }

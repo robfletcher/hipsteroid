@@ -7,24 +7,30 @@
 		<r:require modules="hipsteroid"/>
 
 		<style>
-			figure img {
-				width: 200px;
-			}
-			figcaption img {
-				width: 32px;
-			}
+		figure img {
+			width: 200px;
+		}
+
+		figcaption img {
+			width: 32px;
+		}
 		</style>
 	</head>
-
-	<% twitter4j.Twitter twitter = session.twitter ?: new twitter4j.TwitterFactory().instance %>
 
 	<body>
 		<header>
 			<h1>Hipsteroid</h1>
 
 			<div class="auth">
-				<auth:currentUser/>
-				<auth:button/>
+				<sec:ifLoggedIn>
+					Logged in as <sec:loggedInUserInfo field="username"/>
+					<g:form controller="logout" action="index">
+						<button type="submit">Sign out</button>
+					</g:form>
+				</sec:ifLoggedIn>
+				<sec:ifNotLoggedIn>
+					<g:link controller="login" action="auth">Sign in</g:link>
+				</sec:ifNotLoggedIn>
 			</div>
 		</header>
 
@@ -42,7 +48,7 @@
 					<dl>
 						<dt>Uploaded by</dt>
 						{{#with uploadedBy}}
-						<dd>{{screenName}}<img src="{{profileImageURL}}"></dd>
+						<dd>{{screenName}}</dd>
 						{{/with}}
 						<dt>Uploaded at</dt>
 						<dd>{{dateCreated}}</dd>

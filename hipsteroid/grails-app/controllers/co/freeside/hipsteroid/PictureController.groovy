@@ -2,8 +2,8 @@ package co.freeside.hipsteroid
 
 import grails.converters.JSON
 import org.bson.types.ObjectId
-import twitter4j.Twitter
 import static javax.servlet.http.HttpServletResponse.*
+import static org.codehaus.groovy.grails.web.servlet.HttpHeaders.ACCEPT
 
 class PictureController {
 
@@ -11,7 +11,7 @@ class PictureController {
 
 	static allowedMethods = [show: ['GET', 'HEAD'], list: ['GET', 'HEAD'], save: 'POST', update: 'PUT', delete: 'DELETE']
 
-	def authService
+	def springSecurityService
 
 	def show(String id) {
 
@@ -28,18 +28,15 @@ class PictureController {
 	}
 
 	def list() {
-		Twitter twitter = session.twitter
-
 		render(contentType: 'application/json') {
 			array {
 				for (p in Picture.list(params)) {
 					picture {
 						id = p.id.toString()
 						url = createLink(action: 'show', id: p.id)
-						def user = twitter.showUser(p.uploadedBy)
 						uploadedBy = {
-							screenName = user.screenName
-							profileImageURL = user.profileImageURL
+							screenName = p.uploadedBy.username
+//							profileImageURL = user.profileImageURL
 						}
 						dateCreated = p.dateCreated
 						lastUpdated = p.lastUpdated
@@ -51,17 +48,26 @@ class PictureController {
 
 	def save() {
 
-		if (!authService.isAuthenticated()) {
+		// TODO: replace with annotation
+		if (!springSecurityService.isLoggedIn()) {
 			render status: SC_UNAUTHORIZED
 			return
 		}
 
 		def picture = new Picture(params)
-		picture.uploadedBy = authService.currentUserId
+		picture.uploadedBy = springSecurityService.currentUser
 
 		if (picture.save(flush: true)) {
 			response.status = SC_CREATED
-			def model = [id: picture.id.toString()]
+			response.contentType = request.getHeaders(ACCEPT).any { it == 'application/json' } ? 'application/json' : 'text/plain'
+			def model = [[
+					id: picture.id.toString(),
+					name: params.image.originalFilename,
+					url: createLink(action: 'show', id: picture.id),
+					thumbnail_url:  createLink(action: 'show', id: picture.id),
+					delete_url: createLink(action: 'delete', id: picture.id),
+					delete_type: 'DELETE'
+			]]
 			render model as JSON
 		} else {
 			response.status = SC_UNPROCESSABLE_ENTITY
@@ -73,7 +79,8 @@ class PictureController {
 
 	def update(String id) {
 
-		if (!authService.isAuthenticated()) {
+		// TODO: replace with annotation
+		if (!springSecurityService.isLoggedIn()) {
 			render status: SC_UNAUTHORIZED
 			return
 		}
@@ -83,7 +90,7 @@ class PictureController {
 		if (!picture) {
 			render status: SC_NOT_FOUND
 			return
-		} else if (authService.currentUserId != picture.uploadedBy) {
+		} else if (springSecurityService.currentUser != picture.uploadedBy) {
 			render status: SC_FORBIDDEN
 			return
 		}
@@ -104,7 +111,8 @@ class PictureController {
 
 	def delete(String id) {
 
-		if (!authService.isAuthenticated()) {
+		// TODO: replace with annotation
+		if (!springSecurityService.isLoggedIn()) {
 			render status: SC_UNAUTHORIZED
 			return
 		}
@@ -114,7 +122,7 @@ class PictureController {
 		if (!picture) {
 			render status: SC_NOT_FOUND
 			return
-		} else if (authService.currentUserId != picture.uploadedBy) {
+		} else if (springSecurityService.currentUser != picture.uploadedBy) {
 			render status: SC_FORBIDDEN
 			return
 		}

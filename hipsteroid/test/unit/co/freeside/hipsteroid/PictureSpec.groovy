@@ -1,8 +1,8 @@
 package co.freeside.hipsteroid
 
+import co.freeside.hipsteroid.auth.User
 import grails.test.mixin.TestFor
 import spock.lang.*
-import twitter4j.User
 import static org.apache.commons.io.FileUtils.checksumCRC32
 
 @TestFor(Picture)
@@ -12,7 +12,7 @@ class PictureSpec extends Specification {
 	@Shared File jpgImage2 = new File(PictureSpec.getResource('/oldfashioned.jpg').toURI())
 	@Shared File tmpDir = new File(System.properties.'java.io.tmpdir')
 	@Shared File imageRoot = new File(tmpDir, 'PictureSpec')
-	@Shared User user = [getId: {-> 1L }] as User
+	@Shared User user = new User(username: 'roundhouse')
 
 	void setupSpec() {
 		imageRoot.mkdirs()
@@ -29,7 +29,7 @@ class PictureSpec extends Specification {
 	void 'when a picture is created the image file is saved'() {
 
 		given:
-		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user.id)
+		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user)
 
 		when:
 		picture.save(failOnError: true, flush: true)
@@ -43,7 +43,7 @@ class PictureSpec extends Specification {
 	void 'when a picture is loaded the image file can be retrieved'() {
 
 		given:
-		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user.id)
+		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user)
 		picture.save(failOnError: true, flush: true)
 
 		when:
@@ -58,7 +58,7 @@ class PictureSpec extends Specification {
 	void 'a picture can be updated with new image data'() {
 
 		given:
-		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user.id)
+		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user)
 		picture.save(failOnError: true, flush: true)
 
 		when:
@@ -74,7 +74,7 @@ class PictureSpec extends Specification {
 	void 'when a picture is deleted the image file is wiped from disk'() {
 
 		given:
-		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user.id)
+		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user)
 		picture.save(failOnError: true, flush: true)
 
 		when:
@@ -89,7 +89,7 @@ class PictureSpec extends Specification {
 	void 'cannot change the uploading user of a picture'() {
 
 		given:
-		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user.id)
+		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user)
 		picture.save(failOnError: true, flush: true)
 
 		when:

@@ -57,3 +57,21 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+oauth {
+	providers {
+		twitter {
+			api = org.scribe.builder.api.TwitterApi
+			key = 'BNQ7s31dkCObh9RMizWA'
+			secret = 'aadg5VjsnQpCgPqBQmpmGXX3kdrCpcQA6wSwwIEH8'
+			successUri = '/oauth/twitter/success'
+			failureUri = '/'
+			callback = 'http://localhost:8080/hipsteroid/oauth/twitter/callback'
+		}
+	}
+}
+
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'co.freeside.hipsteroid.auth.User'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'co.freeside.hipsteroid.auth.UserRole'
+grails.plugins.springsecurity.authority.className = 'co.freeside.hipsteroid.auth.Role'
+grails.plugins.springsecurity.oauth.domainClass = 'co.freeside.hipsteroid.auth.OAuthID'

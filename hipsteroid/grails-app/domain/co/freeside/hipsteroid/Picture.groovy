@@ -1,6 +1,7 @@
 package co.freeside.hipsteroid
 
 import java.util.zip.CRC32
+import co.freeside.hipsteroid.auth.User
 import org.bson.types.ObjectId
 
 class Picture {
@@ -8,7 +9,7 @@ class Picture {
 	ObjectId id
 	Date dateCreated
 	Date lastUpdated
-	Long uploadedBy
+	User uploadedBy
 	String checksum
 	transient byte[] image
 

@@ -28,13 +28,13 @@ grails.project.dependency.resolution = {
 
     dependencies {
 
-		compile 'org.twitter4j:twitter4j-core:2.2.6'
-
     }
 
     plugins {
 
-		compile ':cache-headers:1.1.5'
+		compile ':cache-headers:1.1.5',
+				':spring-security-core:1.2.7.3',
+				':spring-security-oauth:2.0.1.1'
 
 		runtime ':mongodb:1.0.0.GA',
 				':jquery:1.8.3',
