@@ -180,7 +180,7 @@ class PictureControllerSpec extends Specification {
 
 	}
 
-	void '#action responds with a 404 if picture id is incorrect'() {
+	void '#action responds with a #httpStatus if picture id is incorrect'() {
 
 		given:
 		controller.authService.authenticated >> true
@@ -190,14 +190,15 @@ class PictureControllerSpec extends Specification {
 		controller."$action" new ObjectId().toString()
 
 		then:
-		response.status == SC_NOT_FOUND
+		response.status == httpStatus
 
 		where:
 		action << ['show', 'update', 'delete']
+		httpStatus = SC_NOT_FOUND
 
 	}
 
-	void '#action responds with a 401 if no user is authenticated'() {
+	void '#action responds with a #httpStatus if no user is authenticated'() {
 
 		given:
 		controller.authService.authenticated >> false
@@ -206,15 +207,16 @@ class PictureControllerSpec extends Specification {
 		controller.invokeMethod(action, args as Object[])
 
 		then:
-		response.status == SC_UNAUTHORIZED
+		response.status == httpStatus
 
 		where:
 		action << ['save', 'update', 'delete']
 		args << [[], [new ObjectId().toString()]]
+		httpStatus = SC_UNAUTHORIZED
 
 	}
 
-	void '#action responds with 401 if wrong user is logged in'() {
+	void '#action responds with #httpStatus if wrong user is logged in'() {
 
 		given:
 		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user.id)
@@ -229,10 +231,11 @@ class PictureControllerSpec extends Specification {
 		controller."$action" picture.id.toString()
 
 		then:
-		response.status == SC_UNAUTHORIZED
+		response.status == httpStatus
 
 		where:
 		action << ['update', 'delete']
+		httpStatus = SC_FORBIDDEN
 
 	}
 

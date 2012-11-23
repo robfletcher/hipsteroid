@@ -52,7 +52,7 @@ class PictureController {
 	def save() {
 
 		if (!authService.isAuthenticated()) {
-			response.sendError SC_UNAUTHORIZED
+			render status: SC_UNAUTHORIZED
 			return
 		}
 
@@ -74,17 +74,17 @@ class PictureController {
 	def update(String id) {
 
 		if (!authService.isAuthenticated()) {
-			response.sendError SC_UNAUTHORIZED
+			render status: SC_UNAUTHORIZED
 			return
 		}
 
 		def picture = Picture.get(new ObjectId(id))
 
 		if (!picture) {
-			response.sendError SC_NOT_FOUND
+			render status: SC_NOT_FOUND
 			return
 		} else if (authService.currentUserId != picture.uploadedBy) {
-			response.sendError SC_UNAUTHORIZED
+			render status: SC_FORBIDDEN
 			return
 		}
 
@@ -105,17 +105,17 @@ class PictureController {
 	def delete(String id) {
 
 		if (!authService.isAuthenticated()) {
-			response.sendError SC_UNAUTHORIZED
+			render status: SC_UNAUTHORIZED
 			return
 		}
 
 		def picture = Picture.get(new ObjectId(id))
 
 		if (!picture) {
-			response.sendError SC_NOT_FOUND
+			render status: SC_NOT_FOUND
 			return
 		} else if (authService.currentUserId != picture.uploadedBy) {
-			response.sendError SC_UNAUTHORIZED
+			render status: SC_FORBIDDEN
 			return
 		}
 
