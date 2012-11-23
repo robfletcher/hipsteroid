@@ -31,11 +31,16 @@ class PictureController {
 		Twitter twitter = session.twitter
 
 		render(contentType: 'application/json') {
-			pictures = array {
+			array {
 				for (p in Picture.list(params)) {
 					picture {
+						id = p.id.toString()
 						url = createLink(action: 'show', id: p.id)
-						uploadedBy = twitter.showUser(p.uploadedBy).screenName
+						def user = twitter.showUser(p.uploadedBy)
+						uploadedBy = {
+							screenName = user.screenName
+							profileImageURL = user.profileImageURL
+						}
 						dateCreated = p.dateCreated
 						lastUpdated = p.lastUpdated
 					}

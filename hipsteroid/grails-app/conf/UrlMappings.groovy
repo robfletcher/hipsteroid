@@ -6,8 +6,8 @@ class UrlMappings {
 		'/signOut' controller: 'auth', action: 'signOut'
 		'/oauth/callback' controller: 'auth', action: 'callback'
 
-		'/pictures'(controller: 'picture', action: 'list')
-		"/picture/$id"(controller: 'picture') {
+		name pictures: '/pictures'(controller: 'picture', action: 'list')
+		name picture: "/picture/$id"(controller: 'picture') {
 			action = [GET: 'show', PUT: 'update', DELETE: 'delete', POST: 'save']
 		}
 
