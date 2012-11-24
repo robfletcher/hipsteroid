@@ -35,7 +35,8 @@ class PictureController {
 						id = p.id.toString()
 						url = createLink(action: 'show', id: p.id)
 						uploadedBy = {
-							screenName = p.uploadedBy.username
+							id = p.uploadedBy.id
+							username = p.uploadedBy.username
 //							profileImageURL = user.profileImageURL
 						}
 						dateCreated = p.dateCreated

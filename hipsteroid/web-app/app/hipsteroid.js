@@ -32,6 +32,9 @@ hipsteroid.PictureView = Backbone.View.extend({
 
 	render: function() {
 		this.$el.append(this.template(this.model.toJSON()));
+		if (currentUser.id === this.model.get('uploadedBy').id) {
+			this.$el.find('figcaption').append('<button type="button" class="delete">Delete</button>');
+		}
 		return this;
 	},
 

@@ -23,13 +23,13 @@
 
 			<div class="auth">
 				<sec:ifLoggedIn>
-					Logged in as <sec:loggedInUserInfo field="username"/>
+					<span class="logged-in-message">Logged in as <sec:loggedInUserInfo field="username"/></span>
 					<g:form controller="logout" action="index">
-						<button type="submit">Sign out</button>
+						<button type="submit" class="logout">Sign out</button>
 					</g:form>
 				</sec:ifLoggedIn>
 				<sec:ifNotLoggedIn>
-					<g:link controller="login" action="auth">Sign in</g:link>
+					<g:link controller="login" action="auth" class="login">Sign in</g:link>
 				</sec:ifNotLoggedIn>
 			</div>
 		</header>
@@ -39,14 +39,19 @@
 		<script>
 			URLMappings = {
 				pictures: '${createLink(controller: 'picture')}'
-			}
+			};
+			currentUser = {
+				<sec:ifLoggedIn>
+				id: ${sec.loggedInUserInfo(field: 'id')},
+				username: '${sec.loggedInUserInfo(field: 'username')}'
+				</sec:ifLoggedIn>
+			};
 		</script>
 		<script id="picture-template" type="text/x-handlebars-template">
 			<figure>
 				<img src="{{url}}">
 				<figcaption>
 					<span class="meta">Uploaded {{friendlyTime dateCreated}} by {{uploadedBy.screenName}}</span>
-					<button type="button" class="delete">Delete</button>
 				</figcaption>
 			</figure>
 		</script>

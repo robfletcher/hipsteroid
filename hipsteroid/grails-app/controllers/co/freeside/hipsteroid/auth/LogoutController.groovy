@@ -4,6 +4,8 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 class LogoutController {
 
+	static allowedMethods = [index: 'POST']
+
 	/**
 	 * Index action. Redirects to the Spring security logout uri.
 	 */

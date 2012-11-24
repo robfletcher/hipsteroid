@@ -79,7 +79,8 @@ class PictureControllerSpec extends Specification {
 		then:
 		def json = response.contentAsJSON
 		json.size() == jpgImages.size()
-		json[0].uploadedBy.screenName == user1.username
+		json[0].uploadedBy.id == user1.id
+		json[0].uploadedBy.username == user1.username
 		json[0].url == "/picture/show/${pictures[0].id}"
 		json[0].dateCreated == pictures[0].dateCreated.format("yyyy-MM-dd'T'HH:mm:ss'Z'")
 
