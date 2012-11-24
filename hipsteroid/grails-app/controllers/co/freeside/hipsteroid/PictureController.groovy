@@ -49,7 +49,6 @@ class PictureController {
 
 	def save() {
 
-		// TODO: replace with annotation
 		if (!springSecurityService.isLoggedIn()) {
 			render status: SC_UNAUTHORIZED
 			return
@@ -80,7 +79,6 @@ class PictureController {
 
 	def update(String id) {
 
-		// TODO: replace with annotation
 		if (!springSecurityService.isLoggedIn()) {
 			render status: SC_UNAUTHORIZED
 			return
@@ -112,7 +110,6 @@ class PictureController {
 
 	def delete(String id) {
 
-		// TODO: replace with annotation
 		if (!springSecurityService.isLoggedIn()) {
 			render status: SC_UNAUTHORIZED
 			return
