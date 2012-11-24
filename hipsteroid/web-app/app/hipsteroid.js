@@ -53,7 +53,7 @@ hipsteroid.AppView = Backbone.View.extend({
 		this.pictures.on('reset', this.addAll);
 		this.pictures.on('all', this.render);
 
-		this.timeline = $('<section class="timeline"/>');
+		this.timeline = $('<ul class="timeline"/>');
 		this.$el.html(this.timeline);
 
 		this.pictures.fetch();

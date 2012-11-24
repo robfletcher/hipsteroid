@@ -1,5 +1,6 @@
 package co.freeside.hipsteroid.test
 
+import co.freeside.hipsteroid.Picture
 import grails.util.Environment
 import static grails.util.Environment.*
 import static javax.servlet.http.HttpServletResponse.*
@@ -15,14 +16,16 @@ class FixtureController {
 		}
 	}
 
+	def nuke() {
+		Picture.deleteAll Picture.list()
+		response.status = SC_OK
+	}
+
 	def fixtureLoader
 
 	def load(String name) {
-
 		fixtureLoader.load(name)
-
-		render status: SC_CREATED
-
+		response.status = SC_CREATED
 	}
 
 }
