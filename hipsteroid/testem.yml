@@ -1,7 +1,7 @@
 framework: jasmine
-before_tests: coffee -c test/js/*.coffee
+before_tests: coffee -c web-app/app/*.coffee && coffee -c test/js/*.coffee
 src_files:
-- web-app/app/*.js
+- web-app/app/*.coffee
 - test/js/**/*.coffee
 serve_files:
 - target/plugins/jquery-1.8.3/web-app/js/jquery/jquery-1.8.3.min.js
