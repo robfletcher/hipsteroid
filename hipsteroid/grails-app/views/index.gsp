@@ -45,6 +45,10 @@
 			});
 			</sec:ifLoggedIn>
 		</r:script>
+		<script id="timeline-template" type="text/x-handlebars-template">
+			<h2>Timeline</h2>
+			<ul class="timeline"></ul>
+		</script>
 		<script id="picture-template" type="text/x-handlebars-template">
 			<figure>
 				<img src="{{url}}">

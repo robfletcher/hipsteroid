@@ -45,27 +45,38 @@ class PictureView extends Backbone.View
 
 class TimelineView extends Backbone.View
 
-  el: $ '#app'
+  tagName: 'section'
+  className: 'timeline'
+  template: Handlebars.compile($('script#timeline-template').html())
 
-  initialize: ->
+  initialize: (options) ->
     _.bindAll @
 
-    @pictures = new PictureCollection
-    @pictures.on 'add', @addOne
-    @pictures.on 'reset', @addAll
-    @pictures.on 'all', @render
+    @model = options.model
+    @model.on 'add', @addOne
+    @model.on 'reset', @addAll
+    @model.on 'all', @render
 
-    @timeline = $('<ul class="timeline"/>')
-    @$el.html(@timeline)
-
-    @pictures.fetch()
+  render: ->
+    @$el.append @template()
+    @timeline = @$el.find('ul')
+    @
 
   addOne: (picture) ->
     view = new PictureView model: picture
     @timeline.prepend view.render().el
 
   addAll: ->
-    @pictures.each @addOne
+    @model.each @addOne
 
 jQuery ->
+  pictures = new PictureCollection
+
   window.app = new TimelineView
+    model: pictures
+
+  el = window.app.render().el
+  $('#app').append(el)
+
+  pictures.fetch()
+
