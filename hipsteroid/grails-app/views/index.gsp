@@ -63,6 +63,13 @@
 				</figcaption>
 			</figure>
 		</script>
+		<script id="upload-template" type="text/x-handlebars-template">
+			<h2>Upload a picture</h2>
+			<g:form controller="picture" action="save">
+				<label for="image">Choose A File: </label><input type="file" id="image" name="image">
+				<button type="submit">Upload</button>
+			</g:form>
+		</script>
 
 	</body>
 </html>

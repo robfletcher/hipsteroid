@@ -23,7 +23,7 @@ class PictureCollection extends Backbone.Collection
 class PictureView extends Backbone.View
 
   tagName: 'li'
-  template: Handlebars.compile($('script#picture-template').html())
+  template: Handlebars.compile $('script#picture-template').html()
   events: 'click button.delete': 'delete'
 
   initialize: (options) ->
@@ -43,11 +43,23 @@ class PictureView extends Backbone.View
   delete: ->
     @model.destroy()
 
+class UploadPictureView extends Backbone.View
+  tagName: 'section'
+  className: 'upload'
+  template: Handlebars.compile $('script#upload-template').html()
+
+  initialize: (options) ->
+    _.bindAll @
+
+  render: ->
+    @$el.html @template()
+    @
+
 class TimelineView extends Backbone.View
 
   tagName: 'section'
   className: 'timeline'
-  template: Handlebars.compile($('script#timeline-template').html())
+  template: Handlebars.compile $('script#timeline-template').html()
 
   initialize: (options) ->
     _.bindAll @
@@ -75,6 +87,8 @@ class HipsteroidApp extends Backbone.Router
     upload: 'upload'
 
   initialize: (options) ->
+    _.bindAll @
+
     @appEl = $ '#app'
     @currentView = null
 
@@ -101,4 +115,6 @@ jQuery ->
   hasRoute = Backbone.history.start
     pushState: true
     root: window.root
+  console.log 'already got a root' if hasRoute
+  console.log 'loading timeline' unless hasRoute
   window.app.navigate '#timeline', trigger: true unless hasRoute
