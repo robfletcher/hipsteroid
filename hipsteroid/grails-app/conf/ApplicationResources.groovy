@@ -1,21 +1,21 @@
 modules = {
 
 	modernizr {
-		resource url: 'lib/modernizr/modernizr.min.js', exclude: 'minify', disposition: 'head'
+		resource url: 'lib/modernizr/modernizr-2.6.2.min.js', exclude: 'minify', disposition: 'head'
 	}
 
 	normalize {
-		resource url: 'lib/normalize/normalize.css'
+		resource url: 'lib/normalize/normalize-1.0.1.css'
 	}
 
 	underscore {
-		resource url: 'lib/underscore/underscore-min.js', exclude: 'minify'
+		resource url: 'lib/underscore/underscore-1.4.2.min.js', exclude: 'minify'
 	}
 
 	backbone {
 		dependsOn 'underscore'
 
-		resource url: 'lib/backbone/backbone-min.js', exclude: 'minify'
+		resource url: 'lib/backbone/backbone-0.9.2.min.js', exclude: 'minify'
 	}
 
 	handlebars {
@@ -23,7 +23,7 @@ modules = {
 	}
 
 	moment {
-		resource url: 'lib/moment/moment.min.js', exclude: 'minify'
+		resource url: 'lib/moment/moment-1.7.2.min.js', exclude: 'minify'
 	}
 
 	'jquery-file-upload' {
