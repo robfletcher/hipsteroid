@@ -32,6 +32,11 @@
 					<g:link controller="login" action="auth" class="login">Sign in</g:link>
 				</sec:ifNotLoggedIn>
 			</div>
+
+			<nav>
+				<a href="timeline">Timeline</a>
+				<a href="upload">Upload a picture</a>
+			</nav>
 		</header>
 
 		<div id="app"></div>
@@ -47,7 +52,7 @@
 		</r:script>
 		<script id="timeline-template" type="text/x-handlebars-template">
 			<h2>Timeline</h2>
-			<ul class="timeline"></ul>
+			<ul></ul>
 		</script>
 		<script id="picture-template" type="text/x-handlebars-template">
 			<figure>

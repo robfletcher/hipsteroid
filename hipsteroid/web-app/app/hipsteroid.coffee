@@ -55,16 +55,17 @@ class TimelineView extends Backbone.View
     @model = options.model
     @model.on 'add', @addOne
     @model.on 'reset', @addAll
-    @model.on 'all', @render
+#    @model.on 'all', @render
 
   render: ->
-    @$el.append @template()
-    @timeline = @$el.find('ul')
+    console.log 'render'
+    @$el.html @template()
+    @pictureList = @$el.find('ul')
     @
 
   addOne: (picture) ->
     view = new PictureView model: picture
-    @timeline.prepend view.render().el
+    @pictureList.prepend view.render().el
 
   addAll: ->
     @model.each @addOne
@@ -75,8 +76,7 @@ jQuery ->
   window.app = new TimelineView
     model: pictures
 
-  el = window.app.render().el
-  $('#app').append(el)
+  $('#app').append window.app.render().el
 
   pictures.fetch()
 
