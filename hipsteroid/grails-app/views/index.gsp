@@ -36,17 +36,15 @@
 
 		<div id="app"></div>
 
-		<script>
-			URLMappings = {
-				pictures: '${createLink(controller: 'picture')}'
-			};
-			currentUser = {
-				<sec:ifLoggedIn>
+		<r:script>
+			urlMappings.pictures = '${createLink(controller: 'picture')}';
+			<sec:ifLoggedIn>
+			currentUser = new window.User({
 				id: ${sec.loggedInUserInfo(field: 'id')},
 				username: '${sec.loggedInUserInfo(field: 'username')}'
-				</sec:ifLoggedIn>
-			};
-		</script>
+			});
+			</sec:ifLoggedIn>
+		</r:script>
 		<script id="picture-template" type="text/x-handlebars-template">
 			<figure>
 				<img src="{{url}}">
