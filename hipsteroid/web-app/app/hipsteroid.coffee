@@ -58,7 +58,6 @@ class TimelineView extends Backbone.View
 #    @model.on 'all', @render
 
   render: ->
-    console.log 'render'
     @$el.html @template()
     @pictureList = @$el.find('ul')
     @
@@ -70,13 +69,34 @@ class TimelineView extends Backbone.View
   addAll: ->
     @model.each @addOne
 
+class HipsteroidApp extends Backbone.Router
+  routes:
+    timeline: 'timeline'
+    upload: 'upload'
+
+  initialize: (options) ->
+    @appEl = $ '#app'
+    @currentView = null
+
+    @pictures = new PictureCollection
+
+  timeline: ->
+    @_load new TimelineView
+      model: @pictures
+
+    @pictures.fetch()
+
+  upload: ->
+    @_load new UploadPictureView
+
+  _load: (view) ->
+    @currentView?.remove()
+
+    @appEl.html view.render().el
+    @currentView = view
+
 jQuery ->
-  pictures = new PictureCollection
+  window.app = new HipsteroidApp
 
-  window.app = new TimelineView
-    model: pictures
-
-  $('#app').append window.app.render().el
-
-  pictures.fetch()
-
+  hasRoute = Backbone.history.start()
+  window.app.navigate '#timeline', trigger: true unless hasRoute

@@ -34,8 +34,8 @@
 			</div>
 
 			<nav>
-				<a href="timeline">Timeline</a>
-				<a href="upload">Upload a picture</a>
+				<a href="#timeline">Timeline</a>
+				<a href="#upload">Upload a picture</a>
 			</nav>
 		</header>
 
