@@ -7,7 +7,7 @@ casper.start "#{baseUrl}/fixture/nuke", ->
 casper.thenOpen "#{baseUrl}/fixture/pictures/cocktails", ->
   @test.assertHttpStatus 201, 'Fixture data loaded'
 
-casper.thenOpen baseUrl, ->
+casper.thenOpen "#{baseUrl}/timeline", ->
   @test.info 'when no user is logged in...'
   @test.assertDoesntExist '.timeline button.delete', 'There are no delete buttons on images in the timeline'
 
@@ -28,7 +28,7 @@ casper.then ->
   @click '.timeline li:first-child button.delete'
   @test.assertDoesntExist '.timeline li:nth-child(4)', 'an image is deleted'
 
-casper.thenOpen baseUrl, ->
+casper.thenOpen "#{baseUrl}/timeline", ->
   @test.info 'when the page is reloaded...'
   @test.assertExists '.timeline li:nth-child(3)', 'there are 3 images'
   @test.assertDoesntExist '.timeline li:nth-child(4)', 'there are not 4 images'

@@ -6,7 +6,7 @@ casper.start "#{baseUrl}/fixture/nuke", ->
 casper.thenOpen "#{baseUrl}/fixture/pictures/cocktails", ->
   @test.assertHttpStatus 201, 'Fixture data loaded'
 
-casper.thenOpen baseUrl, ->
+casper.thenOpen "#{baseUrl}/timeline", ->
   @test.assertExists '.timeline li:nth-child(4)', 'There are 4 images'
   @test.assertDoesntExist '.timeline li:nth-child(5)', 'There are not more than 4 images'
 

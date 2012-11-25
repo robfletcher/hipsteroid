@@ -1,7 +1,14 @@
 baseUrl = 'http://localhost:8080/hipsteroid'
 
-casper.start baseUrl, ->
+casper.start "#{baseUrl}/fixture/nuke", ->
+  @test.assertHttpStatus 200, 'Data nuked!'
+
+casper.thenOpen "#{baseUrl}/fixture/pictures/cocktails", ->
+  @test.assertHttpStatus 201, 'Fixture data loaded'
+
+casper.thenOpen baseUrl, ->
   @test.assertEquals @fetchText('#app h2'), 'Timeline', 'timeline page is loaded'
+  @test.assertExists '.timeline li:nth-child(4)', 'data is fetched from the server'
 
   @test.info 'when the upload nav link is clicked'
   @click 'nav a[href="upload"]'
