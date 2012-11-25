@@ -26,6 +26,10 @@ modules = {
 		resource url: 'lib/moment/moment-1.7.2.min.js', exclude: 'minify'
 	}
 
+	sockjs {
+		resource url: 'lib/sockjs/sockjs-0.3.4.min.js', exclude: 'minify'
+	}
+
 	'jquery-file-upload' {
 		dependsOn 'jquery'
 
@@ -36,7 +40,7 @@ modules = {
 	}
 
 	hipsteroid {
-		dependsOn 'jquery', 'backbone', 'handlebars', 'moment'
+		dependsOn 'jquery', 'backbone', 'handlebars', 'moment', 'sockjs'
 		resource url: 'app/view-helpers.js'
 		resource url: 'app/hipsteroid.js'
 	}
