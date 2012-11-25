@@ -43,7 +43,7 @@ class PictureView extends Backbone.View
   delete: ->
     @model.destroy()
 
-class AppView extends Backbone.View
+class TimelineView extends Backbone.View
 
   el: $ '#app'
 
@@ -68,4 +68,4 @@ class AppView extends Backbone.View
     @pictures.each @addOne
 
 jQuery ->
-  window.app = new AppView
+  window.app = new TimelineView
