@@ -21,7 +21,7 @@
 		<header>
 			<h1>Hipsteroid</h1>
 
-			<div class="auth">
+			<aside class="auth">
 				<sec:ifLoggedIn>
 					<span class="logged-in-message">Logged in as <sec:loggedInUserInfo field="username"/></span>
 					<g:form controller="logout" action="index">
@@ -31,7 +31,7 @@
 				<sec:ifNotLoggedIn>
 					<g:link controller="login" action="auth" class="login">Sign in</g:link>
 				</sec:ifNotLoggedIn>
-			</div>
+			</aside>
 
 			<nav>
 				<a href="timeline">Timeline</a>

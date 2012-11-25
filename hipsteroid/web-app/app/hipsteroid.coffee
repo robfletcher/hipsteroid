@@ -72,6 +72,7 @@ class TimelineView extends Backbone.View
   render: ->
     @$el.html @template()
     @pictureList = @$el.find('ul')
+    @addAll()
     @
 
   addOne: (picture) ->
@@ -80,6 +81,19 @@ class TimelineView extends Backbone.View
 
   addAll: ->
     @model.each @addOne
+
+class NavView extends Backbone.View
+  el: $ 'header nav'
+
+  initialize: (options) ->
+    _.bindAll @
+    @router = options.router
+
+    @$el.find('a').click @_handleClick
+
+  _handleClick: (event) ->
+    @router.navigate $(event.target).attr('href'), trigger: true
+    false
 
 class HipsteroidApp extends Backbone.Router
   routes:
@@ -92,13 +106,15 @@ class HipsteroidApp extends Backbone.Router
     @appEl = $ '#app'
     @currentView = null
 
+    @nav = new NavView
+      router: @
+
     @pictures = new PictureCollection
+    @pictures.fetch()
 
   timeline: ->
     @_load new TimelineView
       model: @pictures
-
-    @pictures.fetch()
 
   upload: ->
     @_load new UploadPictureView
@@ -115,6 +131,5 @@ jQuery ->
   hasRoute = Backbone.history.start
     pushState: true
     root: window.root
-  console.log 'already got a root' if hasRoute
-  console.log 'loading timeline' unless hasRoute
-  window.app.navigate '#timeline', trigger: true unless hasRoute
+
+  window.app.navigate 'timeline', trigger: true unless hasRoute
