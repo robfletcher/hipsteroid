@@ -8,29 +8,34 @@ grails.project.source.level = 1.7
 
 grails.project.dependency.resolution = {
 
-    inherits 'global'
+	inherits('global') {
+		excludes 'h2'
+	}
+
 	log 'error'
-    checksums true
+	checksums true
 
-    repositories {
+	repositories {
 
-        inherits true
+		inherits true
 
 		mavenLocal()
 
-        grailsPlugins()
-        grailsHome()
-        grailsCentral()
+		grailsPlugins()
+		grailsHome()
+		grailsCentral()
 
-        mavenCentral()
+		mavenCentral()
 
-    }
+	}
 
-    dependencies {
+	dependencies {
 
-    }
+		compile 'org.vert-x:vertx-lang-groovy:1.3.0.final'
 
-    plugins {
+	}
+
+	plugins {
 
 		compile ':cache-headers:1.1.5',
 				':spring-security-core:1.2.7.3',
@@ -44,9 +49,9 @@ grails.project.dependency.resolution = {
 				':yui-minify-resources:0.1.5',
 				':fixtures:1.2'
 
-        build ":tomcat:$grailsVersion"
+		build ":tomcat:$grailsVersion"
 
 		test ':spock:0.7'
 
-    }
+	}
 }
