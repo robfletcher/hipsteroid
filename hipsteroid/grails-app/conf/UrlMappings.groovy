@@ -21,6 +21,8 @@ class UrlMappings {
 		}
 
 		'/' view: '/index'
+		'/timeline' view: '/index'
+		'/upload' view: '/index'
 		'500' view: '/error'
 
 	}

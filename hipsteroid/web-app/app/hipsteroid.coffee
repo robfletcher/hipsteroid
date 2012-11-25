@@ -98,5 +98,7 @@ class HipsteroidApp extends Backbone.Router
 jQuery ->
   window.app = new HipsteroidApp
 
-  hasRoute = Backbone.history.start()
+  hasRoute = Backbone.history.start
+    pushState: true
+    root: window.root
   window.app.navigate '#timeline', trigger: true unless hasRoute

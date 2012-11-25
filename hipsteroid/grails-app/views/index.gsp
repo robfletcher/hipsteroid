@@ -34,14 +34,15 @@
 			</div>
 
 			<nav>
-				<a href="#timeline">Timeline</a>
-				<a href="#upload">Upload a picture</a>
+				<a href="timeline">Timeline</a>
+				<a href="upload">Upload a picture</a>
 			</nav>
 		</header>
 
 		<div id="app"></div>
 
 		<r:script>
+			root = '${createLink(uri: '/')}';
 			urlMappings.pictures = '${createLink(controller: 'picture')}';
 			<sec:ifLoggedIn>
 			currentUser = new window.User({
