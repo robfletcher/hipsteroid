@@ -46,14 +46,59 @@ class PictureView extends Backbone.View
 class UploadPictureView extends Backbone.View
   tagName: 'section'
   className: 'upload'
-  template: Handlebars.compile $('script#upload-template').html()
+  template: Handlebars.compile $('script#upload-form-template').html()
+  progressTemplate: Handlebars.compile $('script#upload-progress-template').html()
+  events:
+    'submit form': '_startUpload'
+    'change :file': '_fileChosen'
 
   initialize: (options) ->
     _.bindAll @
 
+    @eventBus = new vertx.EventBus('http://localhost:8585/eventbus')
+
   render: ->
     @$el.html @template()
+
+    @nameBox = @$el.find(':text')
+
     @
+
+  _startUpload: ->
+    alert('Select a file') unless @selectedFile?
+    if @selectedFile
+      reader = new FileReader
+      name = @nameBox.val()
+      uuid = null
+
+      @$el.append @progressTemplate
+        selectedFile: @selectedFile
+        name: name
+        fileSizeInKilobytes: Math.round @selectedFile.size / 1024
+
+      reader.onload = (event) =>
+        console.log 'uploading...'
+        @eventBus.send 'upload:upload',
+          uuid: uuid
+          name: name
+          data: event.target.result
+        , (reply) =>
+          uuid = reply.uuid
+
+      @eventBus.send 'upload:start',
+        name: name
+        size: @selectedFile.size
+      , (reply) =>
+        console.log reply
+        uuid = reply.uuid
+        reader.readAsDataURL @selectedFile
+
+    false
+
+  _fileChosen: (event) ->
+    console.log event
+    @selectedFile = event.target.files[0]
+    @nameBox.val @selectedFile.name
 
 class TimelineView extends Backbone.View
 

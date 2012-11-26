@@ -30,6 +30,12 @@ modules = {
 		resource url: 'lib/sockjs/sockjs-0.3.4.min.js', exclude: 'minify'
 	}
 
+	vertx {
+		dependsOn 'sockjs'
+
+		resource url: 'lib/vertx/vertxbus-1.3.0.final.js'
+	}
+
 	'jquery-file-upload' {
 		dependsOn 'jquery'
 
@@ -40,7 +46,7 @@ modules = {
 	}
 
 	hipsteroid {
-		dependsOn 'jquery', 'backbone', 'handlebars', 'moment', 'sockjs'
+		dependsOn 'jquery', 'backbone', 'handlebars', 'moment', 'vertx'
 		resource url: 'app/view-helpers.js'
 		resource url: 'app/hipsteroid.js'
 	}

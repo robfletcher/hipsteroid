@@ -2,12 +2,15 @@ import co.freeside.hipsteroid.Picture
 import co.freeside.hipsteroid.auth.*
 import grails.util.Environment
 import org.vertx.groovy.core.Vertx
+import org.vertx.groovy.core.buffer.Buffer
+import org.vertx.groovy.core.eventbus.Message
 import static co.freeside.hipsteroid.auth.Role.USER
 import static grails.util.Environment.*
 
 class BootStrap {
 
 	def fixtureLoader
+	def uploadService
 
 	def init = { servletContext ->
 
@@ -24,13 +27,17 @@ class BootStrap {
 	private void startSocketServer() {
 		def vertx = Vertx.newVertx()
 		def httpServer = vertx.createHttpServer()
-		vertx.createSockJSServer(httpServer).installApp(prefix: '/events') { sock ->
-			sock.dataHandler { buff ->
-				sock << buff
-			}
-		}
 
+		def inboundPermitted = [
+		        [address: 'upload:start'],
+		        [address: 'upload:upload']
+		]
+		def outboundPermitted = [[:]]
+
+		vertx.createSockJSServer(httpServer).bridge(prefix: '/eventbus', inboundPermitted, outboundPermitted)
 		httpServer.listen(8585)
+
+		uploadService.register vertx.eventBus
 	}
 
 	private void ensureDefaultUsersAndRolesExist() {

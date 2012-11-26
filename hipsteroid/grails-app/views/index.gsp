@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<meta name="layout" content="main"/>
+		<meta name="layout" content="main">
 		<title>Hipsteroid</title>
 
 		<r:require modules="hipsteroid"/>
@@ -51,10 +51,12 @@
 			});
 			</sec:ifLoggedIn>
 		</r:script>
+
 		<script id="timeline-template" type="text/x-handlebars-template">
 			<h2>Timeline</h2>
 			<ul></ul>
 		</script>
+
 		<script id="picture-template" type="text/x-handlebars-template">
 			<figure>
 				<img src="{{url}}">
@@ -63,12 +65,22 @@
 				</figcaption>
 			</figure>
 		</script>
-		<script id="upload-template" type="text/x-handlebars-template">
+
+		<script id="upload-form-template" type="text/x-handlebars-template">
 			<h2>Upload a picture</h2>
 			<g:form controller="picture" action="save">
-				<label for="image">Choose A File: </label><input type="file" id="image" name="image">
+				<label for="upload-image">Choose A File: </label>
+				<input type="file" id="upload-image" name="image">
+				<label for="upload-name">Name: </label>
+				<input type="text" id="upload-name">
 				<button type="submit">Upload</button>
 			</g:form>
+		</script>
+
+		<script id="upload-progress-template" type="text/x-handlebars-template">
+			<span class="name">Uploading {{selectedFile.name}} as {{name}}</span>
+			<progress>0%</progress>
+			<span class="uploaded"> - <span class="kb">0</span>/{{fileSizeInKilobytes}}KB</span>
 		</script>
 
 	</body>
