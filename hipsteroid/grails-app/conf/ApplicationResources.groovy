@@ -46,7 +46,7 @@ modules = {
 	}
 
 	hipsteroid {
-		dependsOn 'jquery', 'backbone', 'handlebars', 'moment', 'vertx'
+		dependsOn 'jquery', 'backbone', 'handlebars', 'moment', 'jquery-file-upload'
 		resource url: 'app/view-helpers.js'
 		resource url: 'app/hipsteroid.js'
 	}

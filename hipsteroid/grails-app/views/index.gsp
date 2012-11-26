@@ -68,19 +68,9 @@
 
 		<script id="upload-form-template" type="text/x-handlebars-template">
 			<h2>Upload a picture</h2>
-			<g:form controller="picture" action="save">
-				<label for="upload-image">Choose A File: </label>
-				<input type="file" id="upload-image" name="image">
-				<label for="upload-name">Name: </label>
-				<input type="text" id="upload-name">
-				<button type="submit">Upload</button>
-			</g:form>
-		</script>
-
-		<script id="upload-progress-template" type="text/x-handlebars-template">
-			<span class="name">Uploading {{selectedFile.name}} as {{name}}</span>
-			<progress>0%</progress>
-			<span class="uploaded"> - <span class="kb">0</span>/{{fileSizeInKilobytes}}KB</span>
+			<label for="upload-image">Choose A File: </label>
+			<input type="file" id="upload-image" name="image" data-url="${createLink(controller: 'picture', action: 'save')}">
+			<progress value="0" max="100">0%</progress>
 		</script>
 
 	</body>

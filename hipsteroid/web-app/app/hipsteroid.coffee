@@ -47,58 +47,29 @@ class UploadPictureView extends Backbone.View
   tagName: 'section'
   className: 'upload'
   template: Handlebars.compile $('script#upload-form-template').html()
-  progressTemplate: Handlebars.compile $('script#upload-progress-template').html()
-  events:
-    'submit form': '_startUpload'
-    'change :file': '_fileChosen'
 
   initialize: (options) ->
     _.bindAll @
 
-    @eventBus = new vertx.EventBus('http://localhost:8585/eventbus')
-
   render: ->
     @$el.html @template()
 
-    @nameBox = @$el.find(':text')
+    @progressBar = @$el.find('progress')
+
+    @$el.find(':file').fileupload
+      dataType: 'json'
+      progressall: @_onProgress
+      done: @_onComplete
 
     @
 
-  _startUpload: ->
-    alert('Select a file') unless @selectedFile?
-    if @selectedFile
-      reader = new FileReader
-      name = @nameBox.val()
-      uuid = null
+  _onProgress: (event, data) ->
+    console.log '_onProgress', event, data
+    progress = parseInt(data.loaded / data.total * 100, 10)
+    @progressBar.attr('value', progress)
 
-      @$el.append @progressTemplate
-        selectedFile: @selectedFile
-        name: name
-        fileSizeInKilobytes: Math.round @selectedFile.size / 1024
-
-      reader.onload = (event) =>
-        console.log 'uploading...'
-        @eventBus.send 'upload:upload',
-          uuid: uuid
-          name: name
-          data: event.target.result
-        , (reply) =>
-          uuid = reply.uuid
-
-      @eventBus.send 'upload:start',
-        name: name
-        size: @selectedFile.size
-      , (reply) =>
-        console.log reply
-        uuid = reply.uuid
-        reader.readAsDataURL @selectedFile
-
-    false
-
-  _fileChosen: (event) ->
-    console.log event
-    @selectedFile = event.target.files[0]
-    @nameBox.val @selectedFile.name
+  _onComplete: (event, data) ->
+    console.log '_onComplete', event, data
 
 class TimelineView extends Backbone.View
 
