@@ -5,24 +5,30 @@
 * view individual picture
 * user profile
 
+# Features
+
+## Upload image
+
+* generate filtered thumbs
+* choose filter & submit to `PictureController.save`
+* use asyncing to offload expensive image manipulation
+
 # Cool things
 
-* one page app
 * dual rendering for optimized loading
 * async expensive ops with vert.x & Rabbit MQ
-* test coverage using Testem
-* end-to-end using Casper
 
 # Basics
 
 * design!
-* image upload
 * pagination on timeline
 
 # Nice to haves
 
+* comments & likes
 * cache headers on restful actions
 * no javascript support
-* coffescript
 * infinite scroll on timeline
 * skip the link account page when signing in via twitter
+* some kind of sensible persistent store for in-progress image uploads
+* cloudbees jenkins running all the tests
