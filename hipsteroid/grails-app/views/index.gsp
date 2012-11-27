@@ -57,26 +57,5 @@
 			</sec:ifLoggedIn>
 		</r:script>
 
-		<script id="timeline-template" type="text/x-handlebars-template">
-			<h2>Timeline</h2>
-			<ul></ul>
-		</script>
-
-		<script id="picture-template" type="text/x-handlebars-template">
-			<figure>
-				<img src="{{url}}">
-				<figcaption>
-					<span class="meta">Uploaded {{friendlyTime dateCreated}} by {{uploadedBy.screenName}}</span>
-				</figcaption>
-			</figure>
-		</script>
-
-		<script id="upload-form-template" type="text/x-handlebars-template">
-			<h2>Upload a picture</h2>
-			<label for="upload-image">Choose A File: </label>
-			<input type="file" id="upload-image" name="image" data-url="${createLink(controller: 'thumbnail', action: 'generate')}">
-			<div class="thumb-container"></div>
-		</script>
-
 	</body>
 </html>

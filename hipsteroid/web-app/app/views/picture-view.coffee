@@ -1,7 +1,7 @@
 class window.PictureView extends Backbone.View
 
   tagName: 'li'
-  template: Handlebars.compile $('script#picture-template').html()
+  template: Handlebars.templates.picture
   events: 'click button.delete': 'delete'
 
   initialize: (options) ->

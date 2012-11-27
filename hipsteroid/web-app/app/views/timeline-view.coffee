@@ -2,7 +2,7 @@ class window.TimelineView extends Backbone.View
 
   tagName: 'section'
   className: 'timeline'
-  template: Handlebars.compile $('script#timeline-template').html()
+  template: Handlebars.templates.timeline
 
   initialize: (options) ->
     _.bindAll @
