@@ -48,6 +48,14 @@ modules = {
 	hipsteroid {
 		dependsOn 'jquery', 'backbone', 'handlebars', 'moment', 'jquery-file-upload'
 		resource url: 'app/view-helpers.js'
+		resource url: 'app/templates.js'
+		resource url: 'app/models/user.js'
+		resource url: 'app/models/picture.js'
+		resource url: 'app/collections/picture-collection.js'
+		resource url: 'app/views/nav-view.js'
+		resource url: 'app/views/picture-view.js'
+		resource url: 'app/views/timeline-view.js'
+		resource url: 'app/views/upload-picture-view.js'
 		resource url: 'app/hipsteroid.js'
 	}
 

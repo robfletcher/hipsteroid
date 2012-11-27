@@ -13,5 +13,6 @@
 /hipsteroid/grails-app/conf/oauth-config.properties
 
 # Compiled Coffeescript
-hipsteroid/test/js/*.js
+hipsteroid/test/js/specs/*.js
 hipsteroid/web-app/app/*.js
+hipsteroid/web-app/app/*/*.js

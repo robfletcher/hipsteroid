@@ -12,6 +12,9 @@ class UrlMappings {
 			action = [GET: 'show', PUT: 'update', DELETE: 'delete']
 		}
 
+		'/thumbnail' controller: 'thumbnail', action: 'generate'
+		"/thumbnail/$filename" controller: 'thumbnail', action: 'show'
+
 		"/fixture/nuke" controller: 'fixture', action: 'nuke'
 		"/fixture/$name**" controller: 'fixture', action: 'load'
 

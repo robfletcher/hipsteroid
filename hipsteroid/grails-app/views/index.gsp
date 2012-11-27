@@ -14,6 +14,10 @@
 		figcaption img {
 			width: 32px;
 		}
+
+		.thumb-container img {
+			width: 32px;
+		}
 		</style>
 	</head>
 
@@ -44,6 +48,7 @@
 		<r:script>
 			root = '${createLink(uri: '/')}';
 			urlMappings.pictures = '${createLink(controller: 'picture')}';
+			urlMappings.thumbnail = '${createLink(controller: 'thumbnail', action: 'generate')}';
 			<sec:ifLoggedIn>
 			currentUser = new window.User({
 				id: ${sec.loggedInUserInfo(field: 'id')},
@@ -69,8 +74,8 @@
 		<script id="upload-form-template" type="text/x-handlebars-template">
 			<h2>Upload a picture</h2>
 			<label for="upload-image">Choose A File: </label>
-			<input type="file" id="upload-image" name="image" data-url="${createLink(controller: 'picture', action: 'save')}">
-			<progress value="0" max="100">0%</progress>
+			<input type="file" id="upload-image" name="image" data-url="${createLink(controller: 'thumbnail', action: 'generate')}">
+			<div class="thumb-container"></div>
 		</script>
 
 	</body>
