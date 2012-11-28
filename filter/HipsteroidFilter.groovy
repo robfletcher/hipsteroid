@@ -1,3 +1,4 @@
+import java.awt.*
 import co.freeside.hipsteroid.Filter
 import org.vertx.groovy.core.buffer.Buffer
 import org.vertx.groovy.core.eventbus.*
@@ -7,7 +8,7 @@ import org.vertx.java.core.AsyncResult
 EventBus eventBus = vertx.eventBus
 FileSystem fileSystem = vertx.fileSystem
 
-def handler = { Filter filter, Message message ->
+def handler = { Dimension resizeTo, Filter filter, Message message ->
 
 	println "got message for $filter.name filter..."
 
@@ -21,7 +22,7 @@ def handler = { Filter filter, Message message ->
 
 		// This is crap and synchronous
 		def fileObj = new File(filename)
-		filter.execute(fileObj, fileObj)
+		filter.execute(fileObj, fileObj, resizeTo)
 
 		println "sending back result of $filter.name filter..."
 		message.reply(new Buffer(fileObj.bytes))
@@ -30,8 +31,16 @@ def handler = { Filter filter, Message message ->
 
 }
 
-Filter.ALL.each { filter ->
-	eventBus.registerHandler("hipsteroid.filter.$filter.name", handler.curry(filter)) {
-		println "$filter.name listening..."
+def sizes = [
+		thumb: new Dimension(100, 100),
+		full: new Dimension(640, 640)
+]
+
+sizes.each { size ->
+	Filter.ALL.each { filter ->
+		def address = "hipsteroid.filter.${filter.name}.${size.key}"
+		eventBus.registerHandler(address, handler.curry(size.value, filter)) {
+			println "$address listening..."
+		}
 	}
 }
