@@ -8,9 +8,9 @@ EventBus eventBus = vertx.eventBus
 FileSystem fileSystem = vertx.fileSystem
 
 println 'opening file...'
-fileSystem.readFile('manhattan.jpg') { AsyncResult<Buffer> input ->
+fileSystem.readFile('IMG_2809.JPG') { AsyncResult<Buffer> input ->
 	filters.each {
-		def address = "hipsteroid.filter.${it}.thumb"
+		def address = "hipsteroid.filter.${it}.full"
 		println "requesting $address..."
 		eventBus.send(address, input.result) { Message reply ->
 			def outputFilename = "${it}.jpg"

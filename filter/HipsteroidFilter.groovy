@@ -10,14 +10,12 @@ FileSystem fileSystem = vertx.fileSystem
 
 def handler = { Dimension resizeTo, Filter filter, Message message ->
 
-	println "got message for $filter.name filter..."
-
-	def buffer = new Buffer(message.body)
+	println "got message for $filter.name filter with a ${message.body.getClass()}..."
 
 	def filename = "${UUID.randomUUID()}.jpg"
 
 	println "about to write to $filename..."
-	fileSystem.writeFile(filename, buffer) { AsyncResult<AsyncFile> tempFile ->
+	fileSystem.writeFile(filename, new Buffer(message.body)) { AsyncResult<AsyncFile> tempFile ->
 		println "about to execute imagemagick..."
 
 		// This is crap and synchronous
@@ -29,6 +27,18 @@ def handler = { Dimension resizeTo, Filter filter, Message message ->
 		fileObj.delete()
 	}
 
+}
+
+private Buffer decodeDataURL(String data) {
+	new Buffer(data.split(',')[1].decodeBase64())
+}
+
+private String encodeDataURL(String mimeType, byte[] data) {
+	def encodedString = new StringWriter()
+	data.encodeBase64().writeTo(encodedString)
+	def buffer = new StringBuilder()
+	buffer << 'data:' << mimeType << ';base64,' << encodedString.toString()
+	buffer.toString()
 }
 
 def sizes = [

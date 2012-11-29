@@ -6,22 +6,28 @@ class window.UploadPictureView extends Backbone.View
   initialize: (options) ->
     _.bindAll @
 
+    @eventBus = new vertx.EventBus('http://localhost:8585/eventbus') # todo: don't hardcode
+    @address = 'hipsteroid.filter.thumb.callback' # todo: generate
+    @eventBus.onopen = @_registerThumbnailReciever
+
   render: ->
     @$el.html @template(urlMappings)
 
     @thumbContainer = @$el.find('.thumb-container')
+    @progressBar = @$el.find('progress').hide()
 
     @$el.find(':file').fileupload
       dataType: 'json'
       start: @_onStart
       progressall: @_onProgress
       done: @_onComplete
+      formData:
+        address: @address
 
     @
 
   _onStart: (event, data) ->
-    @progressBar = $('<progress value="0" max="100">0%</progress>')
-    @thumbContainer.html @progressBar
+    @progressBar.show()
 
   _onProgress: (event, data) ->
     console.log '_onProgress', event, data
@@ -30,6 +36,12 @@ class window.UploadPictureView extends Backbone.View
 
   _onComplete: (event, data) ->
     console.log '_onComplete', event, data
-    console.log it for it in data.result
-    @thumbContainer.html ''
-    $('<img>', src: it.thumbnail).appendTo(@thumbContainer) for it in data.result
+
+  _registerThumbnailReciever: ->
+    console.log "registering handler on #{@address}"
+    @eventBus.registerHandler @address, @_onThumbnailRecieved
+
+  _onThumbnailRecieved: (message) ->
+    console.log 'received a thumbnail', message.filter
+    @progressBar.hide()
+    @thumbContainer.find("img.#{message.filter}").attr('src', message.thumbnail)

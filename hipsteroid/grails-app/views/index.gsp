@@ -14,10 +14,6 @@
 		figcaption img {
 			width: 32px;
 		}
-
-		.thumb-container img {
-			width: 32px;
-		}
 		</style>
 	</head>
 

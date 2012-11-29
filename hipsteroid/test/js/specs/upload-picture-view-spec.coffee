@@ -1,20 +1,27 @@
 describe 'UploadPictureView', ->
 
   beforeEach ->
+    setFixtures '<div class="upload-form"></div>'
+
     # stub out externalities
     window.urlMappings = {}
     $.fn.fileupload = (options) ->
 
     @view = new UploadPictureView().render()
+    $('.upload-form').append(@view.el)
+
+    @progressBar = @view.$el.find('progress')
+
+  it 'hides the progress bar until an image is uploaded', ->
+    expect(@progressBar).not.toBeVisible()
 
   describe 'uploading images', ->
 
     beforeEach ->
       @view._onStart()
-      @progressBar = @view.$el.find('progress')
 
-    it 'creates a progress bar when the upload starts', ->
-
+    it 'shows the progress bar when the upload starts', ->
+      expect(@progressBar).toBeVisible()
       expect(@progressBar.attr('value')).toBe 0
       expect(@progressBar.attr('max')).toBe '100'
       expect(@progressBar.text()).toBe '0%'
@@ -34,15 +41,25 @@ describe 'UploadPictureView', ->
       expect(@progressBar.attr('value')).toBe 50
       expect(@progressBar.text()).toBe '50%'
 
-    it 'replaces the progress bar with the generated thumbnails when the upload completes', ->
-      @view._onComplete null, result: [
-          {thumbnail: 'http://localhost/thumbnail/1'}
-          {thumbnail: 'http://localhost/thumbnail/2'}
-          {thumbnail: 'http://localhost/thumbnail/3'}
-        ]
+    it 'hides the progress bar when the first thumbnail comes back', ->
+      message =
+        filter: 'lomo'
+        thumbnail: 'data:image/jpeg;base64,lomo'
 
-      expect(@view.$el.find('progress')).not.toExist()
+      @view._onThumbnailRecieved message
 
-      thumbnails = @view.$el.find('.thumb-container img')
-      expect(thumbnails.length).toBe 3
-      expect(thumbnails.eq(i).attr('src')).toBe "http://localhost/thumbnail/#{i + 1}" for i in [0..2]
+      expect(@view.$el.find('progress')).not.toBeVisible()
+      expect(@view.$el.find('img.lomo').attr('src')).toBe(message.thumbnail)
+
+    it 'adds more thumbnails as they arrive', ->
+      message1 =
+        filter: 'lomo'
+        thumbnail: 'data:image/jpeg;base64,lomo'
+      message2 =
+        filter: 'nashville'
+        thumbnail: 'data:image/jpeg;base64,nashville'
+
+      @view._onThumbnailRecieved message for message in [message1, message2]
+
+      expect(@view.$el.find('img.lomo').attr('src')).toBe(message1.thumbnail)
+      expect(@view.$el.find('img.nashville').attr('src')).toBe(message2.thumbnail)

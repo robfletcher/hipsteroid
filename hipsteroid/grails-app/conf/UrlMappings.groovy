@@ -13,7 +13,7 @@ class UrlMappings {
 		}
 
 		'/thumbnail' controller: 'thumbnail', action: 'generate'
-		"/thumbnail/$filename" controller: 'thumbnail', action: 'show'
+//		"/thumbnail/$filename" controller: 'thumbnail', action: 'show'
 
 		"/fixture/nuke" controller: 'fixture', action: 'nuke'
 		"/fixture/$name**" controller: 'fixture', action: 'load'

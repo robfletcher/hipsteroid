@@ -1,40 +1,52 @@
 package co.freeside.hipsteroid
 
-import co.freeside.hipsteroid.auth.Role
-import grails.converters.JSON
-import grails.plugins.springsecurity.Secured
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND
+import org.apache.commons.codec.binary.Base64
+import org.vertx.groovy.core.buffer.Buffer
+import org.vertx.groovy.core.eventbus.Message
+import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED
 
-@Secured(Role.USER)
 class ThumbnailController {
 
-	static allowedMethods = [show: ['GET', 'HEAD'], generate: 'POST']
+	static allowedMethods = [generate: 'POST']
 
-	def imageThumbnailService
+	def grailsApplication
+	def springSecurityService
+	def vertx
 
-	def show(String filename) {
-
-		def thumbnail = imageThumbnailService.getThumbnail(filename)
-
-		if (thumbnail) {
-			response.contentType = 'image/jpeg' // TODO: depends on image
-			response.contentLength = thumbnail.size
-			response.outputStream << thumbnail.inputStream
+	def beforeInterceptor = {
+		if (!springSecurityService.isLoggedIn()) {
+			render status: SC_UNAUTHORIZED
+			false
 		} else {
-			render status: SC_NOT_FOUND
+			true
 		}
-
 	}
 
 	def generate() {
 
-		def thumbnails = imageThumbnailService.generatePreviews(params.image)
+		def replyAddress = params.address
 
-		def model = thumbnails.collect {
-			[thumbnail: createLink(action: 'show', params: [filename: it.filename])]
+		def filters = ['gotham', 'toaster', 'nashville', 'lomo', 'kelvin']
+		filters.each { filterName ->
+
+			def filterAddress = "hipsteroid.filter.${filterName}.thumb"
+			println "sending ${params.image.size} to ${filterAddress} on $vertx"
+			vertx.eventBus.send(filterAddress, new Buffer(params.image.bytes)) { reply ->
+				println "Got response from $filterAddress"
+
+				def buffer = new StringBuilder() << 'data:image/jpeg;base64,' << new String(Base64.encodeBase64(reply.body.bytes))
+
+				def message = [
+						filter: filterName,
+						thumbnail: buffer.toString()
+				]
+				println "Sending $message.filter thumbnail to $replyAddress"
+				vertx.eventBus.send(replyAddress, message)
+			}
 		}
-		render model as JSON
 
+		render status: SC_ACCEPTED
 	}
 
 }

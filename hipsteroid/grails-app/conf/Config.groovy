@@ -4,18 +4,18 @@ grails.project.groupId = 'co.freeside'
 grails.mime.file.extensions = true
 grails.mime.use.accept.header = false
 grails.mime.types = [
-    all:           '*/*',
-    atom:          'application/atom+xml',
-    css:           'text/css',
-    csv:           'text/csv',
-    form:          'application/x-www-form-urlencoded',
-    html:          ['text/html','application/xhtml+xml'],
-    js:            'text/javascript',
-    json:          ['application/json', 'text/json'],
-    multipartForm: 'multipart/form-data',
-    rss:           'application/rss+xml',
-    text:          'text/plain',
-    xml:           ['text/xml', 'application/xml']
+		all: '*/*',
+		atom: 'application/atom+xml',
+		css: 'text/css',
+		csv: 'text/csv',
+		form: 'application/x-www-form-urlencoded',
+		html: ['text/html', 'application/xhtml+xml'],
+		js: 'text/javascript',
+		json: ['application/json', 'text/json'],
+		multipartForm: 'multipart/form-data',
+		rss: 'application/rss+xml',
+		text: 'text/plain',
+		xml: ['text/xml', 'application/xml']
 ]
 
 grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
@@ -29,21 +29,21 @@ grails.scaffolding.templates.domainSuffix = 'Instance'
 grails.json.legacy.builder = false
 grails.enable.native2ascii = true
 grails.spring.bean.packages = []
-grails.web.disable.multipart=false
+grails.web.disable.multipart = false
 
 grails.exceptionresolver.params.exclude = ['password']
 
 grails.hibernate.cache.queries = false
 
 environments {
-    development {
-        grails.logging.jul.usebridge = true
+	development {
+		grails.logging.jul.usebridge = true
 		grails.resources.debug = true
-    }
-    production {
-        grails.logging.jul.usebridge = false
-        grails.serverURL = 'http://hipsteroid.cloudfoundry.com'
-    }
+	}
+	production {
+		grails.logging.jul.usebridge = false
+		grails.serverURL = 'http://hipsteroid.cloudfoundry.com'
+	}
 }
 
 log4j = {
@@ -78,4 +78,12 @@ grails.plugins.springsecurity.oauth.domainClass = 'co.freeside.hipsteroid.auth.O
 
 hipsteroid {
 	image.root = new File('target/uploads')
+}
+
+vertx {
+	cluster {
+		host = '192.168.0.5'
+		port = 25501
+	}
+	eventBus.bridge.port = 8585
 }

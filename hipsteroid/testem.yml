@@ -9,6 +9,8 @@ serve_files:
 - web-app/lib/backbone/*.js
 - web-app/lib/handlebars/*.js
 - web-app/lib/moment/*.js
+- web-app/lib/sockjs/*.js
+- web-app/lib/vertx/*.js
 - web-app/app/view-helpers.js
 - web-app/app/templates.js
 - web-app/app/models/*.js
