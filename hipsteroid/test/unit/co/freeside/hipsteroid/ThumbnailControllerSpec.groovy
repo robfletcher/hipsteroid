@@ -6,7 +6,10 @@ import org.springframework.mock.web.MockMultipartFile
 import org.vertx.groovy.core.Vertx
 import org.vertx.groovy.core.eventbus.EventBus
 import spock.lang.*
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST
+import static javax.servlet.http.HttpServletResponse.SC_NOT_ACCEPTABLE
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED
+import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE
 
 @TestFor(ThumbnailController)
 class ThumbnailControllerSpec extends Specification {
@@ -31,6 +34,31 @@ class ThumbnailControllerSpec extends Specification {
 
 		and:
 		response.status == SC_UNAUTHORIZED
+	}
+
+	void 'rejects requests without an image'() {
+		given:
+		controller.springSecurityService.isLoggedIn() >> true
+
+		expect:
+		!controller.beforeInterceptor()
+
+		and:
+		response.status == SC_BAD_REQUEST
+	}
+
+	void 'rejects requests with anything other than jpeg data'() {
+		given:
+		controller.springSecurityService.isLoggedIn() >> true
+
+		and:
+		params.image = new MockMultipartFile('image', jpgImage.name, 'text/plain', jpgImage.name.bytes)
+
+		expect:
+		!controller.beforeInterceptor()
+
+		and:
+		response.status == SC_UNSUPPORTED_MEDIA_TYPE
 	}
 
 	void 'sends an uploaded image to each filter address'() {

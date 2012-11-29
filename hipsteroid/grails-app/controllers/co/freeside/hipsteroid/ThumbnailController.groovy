@@ -1,10 +1,9 @@
 package co.freeside.hipsteroid
 
 import org.apache.commons.codec.binary.Base64
+import org.springframework.web.multipart.MultipartFile
 import org.vertx.groovy.core.buffer.Buffer
-import org.vertx.groovy.core.eventbus.Message
-import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED
+import static javax.servlet.http.HttpServletResponse.*
 
 class ThumbnailController {
 
@@ -17,22 +16,32 @@ class ThumbnailController {
 	def beforeInterceptor = {
 		if (!springSecurityService.isLoggedIn()) {
 			render status: SC_UNAUTHORIZED
-			false
-		} else {
-			true
+			return false
 		}
+
+		MultipartFile image = params.image
+		if (!image) {
+			render status: SC_BAD_REQUEST
+			return false
+		} else if (image.contentType != 'image/jpeg') {
+			render status: SC_UNSUPPORTED_MEDIA_TYPE
+			return false
+		}
+
+		return true
 	}
 
 	def generate() {
 
+		MultipartFile image = params.image
 		def replyAddress = params.address
 
 		def filters = ['gotham', 'toaster', 'nashville', 'lomo', 'kelvin']
 		filters.each { filterName ->
 
 			def filterAddress = "hipsteroid.filter.${filterName}.thumb"
-			println "sending ${params.image.size} to ${filterAddress} on $vertx"
-			vertx.eventBus.send(filterAddress, new Buffer(params.image.bytes)) { reply ->
+			println "sending ${image.size} to ${filterAddress} on $vertx"
+			vertx.eventBus.send(filterAddress, new Buffer(image.bytes)) { reply ->
 				println "Got response from $filterAddress"
 
 				def buffer = new StringBuilder() << 'data:image/jpeg;base64,' << new String(Base64.encodeBase64(reply.body.bytes))
