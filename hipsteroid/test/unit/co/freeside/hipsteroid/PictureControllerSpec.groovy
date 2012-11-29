@@ -12,7 +12,7 @@ import static co.freeside.hipsteroid.PictureController.SC_UNPROCESSABLE_ENTITY
 import static javax.servlet.http.HttpServletResponse.*
 
 @TestFor(PictureController)
-@Mock(Picture)
+@Mock([Picture, User])
 @Unroll
 class PictureControllerSpec extends Specification {
 
@@ -41,7 +41,14 @@ class PictureControllerSpec extends Specification {
 			JSON.parse(delegate.contentAsString)
 		}
 
-		controller.springSecurityService = Mock(SpringSecurityService)
+		def mockSpringSecurityService = Mock(SpringSecurityService)
+
+		controller.springSecurityService = mockSpringSecurityService
+
+		[user1, user2].each {
+			it.springSecurityService = mockSpringSecurityService
+			it.save(validate: false, failOnError: true)
+		}
 	}
 
 	void cleanup() {
@@ -79,9 +86,9 @@ class PictureControllerSpec extends Specification {
 		then:
 		def json = response.contentAsJSON
 		json.size() == jpgImages.size()
-		json[0].uploadedBy.id == user1.id
+		json[0].uploadedBy.id == user1.id.toString()
 		json[0].uploadedBy.username == user1.username
-		json[0].url == "/picture/show/${pictures[0].id}"
+		json[0].url == "/pictures/${pictures[0].id}"
 		json[0].dateCreated == pictures[0].dateCreated.format("yyyy-MM-dd'T'HH:mm:ss'Z'")
 
 	}
@@ -207,7 +214,7 @@ class PictureControllerSpec extends Specification {
 
 		where:
 		action << ['save', 'update', 'delete']
-		args << [[], [new ObjectId().toString()]]
+		args << [[], [new ObjectId().toString()], [new ObjectId().toString()]]
 		httpStatus = SC_UNAUTHORIZED
 
 	}

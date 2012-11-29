@@ -47,7 +47,7 @@
 			urlMappings.thumbnail = '${createLink(controller: 'thumbnail', action: 'generate')}';
 			<sec:ifLoggedIn>
 			currentUser = new window.User({
-				id: ${sec.loggedInUserInfo(field: 'id')},
+				id: '${sec.loggedInUserInfo(field: 'id')}',
 				username: '${sec.loggedInUserInfo(field: 'username')}'
 			});
 			</sec:ifLoggedIn>

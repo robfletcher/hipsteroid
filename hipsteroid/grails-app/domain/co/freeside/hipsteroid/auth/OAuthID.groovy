@@ -15,6 +15,8 @@
  */
 package co.freeside.hipsteroid.auth
 
+import org.bson.types.ObjectId
+
 /**
  * Simple domain class that records the identities of users authenticating via
  * an OAuth provider. Each identity consists of the OAuth account name and the
@@ -23,6 +25,7 @@ package co.freeside.hipsteroid.auth
  */
 class OAuthID implements Serializable {
 
+	ObjectId id
     String provider
     String accessToken
 

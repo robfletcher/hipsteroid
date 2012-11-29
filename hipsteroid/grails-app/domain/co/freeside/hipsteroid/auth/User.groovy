@@ -1,12 +1,14 @@
 package co.freeside.hipsteroid.auth
 
 import groovy.transform.EqualsAndHashCode
+import org.bson.types.ObjectId
 
 @EqualsAndHashCode(includes = 'id')
 class User {
 
 	transient springSecurityService
 
+	ObjectId id
 	String username
 	String password
 	boolean enabled
