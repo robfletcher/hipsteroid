@@ -1,11 +1,36 @@
 <h2>Upload a picture</h2>
 <label for="upload-image">Choose A File: </label>
-<input type="file" id="upload-image" name="image" data-url="{{thumbnail}}">
-<progress value="0" max="100">0%</progress>
-<div class="thumb-container">
-	<img class="gotham">
-	<img class="toaster">
-	<img class="nashville">
-	<img class="lomo">
-	<img class="kelvin">
-</div>
+<form action="{{pictures}}" enctype="multipart/form-data" method="POST">
+
+	<label for="image">Choose an image:</label>
+	<input id="image" type="file" id="upload-image" name="image" data-url="{{thumbnail}}">
+
+	<progress value="0" max="100">0%</progress>
+
+	<fieldset class="thumb-container">
+		<legend>Choose a filter:</legend>
+		<label class="gotham">
+			<input type="radio" name="filter" value="gotham">
+			<img src="{{root}}images/thumbs/gotham.jpg">
+		</label>
+		<label class="toaster">
+			<input type="radio" name="filter" value="toaster">
+			<img src="{{root}}images/thumbs/toaster.jpg">
+		</label>
+		<label class="nashville">
+			<input type="radio" name="filter" value="nashville">
+			<img src="{{root}}images/thumbs/nashville.jpg">
+		</label>
+		<label class="lomo">
+			<input type="radio" name="filter" value="lomo">
+			<img src="{{root}}images/thumbs/lomo.jpg">
+		</label>
+		<label class="kelvin">
+			<input type="radio" name="filter" value="kelvin">
+			<img src="{{root}}images/thumbs/kelvin.jpg">
+		</label>
+	</fieldset>
+
+	<button type="submit">Upload</button>
+
+</form>

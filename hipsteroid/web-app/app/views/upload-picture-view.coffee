@@ -44,4 +44,4 @@ class window.UploadPictureView extends Backbone.View
   _onThumbnailRecieved: (message) ->
     console.log 'received a thumbnail', message.filter
     @progressBar.hide()
-    @thumbContainer.find("img.#{message.filter}").attr('src', message.thumbnail)
+    @thumbContainer.find(".#{message.filter} img").attr('src', message.thumbnail)

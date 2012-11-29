@@ -38,6 +38,6 @@ jQuery ->
 
   hasRoute = Backbone.history.start
     pushState: true
-    root: window.root
+    root: window.urlMappings.root
 
   window.app.navigate 'timeline', trigger: true unless hasRoute

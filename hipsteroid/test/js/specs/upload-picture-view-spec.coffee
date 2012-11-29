@@ -49,7 +49,7 @@ describe 'UploadPictureView', ->
       @view._onThumbnailRecieved message
 
       expect(@view.$el.find('progress')).not.toBeVisible()
-      expect(@view.$el.find('img.lomo').attr('src')).toBe(message.thumbnail)
+      expect(@view.$el.find('.lomo img').attr('src')).toBe(message.thumbnail)
 
     it 'adds more thumbnails as they arrive', ->
       message1 =
@@ -61,5 +61,5 @@ describe 'UploadPictureView', ->
 
       @view._onThumbnailRecieved message for message in [message1, message2]
 
-      expect(@view.$el.find('img.lomo').attr('src')).toBe(message1.thumbnail)
-      expect(@view.$el.find('img.nashville').attr('src')).toBe(message2.thumbnail)
+      expect(@view.$el.find('.lomo img').attr('src')).toBe(message1.thumbnail)
+      expect(@view.$el.find('.nashville img').attr('src')).toBe(message2.thumbnail)

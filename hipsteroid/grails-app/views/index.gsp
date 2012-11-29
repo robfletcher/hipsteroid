@@ -42,7 +42,7 @@
 		<div id="app"></div>
 
 		<r:script>
-			root = '${createLink(uri: '/')}';
+			urlMappings.root = '${createLink(uri: '/')}';
 			urlMappings.pictures = '${createLink(controller: 'picture')}';
 			urlMappings.thumbnail = '${createLink(controller: 'thumbnail', action: 'generate')}';
 			<sec:ifLoggedIn>
