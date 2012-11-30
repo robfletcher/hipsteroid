@@ -15,8 +15,13 @@
 
 # Cool things
 
+* Testem
+* Casper
+* CoffeeScript
+* Grunt / CodeKit
 * dual rendering for optimized loading
 * async expensive ops with vert.x & Rabbit MQ
+* extending event bus to browser
 
 # Basics
 
