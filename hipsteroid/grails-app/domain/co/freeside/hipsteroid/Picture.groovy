@@ -9,10 +9,12 @@ class Picture {
 	Date dateCreated
 	Date lastUpdated
 	User uploadedBy
-	ImageData imageData
+
+	static hasOne = [imageData: ImageData]
 
 	static constraints = {
 		image bindable: true
+		imageData nullable: true // TODO: just to get async construction working
 		dateCreated bindable: false
 		lastUpdated bindable: false
 	}
@@ -24,6 +26,7 @@ class Picture {
 	static transients = ['image']
 
 	void setImage(byte[] image) {
+		println "setting image data with $image.length bytes"
 		if (!imageData) {
 			imageData = new ImageData(picture: this, data: image)
 		} else {

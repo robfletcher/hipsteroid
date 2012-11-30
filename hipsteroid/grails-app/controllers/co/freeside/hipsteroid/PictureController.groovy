@@ -2,8 +2,8 @@ package co.freeside.hipsteroid
 
 import grails.converters.JSON
 import org.bson.types.ObjectId
+import org.vertx.groovy.core.buffer.Buffer
 import static javax.servlet.http.HttpServletResponse.*
-import static org.codehaus.groovy.grails.web.servlet.HttpHeaders.ACCEPT
 
 class PictureController {
 
@@ -12,6 +12,7 @@ class PictureController {
 	static allowedMethods = [show: ['GET', 'HEAD'], list: ['GET', 'HEAD'], save: 'POST', update: 'PUT', delete: 'DELETE']
 
 	def springSecurityService
+	def vertx
 
 	def show(String id) {
 
@@ -46,21 +47,24 @@ class PictureController {
 			return
 		}
 
-		def picture = new Picture(params)
+		def picture = new Picture()
 		picture.uploadedBy = springSecurityService.currentUser
 
 		if (picture.save(flush: true)) {
+			def id = picture.id
+			vertx.eventBus.send("hipsteroid.filter.${request.JSON.filter}.full", new Buffer(request.JSON.image[23..-1].decodeBase64())) { reply ->
+				println "got filtered picture back from vert.x, saving to $id"
+				def replyBuffer = new Buffer(reply.body)
+				def imageData = new ImageData(data: replyBuffer.bytes, picture: Picture.get(id))
+				if (imageData.save(flush: true)) {
+					println 'looks ok'
+				} else {
+					println picture.errors.allErrors.collect { message(error: it) }
+				}
+			}
+
 			response.status = SC_CREATED
-			response.contentType = request.getHeaders(ACCEPT).any { it == 'application/json' } ? 'application/json' : 'text/plain'
-			def model = [[
-					id: picture.id.toString(),
-					name: params.image.originalFilename,
-					url: createLink(action: 'show', id: picture.id),
-					thumbnail_url: createLink(action: 'show', id: picture.id),
-					delete_url: createLink(action: 'delete', id: picture.id),
-					delete_type: 'DELETE'
-			]]
-			render model as JSON
+			render picture as JSON
 		} else {
 			response.status = SC_UNPROCESSABLE_ENTITY
 			def model = [errors: picture.errors.allErrors.collect { message(error: it) }]
