@@ -21,6 +21,7 @@ class window.UploadPictureView extends Backbone.View
       start: @_onStart
       progressall: @_onProgress
       done: @_onComplete
+      replaceFileInput: false
       formData:
         address: @address
 
