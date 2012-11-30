@@ -18,9 +18,16 @@ class PictureController {
 		def picture = Picture.get(new ObjectId(id))
 
 		if (picture) {
-			response.contentType = 'image/jpeg' // TODO: depends on image
-			response.contentLength = picture.image.length
-			response.outputStream << picture.image
+			withFormat {
+				jpg {
+					response.contentType = 'image/jpeg'
+					response.contentLength = picture.image.length
+					response.outputStream << picture.image
+				}
+				json {
+					render picture as JSON
+				}
+			}
 		} else {
 			render status: SC_NOT_FOUND
 		}
@@ -28,23 +35,8 @@ class PictureController {
 	}
 
 	def list() {
-		render(contentType: 'application/json') {
-			array {
-				for (p in Picture.list(params)) {
-					picture {
-						id = p.id.toString()
-						url = createLink(action: 'show', id: p.id)
-						uploadedBy = {
-							id = p.uploadedBy.id.toString()
-							username = p.uploadedBy.username
-//							profileImageURL = user.profileImageURL
-						}
-						dateCreated = p.dateCreated
-						lastUpdated = p.lastUpdated
-					}
-				}
-			}
-		}
+		def pictures = Picture.list(params)
+		render pictures as JSON
 	}
 
 	def save() {
@@ -64,7 +56,7 @@ class PictureController {
 					id: picture.id.toString(),
 					name: params.image.originalFilename,
 					url: createLink(action: 'show', id: picture.id),
-					thumbnail_url:  createLink(action: 'show', id: picture.id),
+					thumbnail_url: createLink(action: 'show', id: picture.id),
 					delete_url: createLink(action: 'delete', id: picture.id),
 					delete_type: 'DELETE'
 			]]

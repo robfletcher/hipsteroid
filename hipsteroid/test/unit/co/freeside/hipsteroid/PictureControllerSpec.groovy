@@ -20,22 +20,13 @@ class PictureControllerSpec extends Specification {
 		new File(PictureSpec.getResource("/${it}.jpg").toURI())
 	}
 
-	@Shared File tmpDir = new File(System.properties.'java.io.tmpdir')
-	@Shared File imageRoot = new File(tmpDir, 'PictureSpec')
-
 	User user1 = new User(username: 'roundhouse')
 	User user2 = new User(username: 'ponytail')
 
-	void setupSpec() {
-		imageRoot.mkdirs()
-	}
-
-	void cleanupSpec() {
-		imageRoot.deleteDir()
-	}
-
 	void setup() {
-		Picture.metaClass.imageRoot = {-> imageRoot }
+		JSON.registerObjectMarshaller(ObjectId) {
+			it.toString()
+		}
 
 		HttpServletResponse.metaClass.getContentAsJSON = {->
 			JSON.parse(delegate.contentAsString)
@@ -54,10 +45,13 @@ class PictureControllerSpec extends Specification {
 	void cleanup() {
 	}
 
-	void 'can show a picture'() {
+	void 'can show a picture as JPG'() {
 
 	given:
 		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user1).save(failOnError: true, flush: true)
+
+	and:
+		request.format = 'jpg'
 
 	when:
 		controller.show picture.id.toString()
@@ -66,6 +60,23 @@ class PictureControllerSpec extends Specification {
 		response.contentType == 'image/jpeg'
 		response.contentLength == jpgImages[0].length()
 		response.contentAsByteArray == jpgImages[0].bytes
+
+	}
+
+	void 'can show a picture as JSON'() {
+
+	given:
+		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user1).save(failOnError: true, flush: true)
+
+	and:
+		response.format = 'json'
+
+	when:
+		controller.show picture.id.toString()
+
+	then:
+		response.contentType == 'application/json;charset=UTF-8'
+		response.contentAsJSON.id == picture.id.toString()
 
 	}
 
@@ -82,9 +93,8 @@ class PictureControllerSpec extends Specification {
 	then:
 		def json = response.contentAsJSON
 		json.size() == jpgImages.size()
+		json[0].id == pictures[0].id.toString()
 		json[0].uploadedBy.id == user1.id.toString()
-		json[0].uploadedBy.username == user1.username
-		json[0].url == "/pictures/${pictures[0].id}"
 		json[0].dateCreated == pictures[0].dateCreated.format("yyyy-MM-dd'T'HH:mm:ss'Z'")
 
 	}

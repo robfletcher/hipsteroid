@@ -2,7 +2,7 @@ grails.config.locations = ["classpath:oauth-config.properties"]
 
 grails.project.groupId = 'co.freeside'
 grails.mime.file.extensions = true
-grails.mime.use.accept.header = false
+grails.mime.use.accept.header = true
 grails.mime.types = [
 		all: '*/*',
 		atom: 'application/atom+xml',
@@ -10,6 +10,7 @@ grails.mime.types = [
 		csv: 'text/csv',
 		form: 'application/x-www-form-urlencoded',
 		html: ['text/html', 'application/xhtml+xml'],
+		jpg: 'image/jpeg',
 		js: 'text/javascript',
 		json: ['application/json', 'text/json'],
 		multipartForm: 'multipart/form-data',
