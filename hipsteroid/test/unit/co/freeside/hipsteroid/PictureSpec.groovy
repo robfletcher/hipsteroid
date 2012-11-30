@@ -1,102 +1,93 @@
 package co.freeside.hipsteroid
 
 import co.freeside.hipsteroid.auth.User
-import grails.test.mixin.TestFor
+import grails.test.mixin.*
 import spock.lang.*
 import static org.apache.commons.io.FileUtils.checksumCRC32
 
 @TestFor(Picture)
+@Mock(ImageData)
 class PictureSpec extends Specification {
 
 	@Shared File jpgImage = new File(PictureSpec.getResource('/manhattan.jpg').toURI())
 	@Shared File jpgImage2 = new File(PictureSpec.getResource('/oldfashioned.jpg').toURI())
-	@Shared File tmpDir = new File(System.properties.'java.io.tmpdir')
-	@Shared File imageRoot = new File(tmpDir, 'PictureSpec')
 	@Shared User user = new User(username: 'roundhouse')
 
-	void setupSpec() {
-		imageRoot.mkdirs()
-	}
+	void 'when a picture is created the image data is saved'() {
 
-	void setup() {
-		Picture.metaClass.imageRoot = {-> imageRoot }
-	}
-
-	void cleanupSpec() {
-		imageRoot.deleteDir()
-	}
-
-	void 'when a picture is created the image file is saved'() {
-
-		given:
+	given:
 		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user)
 
-		when:
+	when:
 		picture.save(failOnError: true, flush: true)
 
-		then:
-		picture.file.isFile()
-		checksumCRC32(picture.file) == checksumCRC32(jpgImage)
+	then:
+		picture.imageData
+		picture.imageData.checksumCRC32() == checksumCRC32(jpgImage)
 
 	}
 
-	void 'when a picture is loaded the image file can be retrieved'() {
+	void 'when a picture is loaded the image data can be retrieved'() {
 
-		given:
-		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user)
-		picture.save(failOnError: true, flush: true)
+	given:
+		def id = Picture.withNewSession {
+			def picture = new Picture(image: jpgImage.bytes, uploadedBy: user)
+			picture.save(failOnError: true, flush: true).id
+		}
 
-		when:
-		def file = Picture.get(picture.id).file
+	when:
+		def picture = Picture.get(id)
 
-		then:
-		file.isFile()
-		checksumCRC32(file) == checksumCRC32(jpgImage)
+	then:
+		picture.imageData
+		picture.imageData.checksumCRC32() == checksumCRC32(jpgImage)
 
 	}
 
 	void 'a picture can be updated with new image data'() {
 
-		given:
+	given:
 		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user)
 		picture.save(failOnError: true, flush: true)
 
-		when:
+	when:
 		picture.image = jpgImage2.bytes
 		picture.save(flush: true)
 
-		then:
-		picture.checksum != old(picture.checksum)
-		picture.file.bytes == jpgImage2.bytes
+	then:
+		picture.imageData.checksumCRC32() != old(picture.imageData.checksumCRC32())
+		picture.imageData.checksumCRC32() == checksumCRC32(jpgImage2)
 
 	}
 
-	void 'when a picture is deleted the image file is wiped from disk'() {
+	void 'when a picture is deleted the image data is also deleted'() {
 
-		given:
+	given:
 		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user)
 		picture.save(failOnError: true, flush: true)
 
-		when:
+	when:
 		picture.delete(flush: true)
 
-		then:
-		!picture.file.isFile()
+	then:
+		ImageData.count() == old(ImageData.count()) - 1
+		!ImageData.findByPicture(picture)
+		ImageData.countByPicture(picture) == 0
 
 	}
 
 	@Ignore('not possible to check this in a unit test')
 	void 'cannot change the uploading user of a picture'() {
 
-		given:
+	given:
 		def picture = new Picture(image: jpgImage.bytes, uploadedBy: user)
 		picture.save(failOnError: true, flush: true)
 
-		when:
+	when:
 		picture.uploadedBy++
 		picture.save()
 
-		then:
+	then:
 		picture.refresh().uploadedBy == old(picture.uploadedBy)
 
 	}

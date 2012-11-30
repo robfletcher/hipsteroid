@@ -12,7 +12,7 @@ import static co.freeside.hipsteroid.PictureController.SC_UNPROCESSABLE_ENTITY
 import static javax.servlet.http.HttpServletResponse.*
 
 @TestFor(PictureController)
-@Mock([Picture, User])
+@Mock([Picture, ImageData, User])
 @Unroll
 class PictureControllerSpec extends Specification {
 
@@ -56,15 +56,13 @@ class PictureControllerSpec extends Specification {
 
 	void 'can show a picture'() {
 
-		given:
-		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user1)
-		picture.grailsApplication = grailsApplication
-		picture.save(failOnError: true, flush: true)
+	given:
+		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user1).save(failOnError: true, flush: true)
 
-		when:
+	when:
 		controller.show picture.id.toString()
 
-		then:
+	then:
 		response.contentType == 'image/jpeg'
 		response.contentLength == jpgImages[0].length()
 		response.contentAsByteArray == jpgImages[0].bytes
@@ -73,17 +71,15 @@ class PictureControllerSpec extends Specification {
 
 	void 'can list pictures'() {
 
-		given:
+	given:
 		def pictures = jpgImages.collect {
-			def picture = new Picture(image: it.bytes, uploadedBy: user1)
-			picture.grailsApplication = grailsApplication
-			picture.save(failOnError: true, flush: true)
+			new Picture(image: it.bytes, uploadedBy: user1).save(failOnError: true, flush: true)
 		}
 
-		when:
+	when:
 		controller.list()
 
-		then:
+	then:
 		def json = response.contentAsJSON
 		json.size() == jpgImages.size()
 		json[0].uploadedBy.id == user1.id.toString()
@@ -95,107 +91,103 @@ class PictureControllerSpec extends Specification {
 
 	void 'authenticated user can create a picture'() {
 
-		given:
+	given:
 		controller.springSecurityService.isLoggedIn() >> true
 		controller.springSecurityService.currentUser >> user1
 
-		and:
+	and:
 		request.addFile new MockMultipartFile('image', jpgImages[0].bytes)
 
-		when:
+	when:
 		controller.save()
 
-		then:
+	then:
 		response.status == SC_CREATED
 		String id = response.contentAsJSON[0].id
 
-		and:
+	and:
 		Picture.count() == old(Picture.count()) + 1
 		def picture = Picture.get(new ObjectId(id))
-		picture.file.bytes == jpgImages[0].bytes
+		picture.image == jpgImages[0].bytes
 		picture.uploadedBy == user1
 
 	}
 
 	void 'save responds with 422 if upload data is invalid or missing'() {
 
-		given:
+	given:
 		controller.springSecurityService.isLoggedIn() >> true
 		controller.springSecurityService.currentUser >> user1
 
-		when:
+	when:
 		controller.save()
 
-		then:
+	then:
 		response.status == SC_UNPROCESSABLE_ENTITY
-		response.contentAsJSON.errors[0] == "Property [image] of class [$Picture] cannot be null"
+		response.contentAsJSON.errors[0] == "Property [imageData] of class [$Picture] cannot be null"
 
 	}
 
 	void 'uploader can update a picture'() {
 
-		given:
-		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user1)
-		picture.grailsApplication = grailsApplication
-		picture.save(failOnError: true, flush: true)
+	given:
+		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user1).save(failOnError: true, flush: true)
 
-		and:
+	and:
 		controller.springSecurityService.isLoggedIn() >> true
 		controller.springSecurityService.currentUser >> user1
 
-		and:
+	and:
 		request.addFile new MockMultipartFile('image', jpgImages[1].bytes)
 
-		when:
+	when:
 		controller.update picture.id.toString()
 
-		then:
+	then:
 		response.status == SC_OK
 
-		and:
-		picture.file.bytes == jpgImages[1].bytes
+	and:
+		picture.image == jpgImages[1].bytes
 
 	}
 
 	void 'uploader can delete a picture'() {
 
-		given:
-		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user1)
-		picture.grailsApplication = grailsApplication
-		picture.save(failOnError: true, flush: true)
+	given:
+		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user1).save(failOnError: true, flush: true)
 
-		and:
+	and:
 		controller.springSecurityService.isLoggedIn() >> true
 		controller.springSecurityService.currentUser >> user1
 
-		when:
+	when:
 		controller.delete picture.id.toString()
 
-		then:
+	then:
 		response.status == SC_ACCEPTED
 
-		and:
+	and:
 		Picture.count() == old(Picture.count()) - 1
 		Picture.get(picture.id) == null
 
-		and:
-		!picture.file.isFile()
+	and:
+		ImageData.countByPicture(picture) == 0
 
 	}
 
 	void '#action responds with a #httpStatus if picture id is incorrect'() {
 
-		given:
+	given:
 		controller.springSecurityService.isLoggedIn() >> true
 		controller.springSecurityService.currentUser >> user1
 
-		when:
+	when:
 		controller."$action" new ObjectId().toString()
 
-		then:
+	then:
 		response.status == httpStatus
 
-		where:
+	where:
 		action << ['show', 'update', 'delete']
 		httpStatus = SC_NOT_FOUND
 
@@ -203,16 +195,16 @@ class PictureControllerSpec extends Specification {
 
 	void '#action responds with a #httpStatus if no user is authenticated'() {
 
-		given:
+	given:
 		controller.springSecurityService.isLoggedIn() >> false
 
-		when:
+	when:
 		controller.invokeMethod(action, args as Object[])
 
-		then:
+	then:
 		response.status == httpStatus
 
-		where:
+	where:
 		action << ['save', 'update', 'delete']
 		args << [[], [new ObjectId().toString()], [new ObjectId().toString()]]
 		httpStatus = SC_UNAUTHORIZED
@@ -221,22 +213,20 @@ class PictureControllerSpec extends Specification {
 
 	void '#action responds with #httpStatus if wrong user is logged in'() {
 
-		given:
-		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user1)
-		picture.grailsApplication = grailsApplication
-		picture.save(failOnError: true, flush: true)
+	given:
+		def picture = new Picture(image: jpgImages[0].bytes, uploadedBy: user1).save(failOnError: true, flush: true)
 
-		and:
+	and:
 		controller.springSecurityService.isLoggedIn() >> true
 		controller.springSecurityService.currentUser >> user2
 
-		when:
+	when:
 		controller."$action" picture.id.toString()
 
-		then:
+	then:
 		response.status == httpStatus
 
-		where:
+	where:
 		action << ['update', 'delete']
 		httpStatus = SC_FORBIDDEN
 

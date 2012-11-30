@@ -19,8 +19,8 @@ class PictureController {
 
 		if (picture) {
 			response.contentType = 'image/jpeg' // TODO: depends on image
-			response.contentLength = picture.file.length()
-			response.outputStream << picture.file.bytes
+			response.contentLength = picture.image.length
+			response.outputStream << picture.image
 		} else {
 			render status: SC_NOT_FOUND
 		}

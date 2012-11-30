@@ -76,10 +76,6 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'co.freeside.h
 grails.plugins.springsecurity.authority.className = 'co.freeside.hipsteroid.auth.Role'
 grails.plugins.springsecurity.oauth.domainClass = 'co.freeside.hipsteroid.auth.OAuthID'
 
-hipsteroid {
-	image.root = new File('target/uploads')
-}
-
 vertx {
 	cluster {
 		host = '192.168.0.5'
