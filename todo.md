@@ -31,6 +31,7 @@
 
 # Bugs
 
+* it's not right that imageData can be null, can save be deferred until processing completes?
 * non-authenticated user should not be able to go to `/upload`
 * eventBus listener for thumbs is not unloaded
 * eventBus listener for thumbs is not unique
