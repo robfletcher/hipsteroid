@@ -25,13 +25,14 @@
 
 # Basics
 
-* design!
+* desi
 * pagination on timeline
 * form validation
 
 # Bugs
 
-* it's not right that imageData can be null, can save be deferred until processing completes?
+* upload should wait for completion before returning to timeline
+* timeline is in reverse order
 * non-authenticated user should not be able to go to `/upload`
 * eventBus listener for thumbs is not unloaded
 * eventBus listener for thumbs is not unique
