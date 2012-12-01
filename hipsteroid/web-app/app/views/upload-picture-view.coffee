@@ -27,7 +27,6 @@ class window.UploadPictureView extends Backbone.View
       dataType: 'json'
       start: @_onStart
       progressall: @_onProgress
-      done: @_onComplete
       replaceFileInput: false
       formData:
         address: @address
@@ -42,45 +41,34 @@ class window.UploadPictureView extends Backbone.View
     @progressBar.show()
 
   _onProgress: (event, data) ->
-    console.log '_onProgress', event, data
     progress = parseInt(data.loaded / data.total * 100, 10)
     @progressBar.attr('value', progress).text("#{progress}%")
 
-  _onComplete: (event, data) ->
-    console.log '_onComplete', event, data
-
   _registerThumbnailReciever: ->
-    console.log "registering handler on #{@address}"
     @eventBus.registerHandler @address, @_onThumbnailRecieved
 
   _onThumbnailRecieved: (message) ->
-    console.log 'received a thumbnail', message.filter
     @progressBar.hide()
     @thumbContainer.find(".#{message.filter} img").attr('src', message.thumbnail)
 
   _onImageSelected: (event) ->
     file = event.target.files[0]
-    console.log 'image selected...', file
     reader = new FileReader
     reader.onload = (loadEvent) =>
-      console.log 'onload', loadEvent
       @model.set image: loadEvent.target.result
     reader.readAsDataURL(file)
 
   _onFilterSelected: (event) ->
-    console.log 'filter selected', event
     @model.set filter: $(event.target).val()
 
   _onSubmit: ->
-    console.log 'submitting...'
     @model.save [],
       success: @_onUploadSuccess
       error: @_onUploadFailed
     false
 
   _onUploadSuccess: ->
-    console.log 'upload succeeded', arguments
     window.app.navigate '/timeline', trigger: true
 
   _onUploadFailed: (model, xhr, options) ->
-    console.log 'upload failed', xhr.status
+    console.error 'upload failed', xhr.status

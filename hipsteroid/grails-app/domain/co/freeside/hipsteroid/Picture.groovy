@@ -26,7 +26,6 @@ class Picture {
 	static transients = ['image']
 
 	void setImage(byte[] image) {
-		println "setting image data with $image.length bytes"
 		if (!imageData) {
 			imageData = new ImageData(picture: this, data: image)
 		} else {

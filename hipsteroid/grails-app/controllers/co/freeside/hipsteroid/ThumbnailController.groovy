@@ -9,7 +9,6 @@ class ThumbnailController {
 
 	static allowedMethods = [generate: 'POST']
 
-	def grailsApplication
 	def springSecurityService
 	def vertx
 
@@ -40,9 +39,7 @@ class ThumbnailController {
 		filters.each { filterName ->
 
 			def filterAddress = "hipsteroid.filter.${filterName}.thumb"
-			println "sending ${image.size} to ${filterAddress} on $vertx"
 			vertx.eventBus.send(filterAddress, new Buffer(image.bytes)) { reply ->
-				println "Got response from $filterAddress"
 
 				def buffer = new StringBuilder() << 'data:image/jpeg;base64,' << new String(Base64.encodeBase64(reply.body.bytes))
 
@@ -50,8 +47,7 @@ class ThumbnailController {
 						filter: filterName,
 						thumbnail: buffer.toString()
 				]
-				println "Sending $message.filter thumbnail to $replyAddress"
-				vertx.eventBus.send(replyAddress, message)
+				vertx.eventBus.send replyAddress, message
 			}
 		}
 

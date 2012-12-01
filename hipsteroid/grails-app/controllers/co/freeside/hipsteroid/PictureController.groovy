@@ -53,13 +53,12 @@ class PictureController {
 		if (picture.save(flush: true)) {
 			def id = picture.id
 			vertx.eventBus.send("hipsteroid.filter.${request.JSON.filter}.full", new Buffer(request.JSON.image[23..-1].decodeBase64())) { reply ->
-				println "got filtered picture back from vert.x, saving to $id"
 				def replyBuffer = new Buffer(reply.body)
 				def imageData = new ImageData(data: replyBuffer.bytes, picture: Picture.get(id))
 				if (imageData.save(flush: true)) {
-					println 'looks ok'
+					log.info 'image processed successfully'
 				} else {
-					println picture.errors.allErrors.collect { message(error: it) }
+					log.error picture.errors.allErrors.collect { message(error: it) }
 				}
 			}
 
