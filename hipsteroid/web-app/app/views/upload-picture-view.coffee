@@ -73,9 +73,14 @@ class window.UploadPictureView extends Backbone.View
 
   _onSubmit: ->
     console.log 'submitting...'
-    @model.save
-      success: (model, response, options) ->
-        console.log model, response, options
-      error: (model, xhr, options) ->
-        console.log model, xhr, options
+    @model.save [],
+      success: @_onUploadSuccess
+      error: @_onUploadFailed
     false
+
+  _onUploadSuccess: ->
+    console.log 'upload succeeded', arguments
+    window.app.navigate '/timeline', trigger: true
+
+  _onUploadFailed: (model, xhr, options) ->
+    console.log 'upload failed', xhr.status

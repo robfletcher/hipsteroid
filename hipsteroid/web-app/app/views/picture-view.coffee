@@ -2,7 +2,8 @@ class window.PictureView extends Backbone.View
 
   tagName: 'li'
   template: Handlebars.templates.picture
-  events: 'click button.delete': 'delete'
+  events:
+    'click button.delete': 'delete'
 
   initialize: (options) ->
     _.bindAll @

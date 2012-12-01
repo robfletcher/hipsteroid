@@ -18,9 +18,9 @@ class window.HipsteroidApp extends Backbone.Router
       router: @
 
     @pictures = new PictureCollection
-    @pictures.fetch()
 
   timeline: ->
+    @pictures.fetch()
     @_load new TimelineView
       model: @pictures
 
@@ -40,4 +40,4 @@ jQuery ->
     pushState: true
     root: window.urlMappings.root
 
-  window.app.navigate 'timeline', trigger: true unless hasRoute
+  window.app.navigate '/timeline', trigger: true unless hasRoute

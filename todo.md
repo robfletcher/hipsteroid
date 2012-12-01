@@ -27,6 +27,17 @@
 
 * design!
 * pagination on timeline
+* form validation
+
+# Bugs
+
+* non-authenticated user should not be able to go to `/upload`
+* eventBus listener for thumbs is not unloaded
+* eventBus listener for thumbs is not unique
+* views are not unbound from events
+* timeline should render in proper order & keep itself updated
+* event bus URL is hardcoded in upload view
+* timeline view can render images that aren't processed yet (possibly use startAsync but how will we know to resume?)
 
 # Nice to haves
 

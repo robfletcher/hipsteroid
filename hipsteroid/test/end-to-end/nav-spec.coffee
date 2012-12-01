@@ -1,10 +1,10 @@
 baseUrl = 'http://localhost:8080/hipsteroid'
 
 casper.start "#{baseUrl}/fixture/nuke", ->
-  @test.assertHttpStatus 200, 'Data nuked!'
+  @test.assertHttpStatus 200, 'data nuked!'
 
 casper.thenOpen "#{baseUrl}/fixture/pictures/cocktails", ->
-  @test.assertHttpStatus 201, 'Fixture data loaded'
+  @test.assertHttpStatus 201, 'fixture data loaded'
 
 casper.thenOpen baseUrl, ->
   @test.assertEquals @fetchText('#app h2'), 'Timeline', 'timeline page is loaded'

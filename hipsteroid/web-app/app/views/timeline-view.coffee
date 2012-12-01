@@ -9,8 +9,7 @@ class window.TimelineView extends Backbone.View
 
     @model = options.model
     @model.on 'add', @addOne
-    @model.on 'reset', @addAll
-  #    @model.on 'all', @render
+    @model.on 'reset', @render
 
   render: ->
     @$el.html @template()
@@ -20,8 +19,7 @@ class window.TimelineView extends Backbone.View
 
   remove: ->
     @model.off 'add', @addOne
-    @model.off 'reset', @addAll
-    @model.off 'all', @render
+    @model.off 'reset', @render
     Backbone.View.prototype.remove.call @
 
   addOne: (picture) ->
@@ -30,3 +28,6 @@ class window.TimelineView extends Backbone.View
 
   addAll: ->
     @model.each @addOne
+
+  removeAll: ->
+    @pictureList.children().remove()

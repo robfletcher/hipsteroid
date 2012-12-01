@@ -1,6 +1,6 @@
 package co.freeside.hipsteroid.test
 
-import co.freeside.hipsteroid.Picture
+import co.freeside.hipsteroid.*
 import grails.util.Environment
 import static grails.util.Environment.*
 import static javax.servlet.http.HttpServletResponse.*
@@ -17,6 +17,7 @@ class FixtureController {
 	}
 
 	def nuke() {
+		ImageData.deleteAll ImageData.list()
 		Picture.deleteAll Picture.list()
 		response.status = SC_OK
 	}
