@@ -158,6 +158,9 @@ class PictureControllerSpec extends Specification {
 		response.contentAsJSON.errors[0] == "Property [filter] of class [$UploadPictureCommand] cannot be null"
 		response.contentAsJSON.errors[1] == "Property [image] of class [$UploadPictureCommand] cannot be null"
 
+	and:
+		0 * eventBus._
+
 	}
 
 	void 'uploader can update a picture'() {
