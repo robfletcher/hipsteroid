@@ -1,6 +1,7 @@
 package co.freeside.hipsteroid
 
 import grails.converters.JSON
+import grails.validation.Validateable
 import org.bson.types.ObjectId
 import org.vertx.groovy.core.buffer.Buffer
 import static javax.servlet.http.HttpServletResponse.*
@@ -40,10 +41,31 @@ class PictureController {
 		render pictures as JSON
 	}
 
-	def save() {
+	def beforeInterceptor = [action: this.&bindUploadCommand, only: 'save']
+
+	def bindUploadCommand() {
+		if (request.format == 'json') {
+			println 'binding JSON to params'
+			params.filter = request.JSON.filter
+			params.image = request.JSON.image
+		} else {
+			println "format is $request.format not doing nuffing"
+		}
+		true
+	}
+
+	def save(UploadPictureCommand command) {
 
 		if (!springSecurityService.isLoggedIn()) {
 			render status: SC_UNAUTHORIZED
+			return
+		}
+
+		if (!command.validate()) {
+			println command.errors.allErrors.code
+			response.status = SC_UNPROCESSABLE_ENTITY
+			def model = [errors: command.errors.allErrors.collect { message(error: it) }]
+			render model as JSON
 			return
 		}
 
@@ -52,7 +74,7 @@ class PictureController {
 
 		if (picture.save(flush: true)) {
 			def id = picture.id
-			vertx.eventBus.send("hipsteroid.filter.${request.JSON.filter}.full", new Buffer(request.JSON.image[23..-1].decodeBase64())) { reply ->
+			vertx.eventBus.send("hipsteroid.filter.${command.filter}.full", new Buffer(command.decodedImage)) { reply ->
 				def replyBuffer = new Buffer(reply.body)
 				def imageData = new ImageData(data: replyBuffer.bytes, picture: Picture.get(id))
 				if (imageData.save(flush: true)) {
@@ -126,6 +148,23 @@ class PictureController {
 		def model = [id: picture.id.toString()]
 		render model as JSON
 
+	}
+
+}
+
+@Validateable
+class UploadPictureCommand {
+
+	String filter
+	String image
+
+	static constraints = {
+		filter nullable: false, inList: ['gotham', 'toaster', 'nashville', 'lomo', 'kelvin']
+		image nullable: false, validator: { it.startsWith('data:image/jpeg;base64,') }
+	}
+
+	byte[] getDecodedImage() {
+		image.decodeDataUrl()
 	}
 
 }

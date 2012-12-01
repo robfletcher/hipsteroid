@@ -7,6 +7,9 @@ import grails.plugins.springsecurity.SpringSecurityService
 import grails.test.mixin.*
 import org.bson.types.ObjectId
 import org.springframework.mock.web.MockMultipartFile
+import org.vertx.groovy.core.Vertx
+import org.vertx.groovy.core.buffer.Buffer
+import org.vertx.groovy.core.eventbus.EventBus
 import spock.lang.*
 import static co.freeside.hipsteroid.PictureController.SC_UNPROCESSABLE_ENTITY
 import static javax.servlet.http.HttpServletResponse.*
@@ -23,7 +26,16 @@ class PictureControllerSpec extends Specification {
 	User user1 = new User(username: 'roundhouse')
 	User user2 = new User(username: 'ponytail')
 
+	def eventBus = Mock(EventBus)
+
 	void setup() {
+		byte[].metaClass.encodeDataUrl = { String mimeType ->
+			DataUrlCodec.encode delegate, mimeType
+		}
+		String.metaClass.decodeDataUrl = {->
+			DataUrlCodec.decode delegate
+		}
+
 		JSON.registerObjectMarshaller(ObjectId) {
 			it.toString()
 		}
@@ -39,6 +51,10 @@ class PictureControllerSpec extends Specification {
 		[user1, user2].each {
 			it.springSecurityService = mockSpringSecurityService
 			it.save(validate: false, failOnError: true)
+		}
+
+		controller.vertx = Mock(Vertx) {
+			getEventBus() >> eventBus
 		}
 	}
 
@@ -106,21 +122,26 @@ class PictureControllerSpec extends Specification {
 		controller.springSecurityService.currentUser >> user1
 
 	and:
-		request.addFile new MockMultipartFile('image', jpgImages[0].bytes)
+		def command = new UploadPictureCommand(filter: 'lomo', image: jpgImages[0].bytes.encodeDataUrl('image/jpeg'))
 
 	when:
-		controller.save()
+		controller.save command
 
 	then:
+		1 * eventBus.send('hipsteroid.filter.lomo.full', _ as Buffer, _ as Closure) >> { address, buffer, callback ->
+			assert buffer.bytes == jpgImages[0].bytes
+			callback(body: 'filtered image'.bytes)
+		}
+
+	and:
 		response.status == SC_CREATED
-		String id = response.contentAsJSON[0].id
+		String id = response.contentAsJSON.id
 
 	and:
 		Picture.count() == old(Picture.count()) + 1
 		def picture = Picture.get(new ObjectId(id))
-		picture.image == jpgImages[0].bytes
+		picture.image == 'filtered image'.bytes
 		picture.uploadedBy == user1
-
 	}
 
 	void 'save responds with 422 if upload data is invalid or missing'() {
@@ -130,11 +151,12 @@ class PictureControllerSpec extends Specification {
 		controller.springSecurityService.currentUser >> user1
 
 	when:
-		controller.save()
+		controller.save new UploadPictureCommand()
 
 	then:
 		response.status == SC_UNPROCESSABLE_ENTITY
-		response.contentAsJSON.errors[0] == "Property [imageData] of class [$Picture] cannot be null"
+		response.contentAsJSON.errors[0] == "Property [filter] of class [$UploadPictureCommand] cannot be null"
+		response.contentAsJSON.errors[1] == "Property [image] of class [$UploadPictureCommand] cannot be null"
 
 	}
 
