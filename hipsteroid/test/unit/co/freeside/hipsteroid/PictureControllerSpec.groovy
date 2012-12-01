@@ -134,12 +134,11 @@ class PictureControllerSpec extends Specification {
 		}
 
 	and:
-		response.status == SC_CREATED
-		String id = response.contentAsJSON.id
+		response.status == SC_ACCEPTED
 
 	and:
 		Picture.count() == old(Picture.count()) + 1
-		def picture = Picture.get(new ObjectId(id))
+		def picture = Picture.first() // default sort by descending dateCreated so this will get most recent
 		picture.image == 'filtered image'.bytes
 		picture.uploadedBy == user1
 	}

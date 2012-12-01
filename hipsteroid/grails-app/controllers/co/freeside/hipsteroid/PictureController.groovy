@@ -45,11 +45,8 @@ class PictureController {
 
 	def bindUploadCommand() {
 		if (request.format == 'json') {
-			println 'binding JSON to params'
 			params.filter = request.JSON.filter
 			params.image = request.JSON.image
-		} else {
-			println "format is $request.format not doing nuffing"
 		}
 		true
 	}
@@ -72,25 +69,18 @@ class PictureController {
 		def picture = new Picture()
 		picture.uploadedBy = springSecurityService.currentUser
 
-		if (picture.save(flush: true)) {
-			def id = picture.id
-			vertx.eventBus.send("hipsteroid.filter.${command.filter}.full", new Buffer(command.decodedImage)) { reply ->
-				def replyBuffer = new Buffer(reply.body)
-				def imageData = new ImageData(data: replyBuffer.bytes, picture: Picture.get(id))
-				if (imageData.save(flush: true)) {
-					log.info 'image processed successfully'
-				} else {
-					log.error picture.errors.allErrors.collect { message(error: it) }
-				}
-			}
+		vertx.eventBus.send("hipsteroid.filter.${command.filter}.full", new Buffer(command.decodedImage)) { reply ->
+			def replyBuffer = new Buffer(reply.body)
 
-			response.status = SC_CREATED
-			render picture as JSON
-		} else {
-			response.status = SC_UNPROCESSABLE_ENTITY
-			def model = [errors: picture.errors.allErrors.collect { message(error: it) }]
-			render model as JSON
+			picture.image = replyBuffer.bytes
+			if (picture.save(flush: true)) {
+				log.info 'image processed successfully'
+			} else {
+				log.error picture.errors.allErrors.collect { message(error: it) }
+			}
 		}
+
+		render status: SC_ACCEPTED
 
 	}
 

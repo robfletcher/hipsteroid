@@ -14,12 +14,12 @@ class Picture {
 
 	static constraints = {
 		image bindable: true
-		imageData nullable: true // TODO: just to get async construction working
 		dateCreated bindable: false
 		lastUpdated bindable: false
 	}
 
 	static mapping = {
+		sort dateCreated: 'desc'
 		uploadedBy updateable: false
 	}
 
