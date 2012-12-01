@@ -18,6 +18,12 @@ class window.TimelineView extends Backbone.View
     @addAll()
     @
 
+  remove: ->
+    @model.off 'add', @addOne
+    @model.off 'reset', @addAll
+    @model.off 'all', @render
+    Backbone.View.prototype.remove.call @
+
   addOne: (picture) ->
     view = new PictureView model: picture
     @pictureList.prepend view.render().el

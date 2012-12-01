@@ -15,6 +15,11 @@ class window.PictureView extends Backbone.View
     @renderDeleteButton() if window.currentUser?.id is @model.get('uploadedBy').id
     @
 
+  remove: ->
+    @model.off 'change', @render
+    @model.off 'destroy', @remove
+    Backbone.View.prototype.remove.call @
+
   renderDeleteButton: ->
     @$el.find('figcaption').append('<button type="button" class="delete">Delete</button>')
 

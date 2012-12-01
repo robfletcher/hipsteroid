@@ -34,6 +34,10 @@ class window.UploadPictureView extends Backbone.View
 
     @
 
+  remove: ->
+    @eventBus.unregisterHandler @address, @_onThumbnailRecieved
+    Backbone.View.prototype.remove.call @
+
   _onStart: (event, data) ->
     @progressBar.show()
 
