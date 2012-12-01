@@ -23,30 +23,30 @@
 * async expensive ops with vert.x & Rabbit MQ
 * extending event bus to browser
 
-# Basics
+# Features
 
-* desi
+* dual rendering
+* design!
 * pagination on timeline
 * form validation
+* profile view
+* grunt build
 
 # Bugs
 
 * upload should wait for completion before returning to timeline
 * timeline is in reverse order
 * non-authenticated user should not be able to go to `/upload`
-* eventBus listener for thumbs is not unloaded
 * eventBus listener for thumbs is not unique
-* views are not unbound from events
 * timeline should render in proper order & keep itself updated
 * event bus URL is hardcoded in upload view
-* timeline view can render images that aren't processed yet (possibly use startAsync but how will we know to resume?)
 
 # Nice to haves
 
+* use `@Secured` but have it send 401 instead of redirecting
 * comments & likes
 * cache headers on restful actions
 * no javascript support
 * infinite scroll on timeline
 * skip the link account page when signing in via twitter
-* some kind of sensible persistent store for in-progress image uploads
 * cloudbees jenkins running all the tests
