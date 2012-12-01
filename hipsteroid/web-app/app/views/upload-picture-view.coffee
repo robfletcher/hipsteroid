@@ -12,6 +12,7 @@ class window.UploadPictureView extends Backbone.View
   initialize: (options) ->
     _.bindAll @
 
+    @router = options.router
     @eventBus = new vertx.EventBus('http://localhost:8585/eventbus') # todo: don't hardcode
     @address = 'hipsteroid.filter.thumb.callback' # todo: generate
     @eventBus.onopen = @_registerThumbnailReciever
@@ -68,7 +69,7 @@ class window.UploadPictureView extends Backbone.View
     false
 
   _onUploadSuccess: ->
-    window.app.navigate '/timeline', trigger: true
+    @router.navigate '/timeline', trigger: true
 
   _onUploadFailed: (model, xhr, options) ->
     console.error 'upload failed', xhr.status

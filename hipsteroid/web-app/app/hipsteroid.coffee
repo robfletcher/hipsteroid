@@ -26,6 +26,7 @@ class window.HipsteroidApp extends Backbone.Router
 
   upload: ->
     @_load new UploadPictureView
+      router: @
 
   _load: (view) ->
     @currentView?.remove()

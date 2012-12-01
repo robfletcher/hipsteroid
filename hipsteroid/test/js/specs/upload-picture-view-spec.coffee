@@ -7,20 +7,24 @@ describe 'UploadPictureView', ->
     window.urlMappings = {}
     $.fn.fileupload = (options) ->
 
-    @view = new UploadPictureView().render()
+    @view = new UploadPictureView
+      router:
+        navigate: ->
+          console.log arguments
+    @view.render()
     $('.upload-form').append(@view.el)
 
     @progressBar = @view.$el.find('progress')
 
-  it 'hides the progress bar until an image is uploaded', ->
+  it 'hides the progress bar until an image is selected', ->
     expect(@progressBar).not.toBeVisible()
 
-  describe 'uploading images', ->
+  describe 'generating thumbnails', ->
 
     beforeEach ->
       @view._onStart()
 
-    it 'shows the progress bar when the upload starts', ->
+    it 'shows the progress bar when an image is selected', ->
       expect(@progressBar).toBeVisible()
       expect(@progressBar.attr('value')).toBe 0
       expect(@progressBar.attr('max')).toBe '100'
