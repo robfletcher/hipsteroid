@@ -1,6 +1,5 @@
 package co.freeside.hipsteroid
 
-import org.apache.commons.codec.binary.Base64
 import org.springframework.web.multipart.MultipartFile
 import org.vertx.groovy.core.buffer.Buffer
 import static javax.servlet.http.HttpServletResponse.*
@@ -40,12 +39,9 @@ class ThumbnailController {
 
 			def filterAddress = "hipsteroid.filter.${filterName}.thumb"
 			vertx.eventBus.send(filterAddress, new Buffer(image.bytes)) { reply ->
-
-				def buffer = new StringBuilder() << 'data:image/jpeg;base64,' << new String(Base64.encodeBase64(reply.body.bytes))
-
 				def message = [
 						filter: filterName,
-						thumbnail: buffer.toString()
+						thumbnail: DataUrlCodec.encode(reply.body.bytes, 'image/jpeg')
 				]
 				vertx.eventBus.send replyAddress, message
 			}
