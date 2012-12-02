@@ -2,7 +2,7 @@ class window.PictureCollection extends Backbone.Collection
 
   model: Picture
   url: ->
-    window.urlMappings.pictures
+    hipsteroid.urlMappings.pictures
 
   comparator: (a, b) ->
     if a.dateCreated > b.dateCreated

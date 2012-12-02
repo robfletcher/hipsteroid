@@ -1,7 +1,4 @@
-window.currentUser = null
-window.urlMappings =
-  pictures: null
-window.app = null
+window.hipsteroid = window.hipsteroid || {}
 
 class window.HipsteroidApp extends Backbone.Router
   routes:
@@ -35,10 +32,10 @@ class window.HipsteroidApp extends Backbone.Router
     @currentView = view
 
 jQuery ->
-  window.app = new HipsteroidApp
+  window.hipsteroid.app = new HipsteroidApp
 
   hasRoute = Backbone.history.start
     pushState: true
-    root: window.urlMappings.root
+    root: window.hipsteroid.urlMappings.root
 
-  window.app.navigate '/timeline', trigger: true unless hasRoute
+  window.hipsteroid.app.navigate '/timeline', trigger: true unless hasRoute

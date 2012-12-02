@@ -13,7 +13,7 @@ class window.PictureView extends Backbone.View
 
   render: ->
     @$el.append @template(@model.toJSON())
-    @renderDeleteButton() if window.currentUser?.id is @model.get('uploadedBy').id
+    @renderDeleteButton() if hipsteroid.currentUser?.id is @model.get('uploadedBy').id
     @
 
   remove: ->
