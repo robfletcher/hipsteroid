@@ -1,9 +1,11 @@
 package co.freeside.hipsteroid
 
 import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
 import grails.validation.Validateable
 import org.bson.types.ObjectId
 import org.vertx.groovy.core.buffer.Buffer
+import static co.freeside.hipsteroid.auth.Role.USER
 import static javax.servlet.http.HttpServletResponse.*
 
 class PictureController {
@@ -51,12 +53,8 @@ class PictureController {
 		true
 	}
 
+	@Secured(USER)
 	def save(UploadPictureCommand command) {
-
-		if (!springSecurityService.isLoggedIn()) {
-			render status: SC_UNAUTHORIZED
-			return
-		}
 
 		if (!command.validate()) {
 			println command.errors.allErrors.code
@@ -84,12 +82,8 @@ class PictureController {
 
 	}
 
+	@Secured(USER)
 	def update(String id) {
-
-		if (!springSecurityService.isLoggedIn()) {
-			render status: SC_UNAUTHORIZED
-			return
-		}
 
 		def picture = Picture.get(new ObjectId(id))
 
@@ -115,12 +109,8 @@ class PictureController {
 
 	}
 
+	@Secured(USER)
 	def delete(String id) {
-
-		if (!springSecurityService.isLoggedIn()) {
-			render status: SC_UNAUTHORIZED
-			return
-		}
 
 		def picture = Picture.get(new ObjectId(id))
 

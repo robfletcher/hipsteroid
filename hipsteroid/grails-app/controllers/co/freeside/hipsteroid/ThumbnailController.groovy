@@ -1,7 +1,9 @@
 package co.freeside.hipsteroid
 
+import grails.plugins.springsecurity.Secured
 import org.springframework.web.multipart.MultipartFile
 import org.vertx.groovy.core.buffer.Buffer
+import static co.freeside.hipsteroid.auth.Role.USER
 import static javax.servlet.http.HttpServletResponse.*
 
 class ThumbnailController {
@@ -29,6 +31,7 @@ class ThumbnailController {
 		return true
 	}
 
+	@Secured(USER)
 	def generate() {
 
 		MultipartFile image = params.image

@@ -1,4 +1,6 @@
+import co.freeside.hipsteroid.auth.SimpleAjaxAwareAuthenticationEntryPoint
 import org.vertx.groovy.core.Vertx
+import static org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils.getSecurityConfig
 
 beans = {
 
@@ -9,4 +11,11 @@ beans = {
 		bean.factoryMethod = 'newVertx'
 	}
 
+	authenticationEntryPoint(SimpleAjaxAwareAuthenticationEntryPoint) {
+		loginFormUrl = securityConfig.auth.loginFormUrl
+		forceHttps = securityConfig.auth.forceHttps
+		useForward = securityConfig.auth.useForward
+		portMapper = ref('portMapper')
+		portResolver = ref('portResolver')
+	}
 }

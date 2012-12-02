@@ -227,6 +227,7 @@ class PictureControllerSpec extends Specification {
 
 	}
 
+	@Ignore('handled by spring security annotation')
 	void '#action responds with a #httpStatus if no user is authenticated'() {
 
 	given:

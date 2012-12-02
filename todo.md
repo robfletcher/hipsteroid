@@ -43,10 +43,11 @@
 
 # Nice to haves
 
-* use `@Secured` but have it send 401 instead of redirecting
+* handle errors in an AJAX sensitive way
 * comments & likes
 * cache headers on restful actions
 * no javascript support
 * infinite scroll on timeline
 * skip the link account page when signing in via twitter
 * cloudbees jenkins running all the tests
+* run Casper & Testem in IntelliJ
