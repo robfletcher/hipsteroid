@@ -1,6 +1,7 @@
 window.hipsteroid = window.hipsteroid || {}
 
 class window.HipsteroidApp extends Backbone.Router
+
   routes:
     timeline: 'timeline'
     upload: 'upload'
@@ -16,6 +17,17 @@ class window.HipsteroidApp extends Backbone.Router
 
     @pictures = new PictureCollection
 
+    @eventBus = new vertx.EventBus('http://localhost:8585/eventbus') # todo: don't hardcode
+    @eventBus.onopen = =>
+      console.log 'event bus available...'
+
+  start: ->
+    hasRoute = Backbone.history.start
+      pushState: true
+      root: hipsteroid.urlMappings.root
+
+    @navigate '/timeline', trigger: true unless hasRoute
+
   timeline: ->
     @pictures.fetch()
     @_load new TimelineView
@@ -23,7 +35,7 @@ class window.HipsteroidApp extends Backbone.Router
 
   upload: ->
     @_load new UploadPictureView
-      router: @
+      app: @
 
   _load: (view) ->
     @currentView?.remove()
@@ -33,9 +45,4 @@ class window.HipsteroidApp extends Backbone.Router
 
 jQuery ->
   window.hipsteroid.app = new HipsteroidApp
-
-  hasRoute = Backbone.history.start
-    pushState: true
-    root: window.hipsteroid.urlMappings.root
-
-  window.hipsteroid.app.navigate '/timeline', trigger: true unless hasRoute
+  window.hipsteroid.app.start()

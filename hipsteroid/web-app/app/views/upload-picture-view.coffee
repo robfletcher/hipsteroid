@@ -12,10 +12,14 @@ class window.UploadPictureView extends Backbone.View
   initialize: (options) ->
     _.bindAll @
 
-    @router = options.router
-    @eventBus = new vertx.EventBus('http://localhost:8585/eventbus') # todo: don't hardcode
+    @app = options.app
     @address = 'hipsteroid.filter.thumb.callback' # todo: generate
-    @eventBus.onopen = @_registerThumbnailReciever
+
+    if @app.eventBus.readyState() is vertx.EventBus.OPEN
+      @_registerThumbnailReciever()
+    else
+      @app.eventBus.onopen = @_registerThumbnailReciever
+
     @model = new Picture
 
   render: ->
@@ -35,8 +39,12 @@ class window.UploadPictureView extends Backbone.View
     @
 
   remove: ->
-    @eventBus.unregisterHandler @address, @_onThumbnailRecieved
+    @app.eventBus.unregisterHandler @address, @_onThumbnailRecieved
     Backbone.View.prototype.remove.call @
+
+  _registerThumbnailReciever: ->
+    console.log 'registering thumb callback...'
+    @app.eventBus.registerHandler @address, @_onThumbnailRecieved
 
   _onStart: (event, data) ->
     @progressBar.show()
@@ -44,9 +52,6 @@ class window.UploadPictureView extends Backbone.View
   _onProgress: (event, data) ->
     progress = parseInt(data.loaded / data.total * 100, 10)
     @progressBar.attr('value', progress).text("#{progress}%")
-
-  _registerThumbnailReciever: ->
-    @eventBus.registerHandler @address, @_onThumbnailRecieved
 
   _onThumbnailRecieved: (message) ->
     @progressBar.hide()
@@ -69,7 +74,7 @@ class window.UploadPictureView extends Backbone.View
     false
 
   _onUploadSuccess: ->
-    @router.navigate '/timeline', trigger: true
+    @app.navigate '/timeline', trigger: true
 
   _onUploadFailed: (model, xhr, options) ->
     console.error 'upload failed', xhr.status

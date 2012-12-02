@@ -28,7 +28,6 @@ casper.then ->
   @click 'nav a[href="upload"]'
 
 casper.then ->
-  @test.assertEquals @fetchText('.logged-in-message'), "Logged in as #{username}", 'user is now logged in'
   @test.info 'thumbnails are automatically generated when an image is selected'
   @fill 'form#upload-image',
     image: 'test/resources/manhattan_raw.jpg'
