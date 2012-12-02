@@ -4,13 +4,20 @@ describe 'UploadPictureView', ->
     setFixtures '<div class="upload-form"></div>'
 
     # stub out externalities
-    window.urlMappings = {}
+    window.hipsteroid =
+      urlMappings: {}
     $.fn.fileupload = (options) ->
 
     @view = new UploadPictureView
-      router:
+      app:
         navigate: ->
           console.log arguments
+        eventBus:
+          readyState: ->
+            vertx.EventBus.OPEN
+          registerHandler: (address, callback) ->
+            null
+            
     @view.render()
     $('.upload-form').append(@view.el)
 
