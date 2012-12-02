@@ -43,6 +43,7 @@
 
 		<r:script>
 			window.hipsteroid = window.hipsteroid || {};
+			window.hipsteroid.uuid = '${UUID.randomUUID()}';
 			window.hipsteroid.urlMappings = window.hipsteroid.urlMappings || {};
 			window.hipsteroid.urlMappings.root = '${createLink(uri: '/')}';
 			window.hipsteroid.urlMappings.pictures = '${createLink(controller: 'picture')}';

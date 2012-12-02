@@ -13,7 +13,7 @@ class window.UploadPictureView extends Backbone.View
     _.bindAll @
 
     @app = options.app
-    @address = 'hipsteroid.filter.thumb.callback' # todo: generate
+    @address = "hipsteroid.filter.thumb.callback.#{hipsteroid.uuid}"
 
     if @app.eventBus.readyState() is vertx.EventBus.OPEN
       @_registerThumbnailReciever()
