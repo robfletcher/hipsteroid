@@ -92,4 +92,21 @@ class PictureSpec extends Specification {
 
 	}
 
+	@Ignore
+	@Issue('http://jira.grails.org/browse/GRAILS-9638')
+	void 'pictures are sorted newest first by default'() {
+
+	given:
+		def picture1 = new Picture(image: jpgImage.bytes, uploadedBy: user).save(failOnError: true, flush: true)
+		sleep 1000
+		def picture2 = new Picture(image: jpgImage2.bytes, uploadedBy: user).save(failOnError: true, flush: true)
+
+	when:
+		def pictures = Picture.list()
+
+	then:
+		pictures.dateCreated == [picture2, picture1].dateCreated
+
+	}
+
 }
