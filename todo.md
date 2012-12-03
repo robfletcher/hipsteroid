@@ -44,6 +44,8 @@
 
 # Nice to haves
 
+* drop jQuery file upload
+* drop jQuery. Organic JS!
 * handle errors in an AJAX sensitive way
 * comments & likes
 * cache headers on restful actions
