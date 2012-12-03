@@ -1,5 +1,8 @@
+import javax.servlet.ServletContext
 import co.freeside.hipsteroid.Picture
 import co.freeside.hipsteroid.auth.*
+import com.github.jknack.handlebars.Handlebars
+import com.github.jknack.handlebars.io.ServletContextTemplateLoader
 import grails.converters.JSON
 import grails.util.Environment
 import org.bson.types.ObjectId
@@ -13,8 +16,11 @@ class BootStrap {
 	def grailsLinkGenerator
 	def fixtureLoader
 	def vertx
+	def handlebarsService
 
 	def init = { servletContext ->
+
+		fixHandlebarsTemplateLoader servletContext
 
 		registerJsonHandlers()
 
@@ -27,14 +33,27 @@ class BootStrap {
 
 	}
 
-	void registerJsonHandlers() {
+	def destroy = {
+	}
+
+	/**
+	 * Makes Handlebars partial resolution consistent with template resolution so templates can use each other as
+	 * partials.
+	 */
+	private void fixHandlebarsTemplateLoader(ServletContext servletContext) {
+		def templatesRoot = grailsApplication.config.grails.resources.mappers.handlebars.templatesRoot ?: ''
+		def templateLoader = new ServletContextTemplateLoader(servletContext, templatesRoot, '.handlebars')
+		handlebarsService.handlebars = new Handlebars(templateLoader)
+	}
+
+	private void registerJsonHandlers() {
 		JSON.registerObjectMarshaller(ObjectId) {
 			it.toString()
 		}
 
 		JSON.registerObjectMarshaller(Picture) {
 			[
-			        id: it.id,
+					id: it.id,
 					url: grailsLinkGenerator.link(controller: 'picture', action: 'show', id: it.id, absolute: true),
 					uploadedBy: it.uploadedBy,
 					dateCreated: it.dateCreated,
@@ -48,9 +67,6 @@ class BootStrap {
 					username: it.username
 			]
 		}
-	}
-
-	def destroy = {
 	}
 
 	private void startEventBusBridge() {

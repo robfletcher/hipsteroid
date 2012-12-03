@@ -84,3 +84,5 @@ vertx {
 	}
 	eventBus.bridge.port = 8585
 }
+
+grails.resources.mappers.handlebars.templatesRoot = 'app/templates'

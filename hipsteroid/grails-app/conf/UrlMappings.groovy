@@ -5,6 +5,8 @@ class UrlMappings {
 		"/oauth/$provider/success" controller: 'springSecurityOAuth', action: 'onSuccess'
 		"/oauth/$provider/failure" controller: 'springSecurityOAuth', action: 'onFailure'
 
+		// REST endpoints
+
 		"/pictures"(controller: 'picture') {
 			action = [GET: 'list', POST: 'save']
 		}
@@ -13,7 +15,8 @@ class UrlMappings {
 		}
 
 		'/thumbnail' controller: 'thumbnail', action: 'generate'
-//		"/thumbnail/$filename" controller: 'thumbnail', action: 'show'
+
+		// testing only
 
 		"/fixture/nuke" controller: 'fixture', action: 'nuke'
 		"/fixture/$name**" controller: 'fixture', action: 'load'
@@ -24,7 +27,7 @@ class UrlMappings {
 		}
 
 		'/' view: '/index'
-		'/timeline' view: '/index'
+		'/timeline' controller: 'landing', action: 'timeline'
 		'/upload' view: '/index'
 		'500' view: '/error'
 
