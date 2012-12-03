@@ -24,7 +24,7 @@ class window.TimelineView extends Backbone.View
 
   addOne: (picture) ->
     view = new PictureView model: picture
-    @pictureList.prepend view.render().el
+    @pictureList.append view.render().el
 
   addAll: ->
     @model.each @addOne
