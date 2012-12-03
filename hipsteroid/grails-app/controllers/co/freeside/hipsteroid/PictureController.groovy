@@ -1,11 +1,9 @@
 package co.freeside.hipsteroid
 
-import java.util.concurrent.CountDownLatch
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import grails.validation.Validateable
 import org.bson.types.ObjectId
-import org.vertx.groovy.core.Vertx
 import org.vertx.groovy.core.buffer.Buffer
 import static co.freeside.hipsteroid.auth.Role.USER
 import static javax.servlet.http.HttpServletResponse.*
@@ -51,6 +49,7 @@ class PictureController {
 		if (request.format == 'json') {
 			params.filter = request.JSON.filter
 			params.image = request.JSON.image
+			params.callbackAddress = request.JSON.callbackAddress
 		}
 		true
 	}
@@ -68,26 +67,23 @@ class PictureController {
 		def picture = new Picture()
 		picture.uploadedBy = springSecurityService.currentUser
 
-		def ctx = startAsync()
-		ctx.start {
-			def latch = new CountDownLatch(1)
-			vertx.eventBus.send("hipsteroid.filter.${command.filter}.full", new Buffer(command.decodedImage)) { reply ->
-				def replyBuffer = new Buffer(reply.body)
-				picture.image = replyBuffer.bytes
+		vertx.eventBus.send("hipsteroid.filter.${command.filter}.full", new Buffer(command.decodedImage)) { reply ->
+			def replyBuffer = new Buffer(reply.body)
 
-				latch.countDown()
-			}
-
-			latch.await()
-
+			picture.image = replyBuffer.bytes
 			if (picture.save(flush: true)) {
-				render picture as JSON
+				if (command.callbackAddress) {
+					vertx.eventBus.send(command.callbackAddress, JSON.parse((picture as JSON).toString()))
+				}
 			} else {
-				render status: SC_UNPROCESSABLE_ENTITY, text: picture.errors.allErrors.collect { message(error: it) } as JSON
+				if (command.callbackAddress) {
+					vertx.eventBus.send(command.callbackAddress, picture.errors.allErrors.collect { message(error: it) })
+				}
 			}
 
-			ctx.complete()
 		}
+
+		render status: SC_ACCEPTED
 
 	}
 

@@ -14,6 +14,7 @@ class window.UploadPictureView extends Backbone.View
 
     @app = options.app
     @thumbCallbackAddress = "hipsteroid.filter.thumb.callback.#{hipsteroid.uuid}"
+    @uploadCallbackAddress = "hipsteroid.filter.upload.callback.#{hipsteroid.uuid}"
 
     if @app.eventBus.readyState() is vertx.EventBus.OPEN
       @_registerThumbnailReciever()
@@ -40,6 +41,7 @@ class window.UploadPictureView extends Backbone.View
 
   remove: ->
     @app.eventBus.unregisterHandler @thumbCallbackAddress, @_onThumbnailRecieved
+    @app.eventBus.unregisterHandler @uploadCallbackAddress, @_uploadCallback
     Backbone.View.prototype.remove.call @
 
   _registerThumbnailReciever: ->
@@ -67,12 +69,14 @@ class window.UploadPictureView extends Backbone.View
     @model.set filter: $(event.target).val()
 
   _onSubmit: ->
-    @model.save [],
-      success: @_onUploadSuccess
+    @app.eventBus.registerHandler @uploadCallbackAddress, @_uploadCallback
+    @model.save
+      callbackAddress: @uploadCallbackAddress
+    ,
       error: @_onUploadFailed
     false
 
-  _onUploadSuccess: ->
+  _uploadCallback: ->
     @app.navigate '/timeline', trigger: true
 
   _onUploadFailed: (model, xhr, options) ->

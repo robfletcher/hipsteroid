@@ -31,6 +31,7 @@
 * form validation
 * profile view
 * grunt build
+* no-op filter
 
 # Bugs
 
