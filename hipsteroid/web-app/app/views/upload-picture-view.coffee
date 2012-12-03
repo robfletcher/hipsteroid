@@ -13,7 +13,7 @@ class window.UploadPictureView extends Backbone.View
     _.bindAll @
 
     @app = options.app
-    @address = "hipsteroid.filter.thumb.callback.#{hipsteroid.uuid}"
+    @thumbCallbackAddress = "hipsteroid.filter.thumb.callback.#{hipsteroid.uuid}"
 
     if @app.eventBus.readyState() is vertx.EventBus.OPEN
       @_registerThumbnailReciever()
@@ -34,17 +34,16 @@ class window.UploadPictureView extends Backbone.View
       progressall: @_onProgress
       replaceFileInput: false
       formData:
-        address: @address
+        address: @thumbCallbackAddress
 
     @
 
   remove: ->
-    @app.eventBus.unregisterHandler @address, @_onThumbnailRecieved
+    @app.eventBus.unregisterHandler @thumbCallbackAddress, @_onThumbnailRecieved
     Backbone.View.prototype.remove.call @
 
   _registerThumbnailReciever: ->
-    console.log 'registering thumb callback...'
-    @app.eventBus.registerHandler @address, @_onThumbnailRecieved
+    @app.eventBus.registerHandler @thumbCallbackAddress, @_onThumbnailRecieved
 
   _onStart: (event, data) ->
     @progressBar.show()
