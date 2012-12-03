@@ -10,6 +10,8 @@ casper.thenOpen "#{baseUrl}/timeline", ->
   @test.assertExists '.timeline li:nth-child(4)', 'there are 4 images'
   @test.assertDoesntExist '.timeline li:nth-child(5)', 'there are not more than 4 images'
 
+  @test.assertEquals @fetchText('.timeline li:first-child .meta'), 'Uploaded a few seconds ago by hipsteroid'
+
   @test.info 'when the user navigates away from the timeline and returns'
   @click 'nav a[href="upload"]'
 
