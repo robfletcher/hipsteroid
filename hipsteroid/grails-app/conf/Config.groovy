@@ -79,7 +79,7 @@ grails.plugins.springsecurity.oauth.domainClass = 'co.freeside.hipsteroid.auth.O
 
 vertx {
 	cluster {
-		host = '192.168.0.5'
+		host = InetAddress.localHost.hostAddress
 		port = 25501
 	}
 	eventBus.bridge.port = 8585
