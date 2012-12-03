@@ -5,6 +5,7 @@ import co.freeside.hipsteroid.auth.User
 import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
 import grails.test.mixin.*
+import grails.test.mixin.support.GrailsUnitTestMixin
 import org.bson.types.ObjectId
 import org.springframework.mock.web.MockMultipartFile
 import org.vertx.groovy.core.Vertx
@@ -14,6 +15,7 @@ import spock.lang.*
 import static co.freeside.hipsteroid.PictureController.SC_UNPROCESSABLE_ENTITY
 import static javax.servlet.http.HttpServletResponse.*
 
+@TestMixin(GrailsUnitTestMixin)
 @TestFor(PictureController)
 @Mock([Picture, ImageData, User])
 @Unroll
@@ -29,11 +31,9 @@ class PictureControllerSpec extends Specification {
 	def eventBus = Mock(EventBus)
 
 	void setup() {
-		byte[].metaClass.encodeDataUrl = { String mimeType ->
+		mockCodec DataUrlCodec
+		byte[].metaClass.encodeAsDataUrl = { String mimeType ->
 			DataUrlCodec.encode delegate, mimeType
-		}
-		String.metaClass.decodeDataUrl = {->
-			DataUrlCodec.decode delegate
 		}
 
 		JSON.registerObjectMarshaller(ObjectId) {
@@ -122,7 +122,7 @@ class PictureControllerSpec extends Specification {
 		controller.springSecurityService.currentUser >> user1
 
 	and:
-		def command = new UploadPictureCommand(filter: 'lomo', image: jpgImages[0].bytes.encodeDataUrl('image/jpeg'))
+		def command = new UploadPictureCommand(filter: 'lomo', image: jpgImages[0].bytes.encodeAsDataUrl('image/jpeg'))
 
 	when:
 		controller.save command
