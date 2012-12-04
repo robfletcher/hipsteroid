@@ -17,6 +17,11 @@ class PictureController {
 	def springSecurityService
 	def vertx
 
+	def list() {
+		def pictures = Picture.list(params)
+		render pictures as JSON
+	}
+
 	def show(String id) {
 
 		def picture = Picture.get(new ObjectId(id))
@@ -36,11 +41,6 @@ class PictureController {
 			render status: SC_NOT_FOUND
 		}
 
-	}
-
-	def list() {
-		def pictures = Picture.list(params)
-		render pictures as JSON
 	}
 
 	def beforeInterceptor = [action: this.&bindUploadCommand, only: 'save']
