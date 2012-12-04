@@ -5,7 +5,6 @@ import co.freeside.hipsteroid.auth.User
 import grails.converters.JSON
 import grails.plugins.springsecurity.SpringSecurityService
 import grails.test.mixin.*
-import grails.test.mixin.support.GrailsUnitTestMixin
 import org.bson.types.ObjectId
 import org.springframework.mock.web.MockMultipartFile
 import org.vertx.groovy.core.Vertx
@@ -15,7 +14,6 @@ import spock.lang.*
 import static co.freeside.hipsteroid.PictureController.SC_UNPROCESSABLE_ENTITY
 import static javax.servlet.http.HttpServletResponse.*
 
-@TestMixin(GrailsUnitTestMixin)
 @TestFor(PictureController)
 @Mock([Picture, ImageData, User])
 @Unroll
