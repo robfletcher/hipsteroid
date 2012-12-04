@@ -1,4 +1,3 @@
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import javax.servlet.ServletContext
 import co.freeside.hipsteroid.Picture
@@ -12,7 +11,6 @@ import org.bson.types.ObjectId
 import org.vertx.groovy.core.http.HttpServer
 import static co.freeside.hipsteroid.auth.Role.USER
 import static grails.util.Environment.*
-import static humanize.Humanize.formatDate
 import static humanize.Humanize.naturalTime
 
 class BootStrap {
@@ -57,10 +55,9 @@ class BootStrap {
 			@Override
 			CharSequence apply(String context, Options options) throws IOException {
 				def date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(context)
-				"<time datetime=\"${context}\">${naturalTime(date)}</time>"
+				new Handlebars.SafeString("<time datetime=\"${context}\">${naturalTime(date)}</time>")
 			}
 		})
-
 	}
 
 	private void registerJsonHandlers() {

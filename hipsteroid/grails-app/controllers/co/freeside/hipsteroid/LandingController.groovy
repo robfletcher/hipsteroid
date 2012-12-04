@@ -8,7 +8,7 @@ class LandingController {
 
 	def timeline() {
 		def pictures = Picture.list(params)
-		[pictures: JSON.parse((pictures as JSON).toString())]
+		[pictures: JSON.parse(pictures.encodeAsJSON())]
 	}
 
 }
