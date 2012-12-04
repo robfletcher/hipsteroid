@@ -27,8 +27,11 @@ class UrlMappings {
 		}
 
 		'/' view: '/index'
+
+        // URIs that pre-render the one-page app in a particular state
 		'/timeline' controller: 'landing', action: 'timeline'
-		'/upload' view: '/index'
+		'/upload' controller: 'landing', action: 'upload'
+
 		'500' view: '/error'
 
 	}

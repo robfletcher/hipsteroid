@@ -25,7 +25,10 @@ class window.UploadPictureView extends Backbone.View
 
   render: ->
     @$el.html @template(hipsteroid.urlMappings)
+    @attach()
+    @
 
+  attach: ->
     @thumbContainer = @$el.find('.thumb-container')
     @progressBar = @$el.find('progress').hide()
 

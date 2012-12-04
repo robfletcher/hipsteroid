@@ -46,6 +46,7 @@ class window.HipsteroidApp extends Backbone.Router
   upload: ->
     @_load new UploadPictureView
       app: @
+      el: if @preRendered then @appEl.children() else undefined
 
   _load: (view) ->
     @currentView?.remove()
