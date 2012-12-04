@@ -1,14 +1,19 @@
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import javax.servlet.ServletContext
 import co.freeside.hipsteroid.Picture
 import co.freeside.hipsteroid.auth.*
-import com.github.jknack.handlebars.Handlebars
+import com.github.jknack.handlebars.*
 import com.github.jknack.handlebars.io.ServletContextTemplateLoader
 import grails.converters.JSON
 import grails.util.Environment
+import humanize.Humanize
 import org.bson.types.ObjectId
 import org.vertx.groovy.core.http.HttpServer
 import static co.freeside.hipsteroid.auth.Role.USER
 import static grails.util.Environment.*
+import static humanize.Humanize.formatDate
+import static humanize.Humanize.naturalTime
 
 class BootStrap {
 
@@ -21,6 +26,7 @@ class BootStrap {
 	def init = { servletContext ->
 
 		fixHandlebarsTemplateLoader servletContext
+		registerHandlebarsHelpers()
 
 		registerJsonHandlers()
 
@@ -44,6 +50,17 @@ class BootStrap {
 		def templatesRoot = grailsApplication.config.grails.resources.mappers.handlebars.templatesRoot ?: ''
 		def templateLoader = new ServletContextTemplateLoader(servletContext, templatesRoot, '.handlebars')
 		handlebarsService.handlebars = new Handlebars(templateLoader)
+	}
+
+	private void registerHandlebarsHelpers() {
+		handlebarsService.handlebars.registerHelper('friendlyTime', new Helper<String>() {
+			@Override
+			CharSequence apply(String context, Options options) throws IOException {
+				def date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(context)
+				"<time datetime=\"${context}\">${naturalTime(date)}</time>"
+			}
+		})
+
 	}
 
 	private void registerJsonHandlers() {
