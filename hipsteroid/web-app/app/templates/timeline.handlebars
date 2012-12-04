@@ -1,6 +1,8 @@
 <h2>Timeline</h2>
 <ul>
 {{#each .}}
-	{{> picture}}
+	<li data-id="{{id}}">
+		{{> picture}}
+	</li>
 {{/each}}
 </ul>

@@ -7,14 +7,18 @@ class window.TimelineView extends Backbone.View
   initialize: (options) ->
     _.bindAll @
 
+    @preRendered = options.el?
+
     @model = options.model
     @model.on 'add', @addOne
     @model.on 'reset', @render
 
   render: ->
-    @$el.html @template()
+    Handlebars.partials = Handlebars.templates # TODO: evil hack!!!
+    @$el.html @template(@model.toJSON()) unless @preRendered
     @pictureList = @$el.find('ul')
     @addAll()
+
     @
 
   remove: ->
@@ -23,11 +27,16 @@ class window.TimelineView extends Backbone.View
     Backbone.View.prototype.remove.call @
 
   addOne: (picture) ->
-    view = new PictureView model: picture
-    @pictureList.append view.render().el
+    view = new PictureView
+      model: picture
+
+    @pictureList.append view.render().el # todo: insert at correct position
 
   addAll: ->
-    @model.each @addOne
+    @model.each (picture) =>
+      new PictureView
+        model: picture
+        el: @$el.find("li[data-id=#{picture.id}]")
 
   removeAll: ->
     @pictureList.children().remove()

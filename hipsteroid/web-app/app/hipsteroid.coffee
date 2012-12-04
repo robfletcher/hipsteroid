@@ -21,17 +21,25 @@ class window.HipsteroidApp extends Backbone.Router
     @eventBus.onopen = =>
       console.log 'event bus available...'
 
-  start: ->
+  start: (options) ->
+    if options?.models
+      @pictures.reset options.models,
+        silent: true
+
+    @preRendered = options.preRendered ? false
+
     hasRoute = Backbone.history.start
       pushState: true
       root: hipsteroid.urlMappings.root
 
-    @navigate '/timeline', trigger: true unless hasRoute
+    unless hasRoute
+      @navigate '/timeline', trigger: true
 
   timeline: ->
-    @pictures.fetch()
+    @pictures.fetch() unless @preRendered
     @_load new TimelineView
       model: @pictures
+      el: if @preRendered then @appEl.children() else undefined
 
   upload: ->
     @_load new UploadPictureView
@@ -39,10 +47,9 @@ class window.HipsteroidApp extends Backbone.Router
 
   _load: (view) ->
     @currentView?.remove()
+    @currentView = view.render()
 
-    @appEl.html view.render().el
-    @currentView = view
-
-jQuery ->
-  window.hipsteroid.app = new HipsteroidApp
-  window.hipsteroid.app.start()
+    if @preRendered
+      @preRendered = false
+    else
+      @appEl.html @currentView.el

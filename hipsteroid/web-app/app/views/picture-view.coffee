@@ -7,13 +7,16 @@ class window.PictureView extends Backbone.View
 
   initialize: (options) ->
     _.bindAll @
+
     @model = options.model
     @model.on 'change', @render
     @model.on 'destroy', @remove
 
+    @renderDeleteButton() if options.el?
+
   render: ->
     @$el.append @template(@model.toJSON())
-    @renderDeleteButton() if hipsteroid.currentUser?.id is @model.get('uploadedBy').id
+    @renderDeleteButton()
     @
 
   remove: ->
@@ -22,7 +25,7 @@ class window.PictureView extends Backbone.View
     Backbone.View.prototype.remove.call @
 
   renderDeleteButton: ->
-    @$el.find('figcaption').append('<button type="button" class="delete">Delete</button>')
+    @$el.find('figcaption').append('<button type="button" class="delete">Delete</button>') if hipsteroid.currentUser?.id is @model.get('uploadedBy').id
 
   delete: ->
     @model.destroy()
