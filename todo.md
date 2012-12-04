@@ -45,3 +45,7 @@
 * skip the link account page when signing in via twitter
 * cloudbees jenkins running all the tests
 * run Casper & Testem in IntelliJ
+
+# Mention but don't demo
+
+* Pre-rendering Angular using Phantom
