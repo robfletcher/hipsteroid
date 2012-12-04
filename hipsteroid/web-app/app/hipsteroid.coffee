@@ -9,6 +9,8 @@ class window.HipsteroidApp extends Backbone.Router
   initialize: (options) ->
     _.bindAll @
 
+    Handlebars.registerPartial 'picture', Handlebars.templates.picture
+
     @appEl = $ '#app'
     @currentView = null
 
@@ -22,11 +24,11 @@ class window.HipsteroidApp extends Backbone.Router
       console.log 'event bus available...'
 
   start: (options) ->
+    @preRendered = options?.preRendered ? false
+
     if options?.models
       @pictures.reset options.models,
         silent: true
-
-    @preRendered = options.preRendered ? false
 
     hasRoute = Backbone.history.start
       pushState: true
@@ -47,9 +49,10 @@ class window.HipsteroidApp extends Backbone.Router
 
   _load: (view) ->
     @currentView?.remove()
-    @currentView = view.render()
+    @currentView = view
 
     if @preRendered
+      @currentView.attach()
       @preRendered = false
     else
-      @appEl.html @currentView.el
+      @appEl.html @currentView.render().el

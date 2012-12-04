@@ -7,17 +7,23 @@ class window.TimelineView extends Backbone.View
   initialize: (options) ->
     _.bindAll @
 
-    @preRendered = options.el?
-
     @model = options.model
     @model.on 'add', @addOne
     @model.on 'reset', @render
 
   render: ->
-    Handlebars.partials = Handlebars.templates # TODO: evil hack!!!
-    @$el.html @template(@model.toJSON()) unless @preRendered
+    @$el.html @template(@model.toJSON())
     @pictureList = @$el.find('ul')
-    @addAll()
+    @attach()
+
+    @
+
+  attach: ->
+    @model.each (picture) =>
+      view = new PictureView
+        model: picture
+        el: @$el.find("li[data-id=#{picture.id}]")
+      view.attach()
 
     @
 
@@ -33,10 +39,7 @@ class window.TimelineView extends Backbone.View
     @pictureList.append view.render().el # todo: insert at correct position
 
   addAll: ->
-    @model.each (picture) =>
-      new PictureView
-        model: picture
-        el: @$el.find("li[data-id=#{picture.id}]")
+    @model.each @addOne
 
   removeAll: ->
     @pictureList.children().remove()

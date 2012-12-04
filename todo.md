@@ -18,8 +18,6 @@
 # Features
 
 * dual rendering
-	* Prevent redrawing when backbone views load
-	* Pre-populate backbone model without requiring a server round-trip
 * design!
 * pagination on timeline
 * form validation
@@ -29,6 +27,7 @@
 
 # Bugs
 
+* timeline view renders twice when route triggers, once & then again as REST call comes back
 * non-authenticated user should not be able to go to `/upload`
 * timeline should keep itself updated
 * event bus URL is hardcoded in upload view
