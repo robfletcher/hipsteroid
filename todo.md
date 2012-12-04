@@ -5,14 +5,6 @@
 * view individual picture
 * user profile
 
-# Features
-
-## Upload image
-
-* generate filtered thumbs
-* choose filter & submit to `PictureController.save`
-* use asyncing to offload expensive image manipulation
-
 # Cool things
 
 * Testem
@@ -26,6 +18,8 @@
 # Features
 
 * dual rendering
+	* Prevent redrawing when backbone views load
+	* Pre-populate backbone model without requiring a server round-trip
 * design!
 * pagination on timeline
 * form validation
@@ -35,11 +29,8 @@
 
 # Bugs
 
-* upload should wait for completion before returning to timeline
-* timeline is in reverse order
 * non-authenticated user should not be able to go to `/upload`
-* eventBus listener for thumbs is not unique
-* timeline should render in proper order & keep itself updated
+* timeline should keep itself updated
 * event bus URL is hardcoded in upload view
 
 # Nice to haves
