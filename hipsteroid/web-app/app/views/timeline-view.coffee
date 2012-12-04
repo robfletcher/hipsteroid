@@ -14,12 +14,13 @@ class window.TimelineView extends Backbone.View
   render: ->
     console.log 'render...'
     @$el.html @template(@model.toJSON())
-    @pictureList = @$el.find('ul')
     @attach()
 
     @
 
   attach: ->
+    @pictureList = @$el.find('ul')
+
     @model.each (picture) =>
       view = new PictureView
         model: picture

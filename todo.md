@@ -18,11 +18,14 @@
 # Features
 
 * push updates to timeline
+  * insert in the correct order
+  * deletes as well!
 * design!
 * grunt build
 * pagination on timeline
 * form validation
 * profile view
+  * avatars from twitter
 * no-op filter
 
 # Bugs

@@ -1,7 +1,9 @@
 package co.freeside.hipsteroid
 
 import co.freeside.hipsteroid.auth.User
+import grails.converters.JSON
 import org.bson.types.ObjectId
+import org.vertx.groovy.core.Vertx
 
 class Picture {
 
@@ -38,5 +40,11 @@ class Picture {
 	byte[] getImage() {
 		imageData?.data ?: EMPTY_BYTE_ARRAY
 	}
+
+    Vertx vertx
+
+    void afterInsert() {
+        vertx.eventBus.publish('hipsteroid.timeline.new-pictures', JSON.parse(this.encodeAsJSON()))
+    }
 
 }

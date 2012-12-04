@@ -6,7 +6,6 @@ import com.github.jknack.handlebars.*
 import com.github.jknack.handlebars.io.ServletContextTemplateLoader
 import grails.converters.JSON
 import grails.util.Environment
-import humanize.Humanize
 import org.bson.types.ObjectId
 import org.vertx.groovy.core.http.HttpServer
 import static co.freeside.hipsteroid.auth.Role.USER
@@ -87,7 +86,7 @@ class BootStrap {
 		HttpServer httpServer = vertx.createHttpServer()
 
 		def inboundPermitted = []
-		def outboundPermitted = [[address_re: /hipsteroid\.filter\..+/]]
+		def outboundPermitted = [[address_re: /hipsteroid\..+/]]
 
 		vertx.createSockJSServer(httpServer).bridge(prefix: '/eventbus', inboundPermitted, outboundPermitted)
 

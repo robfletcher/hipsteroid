@@ -73,7 +73,7 @@ class PictureController {
 			picture.image = replyBuffer.bytes
 			if (picture.save(flush: true)) {
 				if (command.callbackAddress) {
-					vertx.eventBus.send(command.callbackAddress, JSON.parse((picture as JSON).toString()))
+					vertx.eventBus.send(command.callbackAddress, JSON.parse(picture.encodeAsJSON()))
 				}
 			} else {
 				if (command.callbackAddress) {

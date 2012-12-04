@@ -17,7 +17,7 @@
 		<%-- TODO: get rid of this --%>
 		<style>
 		figure img {
-			width: 200px;
+			width: 300px;
 		}
 
 		figcaption img {
