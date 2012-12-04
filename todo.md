@@ -17,19 +17,18 @@
 
 # Features
 
-* dual rendering
+* push updates to timeline
 * design!
+* grunt build
 * pagination on timeline
 * form validation
 * profile view
-* grunt build
 * no-op filter
 
 # Bugs
 
-* timeline view renders twice when route triggers, once & then again as REST call comes back
+* timeline view renders twice when route triggers, once & then again as REST call comes back (might not be a problem once push updates work)
 * non-authenticated user should not be able to go to `/upload`
-* timeline should keep itself updated
 * event bus URL is hardcoded in upload view
 
 # Nice to haves
