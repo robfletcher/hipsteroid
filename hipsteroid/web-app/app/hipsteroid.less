@@ -43,6 +43,60 @@ a {
   }
 }
 
+h1 {
+  font-family: @script-font;
+  font-size: 48px;
+}
+
+label {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 20px;
+
+  input[type=text], input[type=password], input[type=file] {
+    font-size: 24px;
+    width: 100%;
+    padding: 8px;
+  }
+}
+
+label.checkbox .label-text {
+  position: static;
+  vertical-align: middle;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+
+  &.buttons {
+    margin-top: 20px;
+    text-align: center;
+
+    button {
+      font-family: @logo-font;
+      font-size: 32px;
+      line-height: 32px;
+      padding: 8px 12px;
+      text-transform: lowercase;
+
+      .fontface & {
+        padding-top: 12px;
+      }
+    }
+  }
+}
+
+input[type=checkbox] {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+legend {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
 header {
 
   @background-color: #000;
@@ -64,6 +118,7 @@ header {
     float: left;
 
     line-height: @header-height; // font is off the baseline
+
     .fontface & {
       line-height: @header-height - 10px;
       padding-top: 10px;
@@ -105,6 +160,7 @@ header {
 
     form {
       display: inline-block;
+      margin-left: 10px;
     }
   }
 
@@ -141,9 +197,7 @@ header {
     }
 
     figcaption p {
-      font-family: @script-font;
-      font-size: 22px;
-      margin: 6px 0;
+      margin: 6px 0 12px;
       text-indent: 10px;
     }
 
@@ -159,24 +213,38 @@ header {
 .upload {
 
   @form-columns: 8;
+  @form-indent: (@columns - @form-columns) / 2;
 
-  #upload-image {
-    .column(@form-columns);
-    .push(@columns - @form-columns);
-  }
+  .column(@form-columns);
+  .push(@form-indent);
+
+  padding: 0 20px;
 
   label {
-    .row(@form-columns);
     margin-top: 10px;
     margin-bottom: 10px; //    overflow: hidden;
 
     .label-text {
-      .column(4, @form-columns);
       display: inline-block;
     }
 
-    input {
-      .column(8, @form-columns);
+    &.file {
+      position: relative;
+
+      .label-text {
+        .off-screen;
+      }
+      
+      input.masked {
+        opacity: 0;
+        z-index: 2;
+      }
+
+      input.mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
     }
   }
 
@@ -184,33 +252,44 @@ header {
 
     @thumb-size: 100px;
 
-    .row(@form-columns);
-
     border: none;
     margin: 0 0 10px;
     padding: 0;
 
+    text-align: center;
+
     legend {
-      .column(12, @form-columns);
       margin: 10px 0;
     }
 
     label {
-      .column(2, @form-columns);
-      .radio-overlay(@thumb-size);
-      float: left;
-      margin: 0 10px 0 0;
+      background-color: lighten(@text-color, 50%);
+      color: @background-color;
+
+      .radio-overlay(@thumb-size + 2px, @thumb-size + 22px);
+      display: inline-block;
+      margin: 0 5px;
+      vertical-align: middle;
+
+      .bordered;
+      padding: 5px;
+
+      .label-text {
+        background-color: #000;
+        font-size: 14px;
+        line-height: 20px;
+        text-transform: uppercase;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: @thumb-size;
+      }
     }
   }
 
 }
 
 .sign-in {
-
-  h1 {
-    font-family: @script-font;
-    font-size: 48px;
-  }
 
   @form-columns: 5;
   @form-indent: (@columns - @form-columns) / 2;
@@ -237,53 +316,8 @@ header {
     margin: 20px 0;
   }
 
-  label {
-    display: block;
-    margin-bottom: 20px;
-    font-size: 24px;
-
-    .label-text {
-      position: absolute;
-      left: -9999px;
-    }
-
-    input[type=text], input[type=password] {
-      font-size: 24px;
-      width: 100%;
-      padding: 8px;
-    }
-  }
-
-  input[type=checkbox] {
-    vertical-align: middle;
-    margin-right: 5px;
-  }
-
-  fieldset {
-    border: none;
-    padding: 0;
-
-    &.buttons {
-      margin-top: 20px;
-      text-align: center;
-    }
-  }
-
-  legend {
-    font-size: 20px;
-    margin-bottom: 20px;
-  }
-
-  button {
-    font-family: @logo-font;
-    font-size: 32px;
-    line-height: 32px;
-    padding: 8px 12px;
-    text-transform: lowercase;
-
-    .fontface & {
-      padding-top: 12px;
-    }
+  .label-text {
+    .off-screen;
   }
 
 }
@@ -302,25 +336,31 @@ header {
   .box-shadow(0 1px 3px fade(@color, 10%));
 }
 
+.off-screen {
+  position: absolute;
+  left: -9999px;
+}
+
 // container for a hidden radio button with a clickable image label
-.radio-overlay(@size) {
+.radio-overlay(@width, @height: @width) {
   position: relative;
-  width: @size;
-  height: @size;
+  width: @width;
+  height: @height;
   cursor: pointer;
+
+  opacity: 0.5;
 
   img {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0.5;
   }
 
   input[type=radio] {
     opacity: 0; // better than display:none as radio is still tabbable
   }
 
-  :checked + img {
+  &.checked {
     opacity: 1;
   }
 

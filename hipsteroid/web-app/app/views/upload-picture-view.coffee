@@ -33,6 +33,9 @@ class window.UploadPictureView extends Backbone.View
     @thumbContainer = @$el.find('.thumb-container')
     @progressBar = @$el.find('progress').hide()
 
+    @maskInput = $ '<input type="text" readonly class="mask" placeholder="Choose an image file&hellip;" tabindex="-1">'
+    @$el.find('input[name=image]').addClass('masked').parent().append(@maskInput)
+
     @$el.find(':file').fileupload
       dataType: 'json'
       start: @_onStart
@@ -64,6 +67,9 @@ class window.UploadPictureView extends Backbone.View
 
   _onImageSelected: (event) ->
     file = event.target.files[0]
+
+    @maskInput.val(file.name)
+
     reader = new FileReader
     reader.onload = (loadEvent) =>
       @model.set image: loadEvent.target.result
@@ -71,6 +77,8 @@ class window.UploadPictureView extends Backbone.View
 
   _onFilterSelected: (event) ->
     @model.set filter: $(event.target).val()
+
+    @thumbContainer.find('label').removeClass('checked').find(':checked').parent().addClass('checked')
 
   _onSubmit: ->
     @app.eventBus.registerHandler @uploadCallbackAddress, @_uploadCallback

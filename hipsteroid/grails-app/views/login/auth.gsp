@@ -36,7 +36,7 @@
 
 					<label class="checkbox">
 						<input type="checkbox" name="${rememberMeParameter}" <g:if test="${hasCookie}">checked</g:if>>
-						<g:message code="springSecurity.login.remember.me.label"/>
+						<span class="label-text"><g:message code="springSecurity.login.remember.me.label"/></span>
 					</label>
 				</fieldset>
 

@@ -26,7 +26,7 @@
 
 			<aside class="auth">
 				<sec:ifLoggedIn>
-					<span class="logged-in-message">Logged in as <sec:loggedInUserInfo field="username"/></span>
+					<span class="logged-in-message">Signed in as <sec:loggedInUserInfo field="username"/></span>
 					<g:form controller="logout" action="index">
 						<button type="submit" class="logout">Sign out</button>
 					</g:form>

@@ -99,7 +99,7 @@ describe 'timeline view', ->
 
         $('#app').append @view.render().el
 
-        expect($('.timeline').find('h2').text()).toBe 'Timeline'
+        expect($('.timeline').find('h1').text()).toBe 'Timeline'
         expect($('.timeline li').length).toBe 1
         expect($('.timeline img').attr('src')).toBe @model.get('url')
         expect($('.timeline .meta').text()).toBe "Uploaded #{moment(@model.get('dateCreated')).fromNow()} by hipsteroid"
@@ -118,7 +118,7 @@ describe 'timeline view', ->
         @collection.fetch()
         @server.respond()
 
-        expect($('.timeline').find('h2').text()).toBe 'Timeline'
+        expect($('.timeline').find('h1').text()).toBe 'Timeline'
         expect($('.timeline li').length).toBe 1
         expect($('.timeline img').attr('src')).toBe @model.get('url')
         expect($('.timeline .meta').text()).toBe "Uploaded #{moment(@model.get('dateCreated')).fromNow()} by hipsteroid"
