@@ -16,5 +16,7 @@
 hipsteroid/test/js/specs/*.js
 hipsteroid/web-app/app/*.js
 hipsteroid/web-app/app/*/*.js
+hipsteroid/web-app/app/*.css
+hipsteroid/web-app/app/*/*.css
 /filter/.gradle/
 /filter/build/

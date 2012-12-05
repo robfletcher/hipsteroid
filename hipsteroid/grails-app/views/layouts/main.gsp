@@ -13,17 +13,6 @@
 		<r:use modules="modernizr, normalize, hipsteroid"/>
 		<g:layoutHead/>
 		<r:layoutResources/>
-
-		<%-- TODO: get rid of this --%>
-		<style>
-		figure img {
-			width: 300px;
-		}
-
-		figcaption img {
-			width: 32px;
-		}
-		</style>
 	</head>
 
 	<body>

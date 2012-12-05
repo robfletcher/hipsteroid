@@ -1,0 +1,39 @@
+header {
+
+  @header-height: 80px;
+
+  height: @header-height;
+  background: #000;
+  color: #fff;
+
+  padding: 0 20px;
+
+  h1 {
+    float: left;
+    line-height: @header-height;
+    margin: 0;
+  }
+
+  nav {
+    float: left;
+
+    a {
+      display: inline-block;
+      line-height: @header-height;
+    }
+  }
+
+  .auth {
+    float: right;
+
+    .logged-in-message {
+      display: inline-block;
+      line-height: @header-height;
+    }
+
+    form {
+      display: inline-block;
+    }
+  }
+
+}
