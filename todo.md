@@ -30,12 +30,15 @@
 
 # Bugs
 
+* nav links don't work from auth page
+* really need 304s for images
 * timeline view renders twice when route triggers, once & then again as REST call comes back (might not be a problem once push updates work)
 * non-authenticated user should not be able to go to `/upload`
 * event bus URL is hardcoded in upload view
 
 # Nice to haves
 
+* convert /login/auth to a backbone route
 * drop jQuery file upload
 * drop jQuery. Organic JS!
 * handle errors in an AJAX sensitive way

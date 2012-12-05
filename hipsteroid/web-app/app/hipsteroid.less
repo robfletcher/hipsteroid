@@ -1,5 +1,8 @@
 @import "../lib/elements/elements";
 @import "../lib/semantic-gs/grid";
+@import "../lib/font-awesome/less/font-awesome";
+
+@fontAwesomePath: '../lib/font-awesome/font';
 
 // customize semantic.gs grid
 //@total-width: 100%;
@@ -11,32 +14,84 @@
 
 @header-height: 80px;
 
+@body-font: Cabin, 'Century Gothic', Futura, sans-serif;
+@logo-font: 'Maiden Orange', cursive;
+@handwriting-font: 'Just Another Hand', cursive;
+@script-font: Montez, cursive;
+
+@background-color: #fff;
+@text-color: #333;
+@link-color: #1dcaff;
+
 body {
+  font-family: @body-font;
   padding-top: @header-height;
+  background-color: @background-color;
+  color: @text-color;
+}
+
+button {
+  font-family: @body-font;
+}
+
+a {
+  color: darken(@link-color, 15%);
+  .transition;
+
+  &:hover {
+    color: @link-color;
+  }
 }
 
 header {
 
+  @background-color: #000;
+  @text-color: #fff;
+  @highlight-color: #ff0;
+
   .fixed-at-top;
 
   height: @header-height;
-  background: #000;
-  color: #fff;
+  background: @background-color;
+  color: @text-color;
 
   padding: 0 20px;
 
   h1 {
+    font-family: @logo-font;
+    font-size: 72px;
+    text-transform: lowercase;
     float: left;
-    line-height: @header-height;
+
+    line-height: @header-height; // font is off the baseline
+    .fontface & {
+      line-height: @header-height - 10px;
+      padding-top: 10px;
+    }
+
     margin: 0;
+  }
+
+  a {
+    color: @text-color;
+    line-height: @header-height;
+    text-decoration: none;
+
+    display: inline-block;
+    margin-left: 20px;
+
+    .transition;
+
+    &:hover {
+      color: @highlight-color;
+    }
   }
 
   nav {
     float: left;
 
     a {
-      display: inline-block;
-      line-height: @header-height;
+      font-size: 22px;
     }
   }
 
@@ -62,7 +117,7 @@ header {
 
 .timeline {
 
-  @image-size: 300px;
+  @image-size: 298px;
 
   ul {
     overflow: hidden;
@@ -71,10 +126,11 @@ header {
   }
 
   li {
-    width: @image-size;
+    width: @image-size + 2;
     float: left;
     margin-right: @gutter-width * 1px;
     margin-bottom: @gutter-width * 1px;
+    .bordered;
   }
 
   figure {
@@ -82,6 +138,13 @@ header {
 
     > img {
       width: @image-size;
+    }
+
+    figcaption p {
+      font-family: @script-font;
+      font-size: 22px;
+      margin: 6px 0;
+      text-indent: 10px;
     }
 
     button.delete {
@@ -105,8 +168,7 @@ header {
   label {
     .row(@form-columns);
     margin-top: 10px;
-    margin-bottom: 10px;
-//    overflow: hidden;
+    margin-bottom: 10px; //    overflow: hidden;
 
     .label-text {
       .column(4, @form-columns);
@@ -143,6 +205,89 @@ header {
 
 }
 
+.sign-in {
+
+  h1 {
+    font-family: @script-font;
+    font-size: 48px;
+  }
+
+  @form-columns: 5;
+  @form-indent: (@columns - @form-columns) / 2;
+
+  .column(@form-columns);
+  .push(@form-indent);
+
+  padding: 0 20px;
+
+  .oauth {
+    margin: 20px 0;
+
+    a {
+      font-size: 20px;
+      display: inline-block;
+      text-decoration: none;
+    }
+  }
+
+  .divider {
+    font-family: @script-font;
+    font-size: 48px;
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 24px;
+
+    .label-text {
+      position: absolute;
+      left: -9999px;
+    }
+
+    input[type=text], input[type=password] {
+      font-size: 24px;
+      width: 100%;
+      padding: 8px;
+    }
+  }
+
+  input[type=checkbox] {
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+  fieldset {
+    border: none;
+    padding: 0;
+
+    &.buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+  }
+
+  legend {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  button {
+    font-family: @logo-font;
+    font-size: 32px;
+    line-height: 32px;
+    padding: 8px 12px;
+    text-transform: lowercase;
+
+    .fontface & {
+      padding-top: 12px;
+    }
+  }
+
+}
+
 // Mixins
 
 .fixed-at-top {
@@ -150,6 +295,11 @@ header {
   top: 0;
   width: 100%;
   z-index: 1;
+}
+
+.bordered(@color: #000) {
+  border: 1px solid fade(@color, 20%);
+  .box-shadow(0 1px 3px fade(@color, 10%));
 }
 
 // container for a hidden radio button with a clickable image label

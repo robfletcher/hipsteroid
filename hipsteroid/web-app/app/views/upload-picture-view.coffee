@@ -3,6 +3,7 @@ class window.UploadPictureView extends Backbone.View
   tagName: 'section'
   className: 'upload'
   template: Handlebars.templates['upload-form']
+  pageTitle: 'Upload a picture'
 
   events:
     'submit form': '_onSubmit'
