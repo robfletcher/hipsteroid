@@ -95,39 +95,49 @@ header {
 
 .upload {
 
+  @form-columns: 8;
+
   #upload-image {
-    .column(8);
-    .push(4);
+    .column(@form-columns);
+    .push(@columns - @form-columns);
+  }
+
+  label {
+    .row(@form-columns);
+    margin-top: 10px;
+    margin-bottom: 10px;
+//    overflow: hidden;
+
+    .label-text {
+      .column(4, @form-columns);
+      display: inline-block;
+    }
+
+    input {
+      .column(8, @form-columns);
+    }
   }
 
   .thumb-container {
 
     @thumb-size: 100px;
 
-    img {
-      opacity: 0.5;
-    }
+    .row(@form-columns);
 
-    input[type=radio] {
-      opacity: 0; // better than display:none as radio is still tabbable
-    }
+    border: none;
+    margin: 0 0 10px;
+    padding: 0;
 
-    :checked + img {
-      opacity: 1;
+    legend {
+      .column(12, @form-columns);
+      margin: 10px 0;
     }
 
     label {
+      .column(2, @form-columns);
+      .radio-overlay(@thumb-size);
       float: left;
-      position: relative;
-      width: @thumb-size;
-      height: @thumb-size;
-      margin-right: 10px;
-
-      img {
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
+      margin: 0 10px 0 0;
     }
   }
 
@@ -140,4 +150,28 @@ header {
   top: 0;
   width: 100%;
   z-index: 1;
+}
+
+// container for a hidden radio button with a clickable image label
+.radio-overlay(@size) {
+  position: relative;
+  width: @size;
+  height: @size;
+  cursor: pointer;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.5;
+  }
+
+  input[type=radio] {
+    opacity: 0; // better than display:none as radio is still tabbable
+  }
+
+  :checked + img {
+    opacity: 1;
+  }
+
 }
