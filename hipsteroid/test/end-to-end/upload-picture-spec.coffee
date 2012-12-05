@@ -24,7 +24,7 @@ casper.then ->
   , true
 
 casper.then ->
-  @test.assertEquals @fetchText('.logged-in-message'), "Logged in as #{username}", 'user is now logged in'
+  @test.assertEquals @fetchText('.logged-in-message'), "Signed in as #{username}", 'user is now logged in'
   @click 'nav a[href="upload"]'
 
 casper.then ->
@@ -43,7 +43,7 @@ casper.then ->
 
 casper.then ->
   @waitFor ->
-    @fetchText('#app h2') == 'Timeline'
+    @fetchText('#app h1') == 'Timeline'
   , ->
     @test.assertUrlMatch /\/timeline$/, 'user is returned to the timeline page'
     @test.assertExists '.timeline li', 'the new image appears in the timeline'

@@ -21,7 +21,7 @@ casper.then ->
   , true
 
 casper.then ->
-  @test.assertEquals @fetchText('.logged-in-message'), "Logged in as #{username}", 'user is now logged in'
+  @test.assertEquals @fetchText('.logged-in-message'), "Signed in as #{username}", 'user is now logged in'
   @test.assertExists '.timeline button.delete', 'there are delete buttons on images the user uploaded'
 
   @test.info 'when the user clicks a delete button'
