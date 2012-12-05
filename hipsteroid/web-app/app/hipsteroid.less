@@ -93,13 +93,51 @@ header {
 
 }
 
-#upload-image {
-  .column(8);
-  .push(4);
+.upload {
+
+  #upload-image {
+    .column(8);
+    .push(4);
+  }
+
+  .thumb-container {
+
+    @thumb-size: 100px;
+
+    img {
+      opacity: 0.5;
+    }
+
+    input[type=radio] {
+      opacity: 0; // better than display:none as radio is still tabbable
+    }
+
+    :checked + img {
+      opacity: 1;
+    }
+
+    label {
+      float: left;
+      position: relative;
+      width: @thumb-size;
+      height: @thumb-size;
+      margin-right: 10px;
+
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+
 }
+
+// Mixins
 
 .fixed-at-top {
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 1;
 }
