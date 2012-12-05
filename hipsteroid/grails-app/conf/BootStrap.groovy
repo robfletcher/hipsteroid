@@ -7,6 +7,7 @@ import com.github.jknack.handlebars.io.ServletContextTemplateLoader
 import grails.converters.JSON
 import grails.util.Environment
 import org.bson.types.ObjectId
+import org.codehaus.groovy.grails.web.json.JSONObject
 import org.vertx.groovy.core.http.HttpServer
 import static co.freeside.hipsteroid.auth.Role.USER
 import static grails.util.Environment.*
@@ -19,6 +20,7 @@ class BootStrap {
 	def fixtureLoader
 	def vertx
 	def handlebarsService
+	def springSecurityService
 
 	def init = { servletContext ->
 
@@ -55,6 +57,15 @@ class BootStrap {
 			CharSequence apply(String context, Options options) throws IOException {
 				def date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(context)
 				new Handlebars.SafeString("<time datetime=\"${context}\">${naturalTime(date)}</time>")
+			}
+		})
+
+		handlebarsService.handlebars.registerHelper('isCurrentUser', new Helper<JSONObject>() {
+			@Override
+			CharSequence apply(JSONObject user, Options options) throws IOException {
+				if (user.id == springSecurityService.currentUser?.id) {
+					options.fn()
+				}
 			}
 		})
 	}
