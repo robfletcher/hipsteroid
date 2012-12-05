@@ -1,6 +1,23 @@
+@import "../lib/elements/elements";
+@import "../lib/semantic-gs/grid";
+
+// customize semantic.gs grid
+//@total-width: 100%;
+
+// margin is *outside* width & height
+* {
+  .box-sizing(border-box);
+}
+
+@header-height: 80px;
+
+body {
+  padding-top: @header-height;
+}
+
 header {
 
-  @header-height: 80px;
+  .fixed-at-top;
 
   height: @header-height;
   background: #000;
@@ -36,4 +53,53 @@ header {
     }
   }
 
+}
+
+#app {
+  width: @total-width;
+  margin: 0 auto;
+}
+
+.timeline {
+
+  @image-size: 300px;
+
+  ul {
+    overflow: hidden;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    width: @image-size;
+    float: left;
+    margin-right: @gutter-width * 1px;
+    margin-bottom: @gutter-width * 1px;
+  }
+
+  figure {
+    position: relative;
+
+    > img {
+      width: @image-size;
+    }
+
+    button.delete {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+
+}
+
+#upload-image {
+  .column(8);
+  .push(4);
+}
+
+.fixed-at-top {
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
