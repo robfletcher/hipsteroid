@@ -24,21 +24,32 @@ class PictureController {
 
 	def show(String id) {
 
-		def picture = Picture.get(new ObjectId(id))
+		withCacheHeaders {
 
-		if (picture) {
-			withFormat {
-				jpg {
-					response.contentType = 'image/jpeg'
-					response.contentLength = picture.image.length
-					response.outputStream << picture.image
-				}
-				json {
-					render picture as JSON
+			def picture = Picture.get(new ObjectId(id))
+
+			delegate.lastModified {
+				picture.lastUpdated
+			}
+
+			generate {
+				println "I need to generate $id"
+				if (picture) {
+					withFormat {
+						jpg {
+							response.contentType = 'image/jpeg'
+							response.contentLength = picture.image.length
+							response.outputStream << picture.image
+						}
+						json {
+							render picture as JSON
+						}
+					}
+				} else {
+					render status: SC_NOT_FOUND
 				}
 			}
-		} else {
-			render status: SC_NOT_FOUND
+
 		}
 
 	}
