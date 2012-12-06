@@ -23,6 +23,14 @@
 @highlight-color: #1dcaff;
 @picture-background: #eeeee8;
 
+@logo-color-1: lighten(#991B07, 20%); // totem pole
+@logo-color-2: lighten(#044022, 20%); // zucchini
+@logo-color-3: lighten(#262335, 10%); // steel gray
+@logo-color-4: lighten(#0a6f75, 20%); // atoll
+@logo-color-5: lighten(#b32d29, 20%); // tall poppy
+@logo-color-6: lighten(#b7410e, 20%); // rust
+@logo-color-7: @picture-background;
+
 body {
   font-family: @body-font;
   padding-top: @header-height;
@@ -54,14 +62,6 @@ h1 {
   font-family: @logo-font;
   font-size: 48px;
   font-weight: normal;
-
-  @logo-color-1: lighten(#991B07, 20%); // totem pole
-  @logo-color-2: lighten(#044022, 20%); // zucchini
-  @logo-color-3: lighten(#262335, 10%); // steel gray
-  @logo-color-4: lighten(#0a6f75, 20%); // atoll
-  @logo-color-5: lighten(#b32d29, 20%); // tall poppy
-  @logo-color-6: lighten(#b7410e, 20%); // rust
-  @logo-color-7: @picture-background;
 
   .char1 { color: @logo-color-1; }
   .char2, .char10 { color: @logo-color-2; }
@@ -229,7 +229,7 @@ header {
 
   ul {
     overflow: hidden;
-    padding: 0;
+    padding: 12px 0 0;
     list-style: none;
   }
 
@@ -261,18 +261,26 @@ header {
 
     button.delete {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: -12px;
+      right: -12px;
 
-      .button-as-link;
+      background-color: rgba(0,0,0,1);
+      border: 2px solid white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+
+      height: 50px;
+      width: 50px;
+      line-height: 50px;
+      border-radius: 25px;
+      padding: 0px;
+
       font-size: 32px;
       color: #fff;
-      padding: 5px 0 0;
 
       .transition;
 
       &:hover {
-        color: #f00;
+        background-color: @logo-color-1;
       }
     }
   }
