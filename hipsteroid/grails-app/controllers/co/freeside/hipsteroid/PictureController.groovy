@@ -33,7 +33,6 @@ class PictureController {
 			}
 
 			generate {
-				println "I need to generate $id"
 				if (picture) {
 					withFormat {
 						jpg {
