@@ -1,17 +1,16 @@
-import java.text.SimpleDateFormat
 import javax.servlet.ServletContext
 import co.freeside.hipsteroid.Picture
 import co.freeside.hipsteroid.auth.*
-import com.github.jknack.handlebars.*
+import co.freeside.hipsteroid.viewhelpers.*
+import com.github.jknack.handlebars.Handlebars
+import com.github.jknack.handlebars.Helper
 import com.github.jknack.handlebars.io.ServletContextTemplateLoader
 import grails.converters.JSON
 import grails.util.Environment
 import org.bson.types.ObjectId
-import org.codehaus.groovy.grails.web.json.JSONObject
 import org.vertx.groovy.core.http.HttpServer
 import static co.freeside.hipsteroid.auth.Role.USER
 import static grails.util.Environment.*
-import static humanize.Humanize.naturalTime
 
 class BootStrap {
 
@@ -52,22 +51,10 @@ class BootStrap {
 	}
 
 	private void registerHandlebarsHelpers() {
-		handlebarsService.handlebars.registerHelper('friendlyTime', new Helper<String>() {
-			@Override
-			CharSequence apply(String context, Options options) throws IOException {
-				def date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").parse(context)
-				new Handlebars.SafeString("<time datetime=\"${context}\">${naturalTime(date)}</time>")
-			}
-		})
-
-		handlebarsService.handlebars.registerHelper('isCurrentUser', new Helper<JSONObject>() {
-			@Override
-			CharSequence apply(JSONObject user, Options options) throws IOException {
-				if (user.id == springSecurityService.currentUser?.id) {
-					options.fn()
-				}
-			}
-		})
+		grailsApplication.mainContext.getBeansOfType(Helper).each { String name, Helper helper ->
+			println "registering Handlebars helper: $name"
+			handlebarsService.handlebars.registerHelper name, helper
+		}
 	}
 
 	private void registerJsonHandlers() {
