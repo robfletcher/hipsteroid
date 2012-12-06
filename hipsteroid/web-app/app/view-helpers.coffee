@@ -4,5 +4,4 @@ Handlebars.registerHelper 'friendlyTime', (timestamp) ->
 
 Handlebars.registerHelper 'isCurrentUser', (user, body) ->
   if user.id is hipsteroid?.currentUser?.id
-    console.log body
     body.fn()

@@ -9,7 +9,7 @@ class window.TimelineView extends Backbone.View
     _.bindAll @
 
     @model = options.model
-    @model.on 'add', @addOne
+    @model.on 'add', @_onPictureAdded
     @model.on 'reset', @render
 
   render: ->
@@ -30,18 +30,15 @@ class window.TimelineView extends Backbone.View
     @
 
   remove: ->
-    @model.off 'add', @addOne
+    @model.off 'add', @_onPictureAdded
     @model.off 'reset', @render
     Backbone.View.prototype.remove.call @
 
-  addOne: (picture) ->
+  _onPictureAdded: (picture, collection, options) ->
     view = new PictureView
       model: picture
 
-    @pictureList.append view.render().el # todo: insert at correct position
-
-  addAll: ->
-    @model.each @addOne
+    @pictureList.find('li').eq(options.index).before view.render().el
 
   removeAll: ->
     @pictureList.children().remove()
