@@ -15,9 +15,8 @@ casper.start "#{baseUrl}/fixture/nuke", ->
 
 casper.thenOpen "#{baseUrl}/timeline", ->
   @test.info 'when a user logs in...'
-  @click 'a.login'
 
-casper.then ->
+casper.thenClick 'a.login', ->
   @fill 'form',
     j_username: username
     j_password: 'hipsteroid'
@@ -38,10 +37,8 @@ casper.then ->
 casper.then ->
   @test.assertEquals @getElementAttribute('progress', 'value'), '100', 'image has been read'
 
+casper.thenClick 'form#upload-image [type=submit]', ->
   @test.info 'when the form is submitted'
-  @click('form#upload-image [type=submit]')
-
-casper.then ->
   @waitFor ->
     @fetchText('#app h1') == 'Timeline'
   , ->

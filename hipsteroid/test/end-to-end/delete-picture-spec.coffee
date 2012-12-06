@@ -11,10 +11,8 @@ casper.thenOpen "#{baseUrl}/timeline", ->
   @test.info 'when no user is logged in...'
   @test.assertDoesntExist '.timeline button.delete', 'there are no delete buttons on images in the timeline'
 
+casper.thenClick 'a.login', ->
   @test.info 'when a user logs in...'
-  @click 'a.login'
-
-casper.then ->
   @fill 'form',
     j_username: username
     j_password: 'hipsteroid'
