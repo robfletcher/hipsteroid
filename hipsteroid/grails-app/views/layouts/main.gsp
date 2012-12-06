@@ -13,7 +13,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<%-- TODO: load with JS --%>
-		<link href="http://fonts.googleapis.com/css?family=Just+Another+Hand|Cabin:400,700,400italic,700italic|Maiden+Orange|Montez" rel="stylesheet" type="text/css">
+		<link href="http://fonts.googleapis.com/css?family=Just+Another+Hand|Cabin:400|Maiden+Orange" rel="stylesheet" type="text/css">
 
 		<r:use modules="modernizr, normalize, hipsteroid"/>
 		<g:layoutHead/>
@@ -28,7 +28,7 @@
 				<sec:ifLoggedIn>
 					<span class="logged-in-message">Signed in as <sec:loggedInUserInfo field="username"/></span>
 					<g:form controller="logout" action="index">
-						<button type="submit" class="logout">Sign out</button>
+						<button type="submit" class="logout"><i class="icon-signout"></i> Sign out</button>
 					</g:form>
 				</sec:ifLoggedIn>
 				<sec:ifNotLoggedIn>

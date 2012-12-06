@@ -22,8 +22,12 @@ class window.HipsteroidApp extends Backbone.Router
     @eventBus = new vertx.EventBus('http://localhost:8585/eventbus') # todo: don't hardcode
     @eventBus.onopen = =>
       console.log 'event bus available...'
-      @eventBus.registerHandler 'hipsteroid.timeline.new-pictures', (message) =>
-        @pictures.add message
+
+      @eventBus.registerHandler 'hipsteroid.pictures.created', (picture) =>
+        @pictures.add picture
+
+      @eventBus.registerHandler 'hipsteroid.pictures.deleted', (picture) =>
+        @pictures.remove picture.id
 
   start: (options) ->
     @preRendered = options?.preRendered ? false

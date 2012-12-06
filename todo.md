@@ -18,8 +18,7 @@
 # Features
 
 * push updates to timeline
-  * insert in the correct order
-  * deletes as well!
+  * tests!
 * design!
 * grunt build
 * pagination on timeline

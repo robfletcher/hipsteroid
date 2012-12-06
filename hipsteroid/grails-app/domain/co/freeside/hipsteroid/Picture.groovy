@@ -44,7 +44,15 @@ class Picture {
     Vertx vertx
 
     void afterInsert() {
-        vertx.eventBus.publish('hipsteroid.timeline.new-pictures', JSON.parse(this.encodeAsJSON()))
+        vertx.eventBus.publish('hipsteroid.pictures.created', JSON.parse(this.encodeAsJSON()))
+    }
+
+    void afterUpdate() {
+        vertx.eventBus.publish('hipsteroid.pictures.updated', JSON.parse(this.encodeAsJSON()))
+    }
+
+    void afterDelete() {
+        vertx.eventBus.publish('hipsteroid.pictures.deleted', JSON.parse(this.encodeAsJSON()))
     }
 
 }

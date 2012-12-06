@@ -17,12 +17,19 @@
 @body-font: Cabin, 'Century Gothic', Futura, sans-serif;
 @logo-font: 'Maiden Orange', cursive;
 @handwriting-font: 'Just Another Hand', cursive;
-@script-font: Montez, cursive;
 
-@background-color: #e9d75a;
+@background-color: #ded698;
 @text-color: #333;
-@link-color: #1dcaff;
+@highlight-color: #1dcaff;
 @picture-background: #eeeee8;
+
+@logo-color-1: lighten(#991B07, 20%); // totem pole
+@logo-color-2: lighten(#044022, 20%); // zucchini
+@logo-color-3: lighten(#262335, 10%); // steel gray
+@logo-color-4: lighten(#0a6f75, 20%); // atoll
+@logo-color-5: lighten(#b32d29, 20%); // tall poppy
+@logo-color-6: lighten(#b7410e, 20%); // rust
+@logo-color-7: @picture-background;
 
 body {
   font-family: @body-font;
@@ -33,15 +40,15 @@ body {
 }
 
 button {
-  font-family: @body-font;
+  font-family: @handwriting-font;
 }
 
 a {
-  color: darken(@link-color, 15%);
+  color: darken(@highlight-color, 15%);
   .transition;
 
   &:hover {
-    color: @link-color;
+    color: @highlight-color;
   }
 }
 
@@ -52,17 +59,9 @@ header {
 }
 
 h1 {
-  font-family: @script-font;
+  font-family: @logo-font;
   font-size: 48px;
   font-weight: normal;
-
-  @logo-color-1: lighten(#991B07, 20%); // totem pole
-  @logo-color-2: lighten(#044022, 20%); // zucchini
-  @logo-color-3: lighten(#262335, 10%); // steel gray
-  @logo-color-4: lighten(#0a6f75, 20%); // atoll
-  @logo-color-5: lighten(#b32d29, 20%); // tall poppy
-  @logo-color-6: lighten(#b7410e, 20%); // rust
-  @logo-color-7: @picture-background;
 
   .char1 { color: @logo-color-1; }
   .char2, .char10 { color: @logo-color-2; }
@@ -191,6 +190,26 @@ header {
       display: inline-block;
       margin-left: 10px;
     }
+
+    button, a {
+      font-family: @handwriting-font;
+      font-size: 32px;
+      color: @text-color;
+      .transition;
+
+      &:hover {
+        color: @highlight-color;
+      }
+
+      [class^="icon-"],
+      [class*=" icon-"] {
+        font-size: 22px;
+      }
+    }
+
+    button {
+      .button-as-link;
+    }
   }
 
 }
@@ -209,8 +228,7 @@ header {
   }
 
   ul {
-    overflow: hidden;
-    padding: 0;
+    padding: 12px 0 0;
     list-style: none;
   }
 
@@ -236,15 +254,33 @@ header {
       p {
         text-indent: 10px;
         margin: 0;
+        font-size: 14px;
       }
     }
 
     button.delete {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: -12px;
+      right: -12px;
+
+      background-color: rgba(0,0,0,1);
+      border: 3px solid white;
+      .subtle-shadow;
+
+      height: 50px;
+      width: 50px;
+      line-height: 50px;
+      border-radius: 25px;
+      padding: 0px;
 
       font-size: 32px;
+      color: #fff;
+
+      .transition;
+
+      &:hover {
+        background-color: @logo-color-1;
+      }
     }
   }
 
@@ -315,13 +351,22 @@ header {
 
       .label-text {
         background-color: #000;
-        font-size: 14px;
-        line-height: 20px;
+        color: #fff;
+
+        font-family: @handwriting-font;
+        font-size: 18px;
         text-transform: uppercase;
+        line-height: 20px;
+
         position: absolute;
         bottom: 0;
         left: 0;
         width: @thumb-size;
+
+        .fontface & {
+          line-height: 15px;
+          padding-top: 5px;
+        }
       }
     }
   }
@@ -349,7 +394,7 @@ header {
   }
 
   .divider {
-    font-family: @script-font;
+    font-family: @logo-font;
     font-size: 48px;
     text-align: center;
     margin: 20px 0;
@@ -372,12 +417,17 @@ header {
 
 .bordered(@color: #000) {
   border: 1px solid fade(@color, 20%);
-  .box-shadow(0 1px 3px fade(@color, 10%));
+  .subtle-shadow;
 }
 
 .off-screen {
   position: absolute;
   left: -9999px;
+}
+
+.button-as-link {
+  background: transparent;
+  border: none;
 }
 
 .overlay-section {

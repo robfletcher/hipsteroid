@@ -11,6 +11,7 @@ class window.PictureView extends Backbone.View
     @model = options.model
     @model.on 'change', @render
     @model.on 'destroy', @remove
+    @model.on 'remove', @remove
 
   render: ->
     @$el.append @template(@model.toJSON())

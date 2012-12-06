@@ -18,9 +18,9 @@ class window.UploadPictureView extends Backbone.View
     @uploadCallbackAddress = "hipsteroid.filter.upload.callback.#{hipsteroid.uuid}"
 
     if @app.eventBus.readyState() is vertx.EventBus.OPEN
-      @_registerThumbnailReciever()
+      @_registerThumbReciever()
     else
-      @app.eventBus.onopen = @_registerThumbnailReciever
+      @app.eventBus.onopen = @_registerThumbReciever
 
     @model = new Picture
 
@@ -31,15 +31,17 @@ class window.UploadPictureView extends Backbone.View
 
   attach: ->
     @thumbContainer = @$el.find('.thumb-container')
-    @progressBar = @$el.find('progress').hide()
+
+    @maskInput = $ '<input type="text" readonly class="mask" placeholder="Choose an image file&hellip;" tabindex="-1">'
+    @$el.find('input[name=image]').addClass('masked').parent().prepend(@maskInput)
 
     @maskInput = $ '<input type="text" readonly class="mask" placeholder="Choose an image file&hellip;" tabindex="-1">'
     @$el.find('input[name=image]').addClass('masked').parent().prepend(@maskInput)
 
     @$el.find(':file').fileupload
       dataType: 'json'
-      start: @_onStart
-      progressall: @_onProgress
+#      start: @_onThumbStart
+#      progressall: @_onThumbProgress
       replaceFileInput: false
       formData:
         address: @thumbCallbackAddress
@@ -47,22 +49,19 @@ class window.UploadPictureView extends Backbone.View
     @
 
   remove: ->
-    @app.eventBus.unregisterHandler @thumbCallbackAddress, @_onThumbnailRecieved
+    @app.eventBus.unregisterHandler @thumbCallbackAddress, @_onThumbRecieved
     @app.eventBus.unregisterHandler @uploadCallbackAddress, @_uploadCallback
     Backbone.View.prototype.remove.call @
 
-  _registerThumbnailReciever: ->
-    @app.eventBus.registerHandler @thumbCallbackAddress, @_onThumbnailRecieved
+  _registerThumbReciever: ->
+    @app.eventBus.registerHandler @thumbCallbackAddress, @_onThumbRecieved
 
-  _onStart: (event, data) ->
-    @progressBar.show()
+#  _onThumbStart: (event, data) ->
 
-  _onProgress: (event, data) ->
-    progress = parseInt(data.loaded / data.total * 100, 10)
-    @progressBar.attr('value', progress).text("#{progress}%")
+#  _onThumbProgress: (event, data) ->
+#    progress = parseInt(data.loaded / data.total * 100, 10)
 
-  _onThumbnailRecieved: (message) ->
-    @progressBar.hide()
+  _onThumbRecieved: (message) ->
     @thumbContainer.find(".#{message.filter} img").attr('src', message.thumbnail)
 
   _onImageSelected: (event) ->
