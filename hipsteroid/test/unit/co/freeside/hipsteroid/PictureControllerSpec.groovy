@@ -54,6 +54,10 @@ class PictureControllerSpec extends Specification {
 		controller.vertx = Mock(Vertx) {
 			getEventBus() >> eventBus
 		}
+
+		controller.metaClass.withCacheHeaders = { Closure yield -> yield() }
+		controller.metaClass.generate = { Closure yield -> yield() }
+		controller.metaClass.lastModified = { Closure yield -> yield() }
 	}
 
 	void cleanup() {

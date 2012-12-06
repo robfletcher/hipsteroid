@@ -29,7 +29,7 @@ class PictureController {
 			def picture = Picture.get(new ObjectId(id))
 
 			delegate.lastModified {
-				picture.lastUpdated
+				picture?.lastUpdated
 			}
 
 			generate {

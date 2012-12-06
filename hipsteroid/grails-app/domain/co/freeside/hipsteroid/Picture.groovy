@@ -4,6 +4,7 @@ import co.freeside.hipsteroid.auth.User
 import grails.converters.JSON
 import org.bson.types.ObjectId
 import org.vertx.groovy.core.Vertx
+import org.vertx.groovy.core.eventbus.EventBus
 
 class Picture {
 
@@ -41,18 +42,24 @@ class Picture {
 		imageData?.data ?: EMPTY_BYTE_ARRAY
 	}
 
-    Vertx vertx
-
     void afterInsert() {
-        vertx.eventBus.publish('hipsteroid.pictures.created', JSON.parse(this.encodeAsJSON()))
+		publishEvent 'created'
     }
 
-    void afterUpdate() {
-        vertx.eventBus.publish('hipsteroid.pictures.updated', JSON.parse(this.encodeAsJSON()))
-    }
+	void afterUpdate() {
+		publishEvent 'updated'
+	}
 
-    void afterDelete() {
-        vertx.eventBus.publish('hipsteroid.pictures.deleted', JSON.parse(this.encodeAsJSON()))
-    }
+	void afterDelete() {
+		publishEvent 'deleted'
+	}
+
+	def vertx
+
+	private void publishEvent(String event) {
+		if (vertx) {
+			vertx.eventBus.publish("hipsteroid.pictures.$event", JSON.parse(this.encodeAsJSON()))
+		}
+	}
 
 }
