@@ -1,0 +1,417 @@
+@import "../lib/elements/elements";
+@import "../lib/semantic-gs/grid";
+@import "../lib/font-awesome/less/font-awesome";
+
+@fontAwesomePath: '../lib/font-awesome/font';
+
+// customize semantic.gs grid
+//@total-width: 100%;
+
+// margin is *outside* width & height
+* {
+  .box-sizing(border-box);
+}
+
+@header-height: 80px;
+
+@body-font: Cabin, 'Century Gothic', Futura, sans-serif;
+@logo-font: 'Maiden Orange', cursive;
+@handwriting-font: 'Just Another Hand', cursive;
+@script-font: Montez, cursive;
+
+@background-color: #e9d75a;
+@text-color: #333;
+@link-color: #1dcaff;
+@picture-background: #eeeee8;
+
+body {
+  font-family: @body-font;
+  padding-top: @header-height;
+  background-image: url(../images/100-100-4.png);
+  background-color: @background-color;
+  color: @text-color;
+}
+
+button {
+  font-family: @body-font;
+}
+
+a {
+  color: darken(@link-color, 15%);
+  .transition;
+
+  &:hover {
+    color: @link-color;
+  }
+}
+
+header {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+h1 {
+  font-family: @script-font;
+  font-size: 48px;
+  font-weight: normal;
+
+  @logo-color-1: lighten(#991B07, 20%); // totem pole
+  @logo-color-2: lighten(#044022, 20%); // zucchini
+  @logo-color-3: lighten(#262335, 10%); // steel gray
+  @logo-color-4: lighten(#0a6f75, 20%); // atoll
+  @logo-color-5: lighten(#b32d29, 20%); // tall poppy
+  @logo-color-6: lighten(#b7410e, 20%); // rust
+  @logo-color-7: @picture-background;
+
+  .char1 { color: @logo-color-1; }
+  .char2, .char10 { color: @logo-color-2; }
+  .char3, .char7 {
+    color: @logo-color-3;
+    text-shadow: -2px 2px 0 fade(cyan, 50%), 2px -2px 0 fade(magenta, 50%);
+  }
+  .char4, .char8 { color: @logo-color-4; }
+  .char5 { color: @logo-color-5; }
+  .char6 { color: @logo-color-7; }
+  .char9 { color: @logo-color-6; }
+}
+
+label {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 20px;
+
+  input[type=text], input[type=password], input[type=file] {
+    font-size: 24px;
+    width: 100%;
+    padding: 8px;
+  }
+}
+
+label.checkbox .label-text {
+  position: static;
+  vertical-align: middle;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+
+  &.buttons {
+    margin-top: 20px;
+    text-align: center;
+
+    button {
+      font-family: @logo-font;
+      font-size: 32px;
+      line-height: 32px;
+      padding: 8px 12px;
+      text-transform: lowercase;
+
+      .fontface & {
+        padding-top: 12px;
+      }
+    }
+  }
+}
+
+input[type=checkbox] {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+legend {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+header {
+
+  @background-color: #222;
+  @text-color: #fff;
+  @highlight-color: #ff0;
+
+  .fixed-at-top;
+  .subtle-shadow;
+
+  height: @header-height;
+  background: @background-color;
+  color: @text-color;
+
+  padding: 0 20px;
+
+  h1 {
+    font-family: @logo-font;
+    font-size: 72px;
+    text-transform: lowercase;
+    float: left;
+
+    line-height: @header-height; // font is off the baseline
+
+    .fontface & {
+      line-height: @header-height - 8px;
+      padding-top: 8px;
+    }
+
+    margin: 0;
+  }
+
+  a {
+    color: @text-color;
+    line-height: @header-height;
+    text-decoration: none;
+
+    display: inline-block;
+    margin-left: 20px;
+
+    .transition;
+
+    &:hover {
+      color: @highlight-color;
+    }
+  }
+
+  nav {
+    float: left;
+
+    a {
+      font-size: 22px;
+    }
+  }
+
+  .auth {
+    float: right;
+
+    .logged-in-message {
+      display: inline-block;
+      line-height: @header-height;
+    }
+
+    form {
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+
+}
+
+#app {
+  width: @total-width;
+  margin: 40px auto 0;
+}
+
+.timeline {
+
+  @image-size: 298px;
+
+  h1 {
+    .off-screen;
+  }
+
+  ul {
+    overflow: hidden;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    width: @image-size + 2;
+    float: left;
+    margin-right: @gutter-width * 1px;
+    margin-bottom: @gutter-width * 1px;
+    .bordered;
+  }
+
+  figure {
+    position: relative;
+
+    background: @picture-background;
+
+    > img {
+      width: @image-size;
+    }
+
+    figcaption {
+      padding: 6px 0 12px;
+      p {
+        text-indent: 10px;
+        margin: 0;
+      }
+    }
+
+    button.delete {
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      font-size: 32px;
+    }
+  }
+
+}
+
+.upload {
+
+  @form-columns: 8;
+  @form-indent: (@columns - @form-columns) / 2;
+
+  .column(@form-columns);
+  .push(@form-indent);
+  .overlay-section;
+
+  label {
+    margin-top: 10px;
+    margin-bottom: 10px; //    overflow: hidden;
+
+    .label-text {
+      display: inline-block;
+    }
+
+    &.file {
+      position: relative;
+
+      .label-text {
+        .off-screen;
+      }
+      
+      input.masked {
+        opacity: 0;
+        z-index: 2;
+      }
+
+      input.mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+
+  .thumb-container {
+
+    @thumb-size: 100px;
+
+    border: none;
+    margin: 0 0 10px;
+    padding: 0;
+
+    text-align: center;
+
+    legend {
+      margin: 10px 0;
+    }
+
+    label {
+      background-color: lighten(@text-color, 50%);
+      color: @background-color;
+
+      .radio-overlay(@thumb-size + 2px, @thumb-size + 22px);
+      display: inline-block;
+      margin: 0 5px;
+      vertical-align: middle;
+
+      .bordered;
+      padding: 5px;
+
+      .label-text {
+        background-color: #000;
+        font-size: 14px;
+        line-height: 20px;
+        text-transform: uppercase;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: @thumb-size;
+      }
+    }
+  }
+
+}
+
+.sign-in {
+
+  @form-columns: 5;
+  @form-indent: (@columns - @form-columns) / 2;
+
+  .column(@form-columns);
+  .push(@form-indent);
+
+  .overlay-section;
+
+  .oauth {
+    margin: 20px 0;
+
+    a {
+      font-size: 20px;
+      display: inline-block;
+      text-decoration: none;
+    }
+  }
+
+  .divider {
+    font-family: @script-font;
+    font-size: 48px;
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .label-text {
+    .off-screen;
+  }
+
+}
+
+// Mixins
+
+.fixed-at-top {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.bordered(@color: #000) {
+  border: 1px solid fade(@color, 20%);
+  .box-shadow(0 1px 3px fade(@color, 10%));
+}
+
+.off-screen {
+  position: absolute;
+  left: -9999px;
+}
+
+.overlay-section {
+  background-color: @picture-background;
+  background-image: url(../images/100-50-3.png);
+  padding: 0 20px 20px;
+  .subtle-shadow;
+}
+
+.subtle-shadow {
+  .box-shadow(0 0 30px fade(#000, 25%));
+}
+
+// container for a hidden radio button with a clickable image label
+.radio-overlay(@width, @height: @width) {
+  position: relative;
+  width: @width;
+  height: @height;
+  cursor: pointer;
+
+  opacity: 0.5;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  input[type=radio] {
+    opacity: 0; // better than display:none as radio is still tabbable
+  }
+
+  &.checked {
+    opacity: 1;
+  }
+
+}

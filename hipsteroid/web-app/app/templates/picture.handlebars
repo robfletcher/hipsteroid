@@ -1,6 +1,9 @@
 <figure>
 	<img src="{{url}}">
 	<figcaption>
-		<span class="meta">Uploaded {{friendlyTime dateCreated}} by {{uploadedBy.username}}</span>
+		<p class="meta">Uploaded {{friendlyTime dateCreated}} by {{uploadedBy.username}}</p>
+		{{#isCurrentUser uploadedBy}}
+		<button type="button" class="delete" title="Delete"><i class="icon-trash"></i></button>
+		{{/isCurrentUser}}
 	</figcaption>
 </figure>

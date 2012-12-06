@@ -3,6 +3,7 @@ class window.TimelineView extends Backbone.View
   tagName: 'section'
   className: 'timeline'
   template: Handlebars.templates.timeline
+  pageTitle: 'Timeline'
 
   initialize: (options) ->
     _.bindAll @
@@ -12,7 +13,6 @@ class window.TimelineView extends Backbone.View
     @model.on 'reset', @render
 
   render: ->
-    console.log 'render...'
     @$el.html @template(@model.toJSON())
     @attach()
 

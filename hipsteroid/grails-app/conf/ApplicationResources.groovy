@@ -36,6 +36,12 @@ modules = {
 		resource url: 'lib/vertx/vertxbus-1.3.0.final.js'
 	}
 
+	lettering {
+		dependsOn 'jquery'
+
+		resource url: 'lib/lettering/jquery.lettering-0.6.1.min.js'
+	}
+
 	'jquery-file-upload' {
 		dependsOn 'jquery'
 
@@ -46,9 +52,11 @@ modules = {
 	}
 
 	hipsteroid {
-		dependsOn 'jquery', 'backbone', 'handlebars', 'moment', 'vertx', 'jquery-file-upload'
+		dependsOn 'jquery', 'backbone', 'handlebars', 'moment', 'vertx', 'jquery-file-upload', 'lettering'
+
 		resource url: 'app/view-helpers.js'
 		resource url: 'app/templates.js'
+
 		resource url: 'app/models/user.js'
 		resource url: 'app/models/picture.js'
 		resource url: 'app/collections/picture-collection.js'
@@ -56,7 +64,11 @@ modules = {
 		resource url: 'app/views/picture-view.js'
 		resource url: 'app/views/timeline-view.js'
 		resource url: 'app/views/upload-picture-view.js'
+
+		resource url: 'app/logo.js'
+
 		resource url: 'app/hipsteroid.js'
+		resource url: 'app/hipsteroid.css'
 	}
 
 }

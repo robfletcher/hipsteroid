@@ -1,4 +1,4 @@
-<section class="timeline">
+<section class="upload">
     <handlebars:render template="upload-form"/> <%-- picks up model from page scope --%>
 </section>
 <r:script>

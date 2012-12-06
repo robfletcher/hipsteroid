@@ -1,4 +1,6 @@
 import co.freeside.hipsteroid.auth.SimpleAjaxAwareAuthenticationEntryPoint
+import co.freeside.hipsteroid.viewhelpers.FriendlyTime
+import co.freeside.hipsteroid.viewhelpers.IsCurrentUser
 import org.vertx.groovy.core.Vertx
 import static org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils.getSecurityConfig
 
@@ -18,4 +20,8 @@ beans = {
 		portMapper = ref('portMapper')
 		portResolver = ref('portResolver')
 	}
+
+	friendlyTime(FriendlyTime)
+
+	isCurrentUser(IsCurrentUser, ref('springSecurityService'))
 }

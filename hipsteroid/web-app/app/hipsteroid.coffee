@@ -37,7 +37,7 @@ class window.HipsteroidApp extends Backbone.Router
       root: hipsteroid.urlMappings.root
 
     unless hasRoute
-      @navigate '/timeline', trigger: true
+      @navigate 'timeline', trigger: true
 
   timeline: ->
     @pictures.fetch() unless @preRendered
@@ -59,3 +59,5 @@ class window.HipsteroidApp extends Backbone.Router
       @preRendered = false
     else
       @appEl.html @currentView.render().el
+
+    document.title = "Hipsteroid: #{@currentView.pageTitle}" if @currentView.pageTitle?

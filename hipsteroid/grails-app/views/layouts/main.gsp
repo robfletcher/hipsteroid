@@ -6,45 +6,39 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<title><g:layoutTitle default="Grails"/></title>
+
+		<title>Hipsteroid: <g:layoutTitle/></title>
+
 		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<%-- TODO: load with JS --%>
+		<link href="http://fonts.googleapis.com/css?family=Just+Another+Hand|Cabin:400,700,400italic,700italic|Maiden+Orange|Montez" rel="stylesheet" type="text/css">
 
 		<r:use modules="modernizr, normalize, hipsteroid"/>
 		<g:layoutHead/>
 		<r:layoutResources/>
-
-		<%-- TODO: get rid of this --%>
-		<style>
-		figure img {
-			width: 300px;
-		}
-
-		figcaption img {
-			width: 32px;
-		}
-		</style>
 	</head>
 
 	<body>
 		<header>
-			<h1><g:layoutTitle default="Hipsteroid"/></h1>
+			<h1>Hipsteroid</h1>
 
 			<aside class="auth">
 				<sec:ifLoggedIn>
-					<span class="logged-in-message">Logged in as <sec:loggedInUserInfo field="username"/></span>
+					<span class="logged-in-message">Signed in as <sec:loggedInUserInfo field="username"/></span>
 					<g:form controller="logout" action="index">
 						<button type="submit" class="logout">Sign out</button>
 					</g:form>
 				</sec:ifLoggedIn>
 				<sec:ifNotLoggedIn>
-					<g:link controller="login" action="auth" class="login">Sign in</g:link>
+					<g:link controller="login" action="auth" class="login"><i class="icon-signin"></i> Sign in</g:link>
 				</sec:ifNotLoggedIn>
 			</aside>
 
 			<nav>
-				<a href="timeline">Timeline</a>
-				<a href="upload">Upload a picture</a>
+				<a href="timeline"><i class="icon-time"></i> Timeline</a>
+				<a href="upload"><i class="icon-camera-retro"></i> Upload a picture</a>
 			</nav>
 		</header>
 

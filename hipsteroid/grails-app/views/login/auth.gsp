@@ -6,34 +6,45 @@
 	</head>
 
 	<body>
-		<h1><g:message code="springSecurity.login.header"/></h1>
 
-		<g:if test="${flash.message}">
-			<div class="login_message">${flash.message}</div>
-		</g:if>
+		<section class="sign-in">
+			<h1><g:message code="springSecurity.login.header"/></h1>
 
-		<oauth:connect provider="twitter" id="twitter-connect-link">Twitter</oauth:connect>
+			<g:if test="${flash.message}">
+				<div class="login_message">${flash.message}</div>
+			</g:if>
 
-		<form action="${postUrl}" method="POST" id="loginForm" autocomplete="off">
-			<p>
-				<label for="username"><g:message code="springSecurity.login.username.label"/>:</label>
-				<input type="text" name="j_username" id="username" autofocus>
-			</p>
+			<nav class="oauth">
+				<oauth:connect provider="twitter" id="twitter-connect-link"><i class="icon-twitter"></i> Sign in with Twitter</oauth:connect>
+			</nav>
 
-			<p>
-				<label for="password"><g:message code="springSecurity.login.password.label"/>:</label>
-				<input type="password" name="j_password" id="password">
-			</p>
+			<p class="divider">or&hellip;</p>
 
-			<p id="remember_me_holder">
-				<input type="checkbox" name="${rememberMeParameter}" id="remember_me" <g:if test="${hasCookie}">checked</g:if>>
-				<label for="remember_me"><g:message code="springSecurity.login.remember.me.label"/></label>
-			</p>
+			<form action="${postUrl}" method="POST" id="loginForm" autocomplete="off">
+				<fieldset>
+					<legend><i class="icon-camera-retro"></i> Sign in with your Hipsteroid account</legend>
 
-			<p>
-				<button type="submit"><g:message code="springSecurity.login.button"/></button>
-			</p>
-		</form>
+					<label>
+						<span class="label-text"><g:message code="springSecurity.login.username.label"/></span>
+						<input type="text" name="j_username" placeholder="${message(code: 'springSecurity.login.username.label')}" autofocus>
+					</label>
+
+					<label>
+						<span class="label-text"><g:message code="springSecurity.login.password.label"/></span>
+						<input type="password" name="j_password" placeholder="${message(code: 'springSecurity.login.password.label')}">
+					</label>
+
+					<label class="checkbox">
+						<input type="checkbox" name="${rememberMeParameter}" <g:if test="${hasCookie}">checked</g:if>>
+						<span class="label-text"><g:message code="springSecurity.login.remember.me.label"/></span>
+					</label>
+				</fieldset>
+
+				<fieldset class="buttons">
+					<button type="submit"><g:message code="springSecurity.login.button"/></button>
+				</fieldset>
+			</form>
+		</section>
 
 	</body>
 </html>

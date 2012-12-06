@@ -15,16 +15,15 @@ casper.start "#{baseUrl}/fixture/nuke", ->
 
 casper.thenOpen "#{baseUrl}/timeline", ->
   @test.info 'when a user logs in...'
-  @click 'a.login'
 
-casper.then ->
+casper.thenClick 'a.login', ->
   @fill 'form',
     j_username: username
     j_password: 'hipsteroid'
   , true
 
 casper.then ->
-  @test.assertEquals @fetchText('.logged-in-message'), "Logged in as #{username}", 'user is now logged in'
+  @test.assertEquals @fetchText('.logged-in-message'), "Signed in as #{username}", 'user is now logged in'
   @click 'nav a[href="upload"]'
 
 casper.then ->
@@ -38,12 +37,10 @@ casper.then ->
 casper.then ->
   @test.assertEquals @getElementAttribute('progress', 'value'), '100', 'image has been read'
 
+casper.thenClick 'form#upload-image [type=submit]', ->
   @test.info 'when the form is submitted'
-  @click('form#upload-image [type=submit]')
-
-casper.then ->
   @waitFor ->
-    @fetchText('#app h2') == 'Timeline'
+    @fetchText('#app h1') == 'Timeline'
   , ->
     @test.assertUrlMatch /\/timeline$/, 'user is returned to the timeline page'
     @test.assertExists '.timeline li', 'the new image appears in the timeline'

@@ -11,17 +11,15 @@ casper.thenOpen "#{baseUrl}/timeline", ->
   @test.info 'when no user is logged in...'
   @test.assertDoesntExist '.timeline button.delete', 'there are no delete buttons on images in the timeline'
 
+casper.thenClick 'a.login', ->
   @test.info 'when a user logs in...'
-  @click 'a.login'
-
-casper.then ->
   @fill 'form',
     j_username: username
     j_password: 'hipsteroid'
   , true
 
 casper.then ->
-  @test.assertEquals @fetchText('.logged-in-message'), "Logged in as #{username}", 'user is now logged in'
+  @test.assertEquals @fetchText('.logged-in-message'), "Signed in as #{username}", 'user is now logged in'
   @test.assertExists '.timeline button.delete', 'there are delete buttons on images the user uploaded'
 
   @test.info 'when the user clicks a delete button'
