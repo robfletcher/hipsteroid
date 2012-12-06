@@ -34,6 +34,7 @@
 * timeline view renders twice when route triggers, once & then again as REST call comes back (might not be a problem once push updates work)
 * non-authenticated user should not be able to go to `/upload`
 * event bus URL is hardcoded in upload view
+* delete is assumed to succeed. Could we silence the event and wait until vert.x notifies the page?
 
 # Nice to haves
 

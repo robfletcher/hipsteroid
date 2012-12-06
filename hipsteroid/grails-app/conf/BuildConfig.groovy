@@ -32,6 +32,7 @@ grails.project.dependency.resolution = {
 	dependencies {
 
 		compile 'org.vert-x:vertx-lang-groovy:1.3.0.final',
+				'org.im4java:im4java:1.2.0',
 				'com.github.mfornos:humanize-slim:0.1.4'
 
 	}

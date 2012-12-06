@@ -1,15 +1,15 @@
 import co.freeside.hipsteroid.auth.SimpleAjaxAwareAuthenticationEntryPoint
-import co.freeside.hipsteroid.viewhelpers.FriendlyTime
-import co.freeside.hipsteroid.viewhelpers.IsCurrentUser
+import co.freeside.hipsteroid.viewhelpers.*
 import org.vertx.groovy.core.Vertx
 import static org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils.getSecurityConfig
 
 beans = {
 
-	def vertxClusterHost = grailsApplication.config.vertx.cluster.host
-	def vertxClusterPort = grailsApplication.config.vertx.cluster.port
-	println "$vertxClusterHost:$vertxClusterPort"
-	vertx(Vertx, vertxClusterPort, vertxClusterHost) { bean ->
+	/**
+	 * This is an un-clustered vert.x instance. To cluster it add port & host arguments. For local clustering the host
+	 * can be set to `InetAddress.localHost.hostAddress`.
+	 */
+	vertx(Vertx) { bean ->
 		bean.factoryMethod = 'newVertx'
 	}
 

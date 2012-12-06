@@ -1,14 +1,18 @@
+import java.awt.Dimension
 import javax.servlet.ServletContext
+import co.freeside.hipsteroid.Filter
 import co.freeside.hipsteroid.Picture
 import co.freeside.hipsteroid.auth.*
-import co.freeside.hipsteroid.viewhelpers.*
-import com.github.jknack.handlebars.Handlebars
-import com.github.jknack.handlebars.Helper
+import com.github.jknack.handlebars.*
 import com.github.jknack.handlebars.io.ServletContextTemplateLoader
 import grails.converters.JSON
 import grails.util.Environment
 import org.bson.types.ObjectId
+import org.vertx.groovy.core.buffer.Buffer
+import org.vertx.groovy.core.eventbus.Message
+import org.vertx.groovy.core.file.AsyncFile
 import org.vertx.groovy.core.http.HttpServer
+import org.vertx.java.core.AsyncResult
 import static co.freeside.hipsteroid.auth.Role.USER
 import static grails.util.Environment.*
 
@@ -33,6 +37,7 @@ class BootStrap {
 			loadDefaultTestData()
 		}
 
+		startImageFilter()
 		startEventBusBridge()
 
 	}
@@ -90,7 +95,47 @@ class BootStrap {
 
 		def port = config.vertx.eventBus.bridge.port
 		httpServer.listen(port)
-		println "vertx listening on port $port"
+		println "vertx event bus bridge listening on port $port"
+	}
+
+	/**
+	 * This is completely *NOT* the way to deploy a vert.x app but I don't want to have to deploy 2 things to CF.
+	 */
+	private void startImageFilter() {
+		def handler = { Dimension resizeTo, Filter filter, Message message ->
+
+			println "got message for $filter.name filter with a ${message.body.getClass()}..."
+
+			def filename = "${UUID.randomUUID()}.jpg"
+
+			println "about to write to $filename..."
+			vertx.fileSystem.writeFile(filename, new Buffer(message.body)) { AsyncResult<AsyncFile> tempFile ->
+				println "about to execute imagemagick..."
+
+				// This is crap and synchronous
+				def fileObj = new File(filename)
+				filter.execute(fileObj, fileObj, resizeTo)
+
+				println "sending back result of $filter.name filter..."
+				message.reply(new Buffer(fileObj.bytes))
+				fileObj.delete()
+			}
+
+		}
+
+		def sizes = [
+				thumb: new Dimension(100, 100),
+				full: new Dimension(640, 640)
+		]
+
+		sizes.each { size ->
+			Filter.ALL.each { filter ->
+				def address = "hipsteroid.filter.${filter.name}.${size.key}"
+				vertx.eventBus.registerHandler(address, handler.curry(size.value, filter)) {
+					println "$address listening..."
+				}
+			}
+		}
 	}
 
 	private void ensureDefaultUsersAndRolesExist() {
