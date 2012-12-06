@@ -34,7 +34,7 @@ class window.UploadPictureView extends Backbone.View
     @progressBar = @$el.find('progress').hide()
 
     @maskInput = $ '<input type="text" readonly class="mask" placeholder="Choose an image file&hellip;" tabindex="-1">'
-    @$el.find('input[name=image]').addClass('masked').parent().append(@maskInput)
+    @$el.find('input[name=image]').addClass('masked').parent().prepend(@maskInput)
 
     @$el.find(':file').fileupload
       dataType: 'json'
