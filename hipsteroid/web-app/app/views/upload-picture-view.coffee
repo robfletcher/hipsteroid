@@ -18,9 +18,9 @@ class window.UploadPictureView extends Backbone.View
     @uploadCallbackAddress = "hipsteroid.filter.upload.callback.#{hipsteroid.uuid}"
 
     if @app.eventBus.readyState() is vertx.EventBus.OPEN
-      @_registerThumbnailReciever()
+      @_registerThumbReciever()
     else
-      @app.eventBus.onopen = @_registerThumbnailReciever
+      @app.eventBus.onopen = @_registerThumbReciever
 
     @model = new Picture
 
@@ -38,8 +38,8 @@ class window.UploadPictureView extends Backbone.View
 
     @$el.find(':file').fileupload
       dataType: 'json'
-      start: @_onStart
-      progressall: @_onProgress
+      start: @_onThumbStart
+      progressall: @_onThumbProgress
       replaceFileInput: false
       formData:
         address: @thumbCallbackAddress
@@ -47,21 +47,21 @@ class window.UploadPictureView extends Backbone.View
     @
 
   remove: ->
-    @app.eventBus.unregisterHandler @thumbCallbackAddress, @_onThumbnailRecieved
+    @app.eventBus.unregisterHandler @thumbCallbackAddress, @_onThumbRecieved
     @app.eventBus.unregisterHandler @uploadCallbackAddress, @_uploadCallback
     Backbone.View.prototype.remove.call @
 
-  _registerThumbnailReciever: ->
-    @app.eventBus.registerHandler @thumbCallbackAddress, @_onThumbnailRecieved
+  _registerThumbReciever: ->
+    @app.eventBus.registerHandler @thumbCallbackAddress, @_onThumbRecieved
 
-  _onStart: (event, data) ->
+  _onThumbStart: (event, data) ->
     @progressBar.show()
 
-  _onProgress: (event, data) ->
+  _onThumbProgress: (event, data) ->
     progress = parseInt(data.loaded / data.total * 100, 10)
     @progressBar.attr('value', progress).text("#{progress}%")
 
-  _onThumbnailRecieved: (message) ->
+  _onThumbRecieved: (message) ->
     @progressBar.hide()
     @thumbContainer.find(".#{message.filter} img").attr('src', message.thumbnail)
 

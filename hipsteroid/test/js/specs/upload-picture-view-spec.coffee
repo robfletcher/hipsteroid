@@ -29,7 +29,7 @@ describe 'UploadPictureView', ->
   describe 'generating thumbnails', ->
 
     beforeEach ->
-      @view._onStart()
+      @view._onThumbStart()
 
     it 'shows the progress bar when an image is selected', ->
       expect(@progressBar).toBeVisible()
@@ -38,14 +38,14 @@ describe 'UploadPictureView', ->
       expect(@progressBar.text()).toBe '0%'
 
     it 'updates the progress bar as the upload proceeds', ->
-      @view._onProgress null,
+      @view._onThumbProgress null,
         loaded: 256
         total: 1024
 
       expect(@progressBar.attr('value')).toBe 25
       expect(@progressBar.text()).toBe '25%'
 
-      @view._onProgress null,
+      @view._onThumbProgress null,
         loaded: 512
         total: 1024
 
@@ -57,7 +57,7 @@ describe 'UploadPictureView', ->
         filter: 'lomo'
         thumbnail: 'data:image/jpeg;base64,lomo'
 
-      @view._onThumbnailRecieved message
+      @view._onThumbRecieved message
 
       expect(@view.$el.find('progress')).not.toBeVisible()
       expect(@view.$el.find('.lomo img').attr('src')).toBe(message.thumbnail)
@@ -70,7 +70,7 @@ describe 'UploadPictureView', ->
         filter: 'nashville'
         thumbnail: 'data:image/jpeg;base64,nashville'
 
-      @view._onThumbnailRecieved message for message in [message1, message2]
+      @view._onThumbRecieved message for message in [message1, message2]
 
       expect(@view.$el.find('.lomo img').attr('src')).toBe(message1.thumbnail)
       expect(@view.$el.find('.nashville img').attr('src')).toBe(message2.thumbnail)
