@@ -34,9 +34,6 @@ casper.then ->
   , false
   @waitForThumbnail(filter, ".thumb-container .#{filter} img") for filter in filters
 
-casper.then ->
-  @test.assertEquals @getElementAttribute('progress', 'value'), '100', 'image has been read'
-
 casper.thenClick 'form#upload-image [type=submit]', ->
   @test.info 'when the form is submitted'
   @waitFor ->
