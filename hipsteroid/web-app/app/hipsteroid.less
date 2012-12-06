@@ -228,7 +228,6 @@ header {
   }
 
   ul {
-    overflow: hidden;
     padding: 12px 0 0;
     list-style: none;
   }
@@ -265,8 +264,8 @@ header {
       right: -12px;
 
       background-color: rgba(0,0,0,1);
-      border: 2px solid white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      border: 3px solid white;
+      .subtle-shadow;
 
       height: 50px;
       width: 50px;
@@ -418,7 +417,7 @@ header {
 
 .bordered(@color: #000) {
   border: 1px solid fade(@color, 20%);
-  .box-shadow(0 1px 3px fade(@color, 10%));
+  .subtle-shadow;
 }
 
 .off-screen {
