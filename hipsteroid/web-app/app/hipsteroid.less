@@ -17,11 +17,10 @@
 @body-font: Cabin, 'Century Gothic', Futura, sans-serif;
 @logo-font: 'Maiden Orange', cursive;
 @handwriting-font: 'Just Another Hand', cursive;
-@script-font: Montez, cursive;
 
-@background-color: #e9d75a;
+@background-color: #ded698;
 @text-color: #333;
-@link-color: #1dcaff;
+@highlight-color: #1dcaff;
 @picture-background: #eeeee8;
 
 body {
@@ -33,15 +32,15 @@ body {
 }
 
 button {
-  font-family: @body-font;
+  font-family: @handwriting-font;
 }
 
 a {
-  color: darken(@link-color, 15%);
+  color: darken(@highlight-color, 15%);
   .transition;
 
   &:hover {
-    color: @link-color;
+    color: @highlight-color;
   }
 }
 
@@ -52,7 +51,7 @@ header {
 }
 
 h1 {
-  font-family: @script-font;
+  font-family: @logo-font;
   font-size: 48px;
   font-weight: normal;
 
@@ -191,6 +190,26 @@ header {
       display: inline-block;
       margin-left: 10px;
     }
+
+    button, a {
+      font-family: @handwriting-font;
+      font-size: 32px;
+      color: @text-color;
+      .transition;
+
+      &:hover {
+        color: @highlight-color;
+      }
+
+      [class^="icon-"],
+      [class*=" icon-"] {
+        font-size: 22px;
+      }
+    }
+
+    button {
+      .button-as-link;
+    }
   }
 
 }
@@ -236,6 +255,7 @@ header {
       p {
         text-indent: 10px;
         margin: 0;
+        font-size: 14px;
       }
     }
 
@@ -244,7 +264,16 @@ header {
       top: 0;
       right: 0;
 
+      .button-as-link;
       font-size: 32px;
+      color: #fff;
+      padding: 5px 0 0;
+
+      .transition;
+
+      &:hover {
+        color: #f00;
+      }
     }
   }
 
@@ -315,13 +344,22 @@ header {
 
       .label-text {
         background-color: #000;
-        font-size: 14px;
-        line-height: 20px;
+        color: #fff;
+
+        font-family: @handwriting-font;
+        font-size: 18px;
         text-transform: uppercase;
+        line-height: 20px;
+
         position: absolute;
         bottom: 0;
         left: 0;
         width: @thumb-size;
+
+        .fontface & {
+          line-height: 15px;
+          padding-top: 5px;
+        }
       }
     }
   }
@@ -349,7 +387,7 @@ header {
   }
 
   .divider {
-    font-family: @script-font;
+    font-family: @logo-font;
     font-size: 48px;
     text-align: center;
     margin: 20px 0;
@@ -378,6 +416,11 @@ header {
 .off-screen {
   position: absolute;
   left: -9999px;
+}
+
+.button-as-link {
+  background: transparent;
+  border: none;
 }
 
 .overlay-section {

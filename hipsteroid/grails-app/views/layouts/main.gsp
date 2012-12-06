@@ -28,7 +28,7 @@
 				<sec:ifLoggedIn>
 					<span class="logged-in-message">Signed in as <sec:loggedInUserInfo field="username"/></span>
 					<g:form controller="logout" action="index">
-						<button type="submit" class="logout">Sign out</button>
+						<button type="submit" class="logout"><i class="icon-signout"></i> Sign out</button>
 					</g:form>
 				</sec:ifLoggedIn>
 				<sec:ifNotLoggedIn>
