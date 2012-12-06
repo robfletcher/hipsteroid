@@ -19,13 +19,15 @@
 @handwriting-font: 'Just Another Hand', cursive;
 @script-font: Montez, cursive;
 
-@background-color: #fff;
+@background-color: #e9d75a;
 @text-color: #333;
 @link-color: #1dcaff;
+@picture-background: #eeeee8;
 
 body {
   font-family: @body-font;
   padding-top: @header-height;
+  background-image: url(../images/100-100-4.png);
   background-color: @background-color;
   color: @text-color;
 }
@@ -43,9 +45,34 @@ a {
   }
 }
 
+header {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
 h1 {
   font-family: @script-font;
   font-size: 48px;
+
+  @logo-color-1: lighten(#991B07, 20%); // totem pole
+  @logo-color-2: lighten(#044022, 20%); // zucchini
+  @logo-color-3: lighten(#262335, 10%); // steel gray
+  @logo-color-4: lighten(#0a6f75, 20%); // atoll
+  @logo-color-5: lighten(#b32d29, 20%); // tall poppy
+  @logo-color-6: lighten(#b7410e, 20%); // rust
+  @logo-color-7: @picture-background;
+
+  .char1 { color: @logo-color-1; }
+  .char2, .char10 { color: @logo-color-2; }
+  .char3, .char7 {
+    color: @logo-color-3;
+    text-shadow: -2px 2px 0 fade(cyan, 50%), 2px -2px 0 fade(magenta, 50%);
+  }
+  .char4, .char8 { color: @logo-color-4; }
+  .char5 { color: @logo-color-5; }
+  .char6 { color: @logo-color-7; }
+  .char9 { color: @logo-color-6; }
 }
 
 label {
@@ -99,11 +126,12 @@ legend {
 
 header {
 
-  @background-color: #000;
+  @background-color: #222;
   @text-color: #fff;
   @highlight-color: #ff0;
 
   .fixed-at-top;
+  .subtle-shadow;
 
   height: @header-height;
   background: @background-color;
@@ -120,8 +148,8 @@ header {
     line-height: @header-height; // font is off the baseline
 
     .fontface & {
-      line-height: @header-height - 10px;
-      padding-top: 10px;
+      line-height: @header-height - 8px;
+      padding-top: 8px;
     }
 
     margin: 0;
@@ -168,12 +196,16 @@ header {
 
 #app {
   width: @total-width;
-  margin: 0 auto;
+  margin: 40px auto 0;
 }
 
 .timeline {
 
   @image-size: 298px;
+
+  h1 {
+    .off-screen;
+  }
 
   ul {
     overflow: hidden;
@@ -192,13 +224,18 @@ header {
   figure {
     position: relative;
 
+    background: @picture-background;
+
     > img {
       width: @image-size;
     }
 
-    figcaption p {
-      margin: 6px 0 12px;
-      text-indent: 10px;
+    figcaption {
+      padding: 6px 0 12px;
+      p {
+        text-indent: 10px;
+        margin: 0;
+      }
     }
 
     button.delete {
@@ -219,8 +256,7 @@ header {
 
   .column(@form-columns);
   .push(@form-indent);
-
-  padding: 0 20px;
+  .overlay-section;
 
   label {
     margin-top: 10px;
@@ -299,7 +335,7 @@ header {
   .column(@form-columns);
   .push(@form-indent);
 
-  padding: 0 20px;
+  .overlay-section;
 
   .oauth {
     margin: 20px 0;
@@ -341,6 +377,17 @@ header {
 .off-screen {
   position: absolute;
   left: -9999px;
+}
+
+.overlay-section {
+  background-color: @picture-background;
+  background-image: url(../images/100-50-3.png);
+  padding: 0 20px 20px;
+  .subtle-shadow;
+}
+
+.subtle-shadow {
+  .box-shadow(0 0 30px fade(#000, 25%));
 }
 
 // container for a hidden radio button with a clickable image label
