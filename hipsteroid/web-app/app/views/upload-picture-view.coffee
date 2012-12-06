@@ -31,15 +31,14 @@ class window.UploadPictureView extends Backbone.View
 
   attach: ->
     @thumbContainer = @$el.find('.thumb-container')
-    @progressBar = @$el.find('progress').hide()
 
     @maskInput = $ '<input type="text" readonly class="mask" placeholder="Choose an image file&hellip;" tabindex="-1">'
     @$el.find('input[name=image]').addClass('masked').parent().prepend(@maskInput)
 
     @$el.find(':file').fileupload
       dataType: 'json'
-      start: @_onThumbStart
-      progressall: @_onThumbProgress
+#      start: @_onThumbStart
+#      progressall: @_onThumbProgress
       replaceFileInput: false
       formData:
         address: @thumbCallbackAddress
@@ -54,15 +53,12 @@ class window.UploadPictureView extends Backbone.View
   _registerThumbReciever: ->
     @app.eventBus.registerHandler @thumbCallbackAddress, @_onThumbRecieved
 
-  _onThumbStart: (event, data) ->
-    @progressBar.show()
+#  _onThumbStart: (event, data) ->
 
-  _onThumbProgress: (event, data) ->
-    progress = parseInt(data.loaded / data.total * 100, 10)
-    @progressBar.attr('value', progress).text("#{progress}%")
+#  _onThumbProgress: (event, data) ->
+#    progress = parseInt(data.loaded / data.total * 100, 10)
 
   _onThumbRecieved: (message) ->
-    @progressBar.hide()
     @thumbContainer.find(".#{message.filter} img").attr('src', message.thumbnail)
 
   _onImageSelected: (event) ->
