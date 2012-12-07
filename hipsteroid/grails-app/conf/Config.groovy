@@ -1,3 +1,5 @@
+import co.freeside.hipsteroid.auth.Role
+
 grails.config.locations = ["classpath:oauth-config.properties"]
 
 grails.project.groupId = 'co.freeside'
@@ -78,6 +80,7 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'co.freeside.hips
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'co.freeside.hipsteroid.auth.UserRole'
 grails.plugins.springsecurity.authority.className = 'co.freeside.hipsteroid.auth.Role'
 grails.plugins.springsecurity.oauth.domainClass = 'co.freeside.hipsteroid.auth.OAuthID'
+grails.plugins.springsecurity.oauth.registration.roleNames = [Role.USER]
 
 vertx {
 	eventBus.bridge.port = 8585
