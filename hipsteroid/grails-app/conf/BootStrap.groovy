@@ -32,8 +32,9 @@ class BootStrap {
 
 		registerJsonHandlers()
 
+		ensureDefaultRolesExist()
 		if (Environment.current in [DEVELOPMENT, TEST]) {
-			ensureDefaultUsersAndRolesExist()
+			ensureDefaultUsersExist()
 			loadDefaultTestData()
 		}
 
@@ -138,7 +139,11 @@ class BootStrap {
 		}
 	}
 
-	private void ensureDefaultUsersAndRolesExist() {
+	private void ensureDefaultRolesExist() {
+		Role.findOrSaveByAuthority USER
+	}
+
+	private void ensureDefaultUsersExist() {
 		def role = Role.findOrSaveByAuthority USER
 		def user = User.findOrCreateByUsername 'hipsteroid'
 		user.password = 'hipsteroid'
