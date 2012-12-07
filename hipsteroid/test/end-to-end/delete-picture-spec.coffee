@@ -1,4 +1,4 @@
-baseUrl = 'http://localhost:8080/hipsteroid'
+baseUrl = 'http://localhost:8080'
 username = 'hipsteroid'
 
 casper.start "#{baseUrl}/fixture/nuke", ->

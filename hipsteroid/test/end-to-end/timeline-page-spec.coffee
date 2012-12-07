@@ -1,4 +1,4 @@
-baseUrl = 'http://localhost:8080/hipsteroid'
+baseUrl = 'http://localhost:8080'
 
 casper.start "#{baseUrl}/fixture/nuke", ->
   @test.assertHttpStatus 200, 'data nuked!'

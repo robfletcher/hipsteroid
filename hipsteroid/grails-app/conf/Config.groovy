@@ -38,9 +38,10 @@ grails.hibernate.cache.queries = false
 
 environments {
 	development {
+		grails.app.context = '/'
 		grails.logging.jul.usebridge = true
 		grails.resources.debug = true
-		grails.serverURL = "http://localhost:8080/hipsteroid"
+		grails.serverURL = "http://localhost:8080"
 	}
 	production {
 		grails.logging.jul.usebridge = false

@@ -16,7 +16,7 @@ describe 'timeline view', ->
       uploadedBy:
         id: '50bc9fa3300492daf6b695ae'
         username: 'hipsteroid'
-      url: 'http://localhost:8080/hipsteroid/pictures/50bdbb1530042539738e704f'
+      url: 'http://localhost:8080/pictures/50bdbb1530042539738e704f'
       dateCreated: '2012-12-04T08:57:57Z'
 
 
