@@ -40,6 +40,7 @@ environments {
 	development {
 		grails.logging.jul.usebridge = true
 		grails.resources.debug = true
+		grails.serverURL = "http://localhost:8080/hipsteroid"
 	}
 	production {
 		grails.logging.jul.usebridge = false
@@ -67,7 +68,7 @@ oauth {
 			api = org.scribe.builder.api.TwitterApi
 			successUri = '/oauth/twitter/success'
 			failureUri = '/'
-			callback = 'http://localhost:8080/hipsteroid/oauth/twitter/callback'
+			callback = "${grails.serverURL}/oauth/twitter/callback"
 		}
 	}
 }
@@ -78,11 +79,9 @@ grails.plugins.springsecurity.authority.className = 'co.freeside.hipsteroid.auth
 grails.plugins.springsecurity.oauth.domainClass = 'co.freeside.hipsteroid.auth.OAuthID'
 
 vertx {
-	cluster {
-		host = InetAddress.localHost.hostAddress
-		port = 25501
-	}
 	eventBus.bridge.port = 8585
 }
 
 grails.resources.mappers.handlebars.templatesRoot = 'app/templates'
+
+grails.plugin.cloudfoundry.showStackTrace = true

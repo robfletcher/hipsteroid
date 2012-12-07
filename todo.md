@@ -38,6 +38,7 @@
 
 # Nice to haves
 
+* compiled js & css in different dirs so it can be ignored more easily
 * convert /login/auth to a backbone route
 * drop jQuery file upload
 * drop jQuery. Organic JS!
