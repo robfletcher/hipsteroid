@@ -44,10 +44,14 @@ environments {
 		grails.logging.jul.usebridge = true
 		grails.resources.debug = true
 		grails.serverURL = "http://localhost:8080"
+		vertx.eventBus.bridge.port = 8085
+		vertx.eventBus.bridge.host = 'http://localhost'
 	}
 	production {
 		grails.logging.jul.usebridge = false
-		grails.serverURL = 'http://hipsteroid.cloudfoundry.com'
+		grails.serverURL = 'http://ec2-79-125-65-227.eu-west-1.compute.amazonaws.com'
+		vertx.eventBus.bridge.port = System.getenv('PORT_EVENTBUS')?.toInteger() ?: 8085
+		vertx.eventBus.bridge.host = grails.serverURL
 	}
 }
 
@@ -81,10 +85,6 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'co.freeside.h
 grails.plugins.springsecurity.authority.className = 'co.freeside.hipsteroid.auth.Role'
 grails.plugins.springsecurity.oauth.domainClass = 'co.freeside.hipsteroid.auth.OAuthID'
 grails.plugins.springsecurity.oauth.registration.roleNames = [Role.USER]
-
-vertx {
-	eventBus.bridge.port = 8585
-}
 
 grails.resources.mappers.handlebars.templatesRoot = 'app/templates'
 

@@ -19,7 +19,7 @@ class window.HipsteroidApp extends Backbone.Router
 
     @pictures = new PictureCollection
 
-    @eventBus = new vertx.EventBus('http://localhost:8585/eventbus') # todo: don't hardcode
+    @eventBus = new vertx.EventBus("#{window.hipsteroid.eventBus.host}:#{window.hipsteroid.eventBus.port}/eventbus")
     @eventBus.onopen = =>
       console.log 'event bus available...'
 

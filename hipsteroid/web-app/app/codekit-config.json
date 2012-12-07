@@ -13,18 +13,6 @@
       "outputAbbreviatedPath" : "\/hipsteroid-ck.js",
       "fileType" : 64
     },
-    "\/views\/upload-picture-view.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/views\/upload-picture-view.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 0,
-      "outputAbbreviatedPath" : "\/views\/upload-picture-view.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
     "\/view-helpers.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -34,6 +22,18 @@
       "checkOutputStyle" : 0,
       "minifyOutput" : 1,
       "outputAbbreviatedPath" : "\/view-helpers.js",
+      "outputStyle" : 0,
+      "fileType" : 32
+    },
+    "\/views\/upload-picture-view.coffee" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 0,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/views\/upload-picture-view.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 0,
+      "outputAbbreviatedPath" : "\/views\/upload-picture-view.js",
       "outputStyle" : 0,
       "fileType" : 32
     },
@@ -61,14 +61,16 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/hipsteroid.css" : {
+    "\/views\/timeline-view.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/hipsteroid.css",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 16
+      "inputAbbreviatedPath" : "\/views\/timeline-view.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 1,
+      "outputAbbreviatedPath" : "\/views\/timeline-view-ck.js",
+      "fileType" : 64
     },
     "\/views\/picture-view.coffee" : {
       "ignoreWasSetByUser" : 0,
@@ -82,16 +84,14 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/views\/timeline-view.js" : {
+    "\/hipsteroid.css" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/views\/timeline-view.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 1,
-      "outputAbbreviatedPath" : "\/views\/timeline-view-ck.js",
-      "fileType" : 64
+      "inputAbbreviatedPath" : "\/hipsteroid.css",
+      "outputAbbreviatedPath" : "\/No Output Path",
+      "fileType" : 16
     },
     "\/logo.coffee" : {
       "ignoreWasSetByUser" : 0,
@@ -175,17 +175,6 @@
       "outputAbbreviatedPath" : "\/views\/nav-view-ck.js",
       "fileType" : 64
     },
-    "\/logo.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/logo.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 1,
-      "outputAbbreviatedPath" : "\/logo-ck.js",
-      "fileType" : 64
-    },
     "\/models\/user.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -197,6 +186,17 @@
       "outputAbbreviatedPath" : "\/models\/user-ck.js",
       "fileType" : 64
     },
+    "\/logo.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/logo.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 1,
+      "outputAbbreviatedPath" : "\/logo-ck.js",
+      "fileType" : 64
+    },
     "\/models\/picture.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -206,6 +206,17 @@
       "outputStyle" : 1,
       "syntaxCheckerStyle" : 1,
       "outputAbbreviatedPath" : "\/models\/picture-ck.js",
+      "fileType" : 64
+    },
+    "\/templates-ck.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/templates-ck.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 1,
+      "outputAbbreviatedPath" : "\/templates-ck-ck.js",
       "fileType" : 64
     },
     "\/views\/upload-picture-view.js" : {
@@ -241,15 +252,6 @@
       "syntaxCheckerStyle" : 1,
       "outputAbbreviatedPath" : "\/view-helpers-ck.js",
       "fileType" : 64
-    },
-    "\/css\/hipsteroid.css" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/hipsteroid.css",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 16
     },
     "\/views\/timeline-view.coffee" : {
       "ignoreWasSetByUser" : 0,

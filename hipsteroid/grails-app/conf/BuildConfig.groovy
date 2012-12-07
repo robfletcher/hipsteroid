@@ -43,9 +43,7 @@ grails.project.dependency.resolution = {
 				':handlebars:1.0.0',
 //				':handlebars-resources:0.3.2',
 				':spring-security-core:1.2.7.3',
-				':spring-security-oauth:2.0.1.1',
-				':cloud-foundry:1.2.3',
-				':webxml:1.4.1'
+				':spring-security-oauth:2.0.1.1'
 
 		runtime ':mongodb:1.0.0.GA',
 				':jquery:1.8.3',
