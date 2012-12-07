@@ -354,13 +354,6 @@ class OAuthCreateAccountCommand {
             if (command.username && command.username.equals(password1)) {
                 return 'OAuthCreateAccountCommand.password.error.username'
             }
-
-            if (password1 && password1.length() >= 8 && password1.length() <= 64 &&
-                    (!password1.matches('^.*\\p{Alpha}.*$') ||
-                     !password1.matches('^.*\\p{Digit}.*$') ||
-                     !password1.matches('^.*[!@#$%^&].*$'))) {
-                return 'OAuthCreateAccountCommand.password.error.strength'
-            }
         }
         password2 nullable: true, blank: true, validator: { password2, command ->
             if (command.password1 != password2) {
