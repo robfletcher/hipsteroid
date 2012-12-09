@@ -1,0 +1,9 @@
+---
+applications:
+- name: hipsteroid-filter
+  framework: standalone
+  runtime: java7
+  memory: 256M
+  instances: 1
+  url: hipsteroid-filter.${target-base}
+  path: .

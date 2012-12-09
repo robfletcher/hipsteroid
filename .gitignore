@@ -20,3 +20,4 @@ hipsteroid/web-app/app/*.css
 hipsteroid/web-app/app/*/*.css
 /filter/.gradle/
 /filter/build/
+/filter/vert.x/
