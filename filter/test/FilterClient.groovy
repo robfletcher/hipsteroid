@@ -3,12 +3,12 @@ import org.vertx.groovy.core.eventbus.*
 import org.vertx.groovy.core.file.FileSystem
 import org.vertx.java.core.AsyncResult
 
-def filters = ['gotham', 'toaster', 'nashville', 'lomo', 'kelvin']
+def filters = ['none', 'gotham', 'toaster', 'nashville', 'lomo', 'kelvin']
 EventBus eventBus = vertx.eventBus
 FileSystem fileSystem = vertx.fileSystem
 
 println 'opening file...'
-fileSystem.readFile('IMG_2809.JPG') { AsyncResult<Buffer> input ->
+fileSystem.readFile('manhattan.jpg') { AsyncResult<Buffer> input ->
 	filters.each {
 		def address = "hipsteroid.filter.${it}.full"
 		println "requesting $address..."
