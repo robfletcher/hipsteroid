@@ -18,7 +18,7 @@ configurations {
 
 dependencies {
 	framework "vertx.io:vert.x:${vertxVersion}@zip"
-	jars 'org.cloudfoundry:cloudfoundry-runtime:0.8.1',
+	jars 'org.cloudfoundry:cloudfoundry-runtime:0.8.2',
 		 'org.im4java:im4java:1.2.0'
 }
 

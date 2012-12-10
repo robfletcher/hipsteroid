@@ -1,41 +1,51 @@
-import org.cloudfoundry.runtime.env.CloudEnvironment
+import co.freeside.hipsteroid.Filter
+import org.cloudfoundry.runtime.env.*
 import org.vertx.groovy.core.buffer.Buffer
 import org.vertx.groovy.core.eventbus.Message
 import org.vertx.groovy.core.http.*
-import org.vertx.mods.formupload.MultipartRequest;
-import org.vertx.mods.formupload.Upload;
+import org.vertx.mods.formupload.*
 import org.vertx.java.core.Handler
 
 def cloudEnv = new CloudEnvironment()
 
 def eventBus = vertx.eventBus
 
-// Configuration for the web server
 def webServerConf = [
-
-		// Normal web server stuff
 
 		port: (cloudEnv.getValue('VCAP_APP_PORT') ?: '8080') as int,
 		host: cloudEnv.getValue('VCAP_APP_HOST') ?: 'localhost',
-		/* ssl: true, */
 
-		// Configuration for the event bus client side bridge
-		// This bridges messages from the client side to the server side event bus
 		bridge: true,
 
-		// This defines which messages from the client we will let through
-		// to the server side
 		inbound_permitted: [
-				// Allow calls to filters
 				[
 						address_re: /hipsteroid\.filter\.\w+\.\w+/
 				],
 		],
 
-		// This defines which messages from the server we will let through to the client
 		outbound_permitted: [
 				[:]
 		]
+]
+
+def rabbitService = cloudEnv.getServiceInfo('hipsteroid-rabbit', RabbitServiceInfo)
+if (rabbitService) {
+	println """Rabbit service...
+name: $rabbitService.serviceName
+plan: $rabbitService.plan
+label: $rabbitService.label
+host: $rabbitService.host
+port: $rabbitService.port
+userName: $rabbitService.userName
+vhost: $rabbitService.virtualHost"""
+} else {
+	println 'No Rabbit MQ available'
+}
+
+def amqpConf = [
+		uri: rabbitService ? "amqp://$rabbitService.host:$rabbitService.port" : 'amqp://localhost',
+		address: 'amqp_bridge',
+		defaultContentType: 'application/json'
 ]
 
 def server = vertx.createHttpServer()
@@ -77,9 +87,21 @@ server.requestHandler(routeMatcher.asClosure()).listen(webServerConf.port)
 
 container.with {
 
-	// Start the web server, with the config we defined above
-
 //	deployModule('vertx.web-server-v1.0', webServerConf)
+
+	deployModule 'amqp-busmod#1.2.0-SNAPSHOT', amqpConf, 1, {
+
+		println "Rabbit bridge is running... subscribing to topics..."
+
+		for (size in ['thumb', 'full']) {
+			for (filterName in Filter.ALL.name) {
+				println "Subscribing to hipsteroid.filter.${filterName}.$size..."
+				eventBus.send('amqp_bridge.create-consumer', [exchange: 'hipsteroid.filter', routingKey: "${filterName}.$size", forward: "hipsteroid.filter.${filterName}.$size"]) { reply ->
+					println "subscribed to Rabbit for hipsteroid.filter.${filterName}.$size: $reply"
+				}
+			}
+		}
+	}
 
 	deployVerticle 'HipsteroidFilter.groovy'
 
