@@ -28,9 +28,11 @@ def webServerConf = [
 		]
 ]
 
-def rabbitService = cloudEnv.getServiceInfo('hipsteroid-rabbit', RabbitServiceInfo)
-if (rabbitService) {
-	println """Rabbit service...
+def rabbitService
+if (cloudEnv.isCloudFoundry()) {
+	rabbitService = cloudEnv.getServiceInfo('hipsteroid-rabbit', RabbitServiceInfo)
+	if (rabbitService) {
+		println """Rabbit service...
 name: $rabbitService.serviceName
 plan: $rabbitService.plan
 label: $rabbitService.label
@@ -38,8 +40,9 @@ host: $rabbitService.host
 port: $rabbitService.port
 userName: $rabbitService.userName
 vhost: $rabbitService.virtualHost"""
-} else {
-	println 'No Rabbit MQ available'
+	} else {
+		println 'No Rabbit MQ available'
+	}
 }
 
 def amqpConf = [

@@ -1,17 +1,10 @@
 import co.freeside.hipsteroid.auth.SimpleAjaxAwareAuthenticationEntryPoint
-import co.freeside.hipsteroid.viewhelpers.*
-import org.vertx.groovy.core.Vertx
+import co.freeside.hipsteroid.viewhelpers.FriendlyTime
+import co.freeside.hipsteroid.viewhelpers.IsCurrentUser
+
 import static org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils.getSecurityConfig
 
 beans = {
-
-	/**
-	 * This is an un-clustered vert.x instance. To cluster it add port & host arguments. For local clustering the host
-	 * can be set to `InetAddress.localHost.hostAddress`.
-	 */
-	vertx(Vertx) { bean ->
-		bean.factoryMethod = 'newVertx'
-	}
 
 	authenticationEntryPoint(SimpleAjaxAwareAuthenticationEntryPoint) {
 		loginFormUrl = securityConfig.auth.loginFormUrl
@@ -24,4 +17,5 @@ beans = {
 	friendlyTime(FriendlyTime)
 
 	isCurrentUser(IsCurrentUser, ref('springSecurityService'))
+
 }

@@ -3,8 +3,8 @@ grails.project.work.dir = 'target'
 grails.project.class.dir = 'target/classes'
 grails.project.test.class.dir = 'target/test-classes'
 grails.project.test.reports.dir = 'target/test-reports'
-grails.project.target.level = 1.7
-grails.project.source.level = 1.7
+grails.project.target.level = 1.6
+grails.project.source.level = 1.6
 
 grails.project.dependency.resolution = {
 
@@ -31,9 +31,7 @@ grails.project.dependency.resolution = {
 
 	dependencies {
 
-		compile 'org.vert-x:vertx-lang-groovy:1.3.0.final',
-				'org.im4java:im4java:1.2.0',
-				'com.github.mfornos:humanize-slim:0.1.4'
+		compile 'com.github.mfornos:humanize-slim:0.1.4'
 
 	}
 
@@ -43,7 +41,10 @@ grails.project.dependency.resolution = {
 				':handlebars:1.0.0',
 //				':handlebars-resources:0.3.2',
 				':spring-security-core:1.2.7.3',
-				':spring-security-oauth:2.0.1.1'
+				':spring-security-oauth:2.0.1.1',
+				':rabbitmq:1.0.0',
+				':cloud-foundry:1.2.3',
+				':webxml:1.4.1'
 
 		runtime ':mongodb:1.0.0.GA',
 				':jquery:1.8.3',
@@ -57,5 +58,11 @@ grails.project.dependency.resolution = {
 
 		test ':spock:0.7'
 
+	}
+}
+
+grails.war.resources = { stagingDir, args ->
+	copy(todir: "${stagingDir}/WEB-INF/classes") {
+		fileset dir: 'test/resources'
 	}
 }

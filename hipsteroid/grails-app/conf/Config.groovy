@@ -49,7 +49,7 @@ environments {
 	}
 	production {
 		grails.logging.jul.usebridge = false
-		grails.serverURL = 'http://ec2-79-125-65-227.eu-west-1.compute.amazonaws.com'
+		grails.serverURL = 'http://hipsteroid.cloudfoundry.com'
 		vertx.eventBus.bridge.port = System.getenv('PORT_EVENTBUS')?.toInteger() ?: 8085
 		vertx.eventBus.bridge.host = grails.serverURL
 	}
@@ -67,6 +67,30 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+}
+
+rabbitmq {
+	connectionFactory {
+		username = 'guest'
+		password = 'guest'
+		hostname = 'localhost'
+	}
+	queues = {
+		exchange(name: 'hipsteroid.filter', type: direct) {
+			'none.full' binding: 'none.full'
+			'gotham.full' binding: 'gotham.full'
+			'toaster.full' binding: 'toaster.full'
+			'nashville.full' binding: 'nashville.full'
+			'lomo.full' binding: 'lomo.full'
+			'kelvin.full' binding: 'kelvin.full'
+			'none.thumb' binding: 'none.thumb'
+			'gotham.thumb' binding: 'gotham.thumb'
+			'toaster.thumb' binding: 'toaster.thumb'
+			'nashville.thumb' binding: 'nashville.thumb'
+			'lomo.thumb' binding: 'lomo.thumb'
+			'kelvin.thumb' binding: 'kelvin.thumb'
+		}
+	}
 }
 
 oauth {

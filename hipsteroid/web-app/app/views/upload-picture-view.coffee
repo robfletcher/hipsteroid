@@ -46,12 +46,12 @@ class window.UploadPictureView extends Backbone.View
     @
 
   remove: ->
-    @app.eventBus.unregisterHandler @thumbCallbackAddress, @_onThumbRecieved
-    @app.eventBus.unregisterHandler @uploadCallbackAddress, @_uploadCallback
+#    @app.eventBus.unregisterHandler @thumbCallbackAddress, @_onThumbRecieved
+#    @app.eventBus.unregisterHandler @uploadCallbackAddress, @_uploadCallback
     Backbone.View.prototype.remove.call @
 
   _registerThumbReciever: ->
-    @app.eventBus.registerHandler @thumbCallbackAddress, @_onThumbRecieved
+#    @app.eventBus.registerHandler @thumbCallbackAddress, @_onThumbRecieved
 
 #  _onThumbStart: (event, data) ->
 
@@ -77,7 +77,7 @@ class window.UploadPictureView extends Backbone.View
     @thumbContainer.find('label').removeClass('checked').find(':checked').parent().addClass('checked')
 
   _onSubmit: ->
-    @app.eventBus.registerHandler @uploadCallbackAddress, @_uploadCallback
+#    @app.eventBus.registerHandler @uploadCallbackAddress, @_uploadCallback
     @model.save
       callbackAddress: @uploadCallbackAddress
     ,

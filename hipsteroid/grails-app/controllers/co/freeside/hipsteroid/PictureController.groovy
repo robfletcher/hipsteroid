@@ -4,7 +4,6 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import grails.validation.Validateable
 import org.bson.types.ObjectId
-import org.vertx.groovy.core.buffer.Buffer
 import static co.freeside.hipsteroid.auth.Role.USER
 import static javax.servlet.http.HttpServletResponse.*
 
@@ -15,7 +14,6 @@ class PictureController {
 	static allowedMethods = [show: ['GET', 'HEAD'], list: ['GET', 'HEAD'], save: 'POST', update: 'PUT', delete: 'DELETE']
 
 	def springSecurityService
-	def vertx
 
 	def list() {
 		def pictures = Picture.list(params)
@@ -77,22 +75,10 @@ class PictureController {
 		def picture = new Picture()
 		picture.uploadedBy = springSecurityService.currentUser
 
-		vertx.eventBus.send("hipsteroid.filter.${command.filter}.full", new Buffer(command.decodedImage)) { reply ->
-			def replyBuffer = new Buffer(reply.body)
+		println "sending image to ${command.filter}.full"
+		rabbitSend "${command.filter}.full", command.decodedImage
 
-			picture.image = replyBuffer.bytes
-			if (picture.save(flush: true)) {
-				if (command.callbackAddress) {
-					vertx.eventBus.send(command.callbackAddress, JSON.parse(picture.encodeAsJSON()))
-				}
-			} else {
-				if (command.callbackAddress) {
-					vertx.eventBus.send(command.callbackAddress, picture.errors.allErrors.collect { message(error: it) })
-				}
-			}
-
-		}
-
+		println "save: SC_ACCEPTED"
 		render status: SC_ACCEPTED
 
 	}

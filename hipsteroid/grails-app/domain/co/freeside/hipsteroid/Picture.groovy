@@ -1,10 +1,7 @@
 package co.freeside.hipsteroid
 
 import co.freeside.hipsteroid.auth.User
-import grails.converters.JSON
 import org.bson.types.ObjectId
-import org.vertx.groovy.core.Vertx
-import org.vertx.groovy.core.eventbus.EventBus
 
 class Picture {
 
@@ -54,12 +51,8 @@ class Picture {
 		publishEvent 'deleted'
 	}
 
-	def vertx
-
 	private void publishEvent(String event) {
-		if (vertx) {
-			vertx.eventBus.publish("hipsteroid.pictures.$event", JSON.parse(this.encodeAsJSON()))
-		}
+		println "Picture $id $event"
 	}
 
 }

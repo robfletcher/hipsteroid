@@ -2,7 +2,6 @@ package co.freeside.hipsteroid
 
 import grails.plugins.springsecurity.Secured
 import org.springframework.web.multipart.MultipartFile
-import org.vertx.groovy.core.buffer.Buffer
 import static co.freeside.hipsteroid.auth.Role.USER
 import static javax.servlet.http.HttpServletResponse.*
 
@@ -11,7 +10,6 @@ class ThumbnailController {
 	static allowedMethods = [generate: 'POST']
 
 	def springSecurityService
-	def vertx
 
 	def beforeInterceptor = {
 		if (!springSecurityService.isLoggedIn()) {
@@ -40,14 +38,9 @@ class ThumbnailController {
 		def filters = ['gotham', 'toaster', 'nashville', 'lomo', 'kelvin']
 		filters.each { filterName ->
 
-			def filterAddress = "hipsteroid.filter.${filterName}.thumb"
-			vertx.eventBus.send(filterAddress, new Buffer(image.bytes)) { reply ->
-				def message = [
-						filter: filterName,
-						thumbnail: DataUrlCodec.encode(reply.body.bytes, 'image/jpeg')
-				]
-				vertx.eventBus.send replyAddress, message
-			}
+			def filterAddress = "${filterName}.thumb"
+
+			rabbitSend filterAddress, image.bytes
 		}
 
 		render status: SC_ACCEPTED
