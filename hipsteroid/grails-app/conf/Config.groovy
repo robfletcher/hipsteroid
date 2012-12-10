@@ -97,6 +97,7 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'co.freeside.h
 grails.plugins.springsecurity.authority.className = 'co.freeside.hipsteroid.auth.Role'
 grails.plugins.springsecurity.oauth.domainClass = 'co.freeside.hipsteroid.auth.OAuthID'
 grails.plugins.springsecurity.oauth.registration.roleNames = [Role.USER]
+grails.plugins.springsecurity.oauth.registration.askToLinkOrCreateAccountUri = '/link-account'
 
 grails.resources.mappers.handlebars.templatesRoot = 'app/templates'
 

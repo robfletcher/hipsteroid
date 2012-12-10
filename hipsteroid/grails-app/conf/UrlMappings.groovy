@@ -5,6 +5,13 @@ class UrlMappings {
 		"/oauth/$provider/success" controller: 'springSecurityOAuth', action: 'onSuccess'
 		"/oauth/$provider/failure" controller: 'springSecurityOAuth', action: 'onFailure'
 
+		'/sign-in' controller: 'login', action: 'auth'
+		'/denied' controller: 'login', action: 'denied'
+		'/link-account'(controller: 'springSecurityOAuth') {
+			action = [GET: 'askToLinkOrCreateAccount', POST: 'linkAccount']
+		}
+		'/create-account'(controller: 'springSecurityOAuth', action: 'createAccount')
+
 		// REST endpoints
 
 		"/pictures"(controller: 'picture') {
