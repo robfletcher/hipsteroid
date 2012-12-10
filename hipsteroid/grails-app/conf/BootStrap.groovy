@@ -33,10 +33,10 @@ class BootStrap {
 		registerJsonHandlers()
 
 		ensureDefaultRolesExist()
-		if (Environment.current in [DEVELOPMENT, TEST]) {
+//		if (Environment.current in [DEVELOPMENT, TEST]) {
 			ensureDefaultUsersExist()
 			loadDefaultTestData()
-		}
+//		}
 
 		startImageFilter()
 		startEventBusBridge()
