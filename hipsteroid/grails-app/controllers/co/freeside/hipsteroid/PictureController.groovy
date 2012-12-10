@@ -155,7 +155,7 @@ class UploadPictureCommand {
 	String callbackAddress
 
 	static constraints = {
-		filter nullable: false, inList: ['gotham', 'toaster', 'nashville', 'lomo', 'kelvin']
+		filter nullable: false, inList: ['none', 'gotham', 'toaster', 'nashville', 'lomo', 'kelvin']
 		image nullable: false, validator: { it.startsWith('data:image/jpeg;base64,') }
 		callbackAddress nullable: true
 	}

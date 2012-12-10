@@ -19,21 +19,16 @@
 
 * push updates to timeline
   * tests!
-* design!
 * grunt build
 * pagination on timeline
 * form validation
 * profile view
   * avatars from twitter
-* no-op filter
 
 # Bugs
 
-* nav links don't work from auth page
 * really need 304s for images
 * timeline view renders twice when route triggers, once & then again as REST call comes back (might not be a problem once push updates work)
-* non-authenticated user should not be able to go to `/upload`
-* event bus URL is hardcoded in upload view
 * delete is assumed to succeed. Could we silence the event and wait until vert.x notifies the page?
 
 # Nice to haves

@@ -37,7 +37,7 @@ class ThumbnailController {
 		MultipartFile image = params.image
 		def replyAddress = params.address
 
-		def filters = ['gotham', 'toaster', 'nashville', 'lomo', 'kelvin']
+		def filters = ['none', 'gotham', 'toaster', 'nashville', 'lomo', 'kelvin']
 		filters.each { filterName ->
 
 			def filterAddress = "hipsteroid.filter.${filterName}.thumb"
