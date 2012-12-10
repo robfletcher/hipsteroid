@@ -9,6 +9,13 @@ class window.HipsteroidApp extends Backbone.Router
   initialize: (options) ->
     _.bindAll @
 
+    $.ajaxSetup
+      statusCode:
+        401: ->
+          window.location.replace('/sign-in')
+        403: ->
+          window.location.replace('/denied')
+
     Handlebars.registerPartial 'picture', Handlebars.templates.picture
 
     @appEl = $ '#app'
