@@ -63,6 +63,7 @@ routeMatcher.post('/filter/:filter') { HttpServerRequest request ->
 
 						request.response.statusCode = 200
 						request.response.headers['Content-Type'] = 'image/jpeg'
+						request.response.headers['Content-Length'] = replyBuffer.length()
 						request.response.end(replyBuffer)
 					}
 				}
