@@ -94,6 +94,10 @@ h1 {
   }
 }
 
+section h1 {
+  margin: 30px 0 20px;
+}
+
 label {
   display: block;
   margin-bottom: 20px;
@@ -484,6 +488,26 @@ header {
 .info {
   font-size: 24px;
   padding: 20px;
+}
+
+.errors {
+  background: rgba(255, 0, 0, 0.25);
+  font-size: 18px;
+  padding: 10px;
+  margin-bottom: 20px;
+  .rounded(10px);
+
+  i {
+    float: left;
+    margin: 0 10px 5px 0;
+    font-size: 24px;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style-position: inside;
+  }
 }
 
 .center-column(@num-columns) {

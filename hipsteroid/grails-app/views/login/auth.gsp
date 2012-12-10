@@ -11,7 +11,7 @@
 			<h1><g:message code="springSecurity.login.header"/></h1>
 
 			<g:if test="${flash.message}">
-				<div class="login_message">${flash.message}</div>
+				<div class="errors"><i class="icon-warning-sign"></i> ${flash.message}</div>
 			</g:if>
 
 			<nav class="oauth">
