@@ -5,11 +5,7 @@ import static org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUt
 
 beans = {
 
-	/**
-	 * This is an un-clustered vert.x instance. To cluster it add port & host arguments. For local clustering the host
-	 * can be set to `InetAddress.localHost.hostAddress`.
-	 */
-	vertx(Vertx) { bean ->
+	vertx(Vertx, grailsApplication.config.vertx.cluster.port, grailsApplication.config.vertx.cluster.host) { bean ->
 		bean.factoryMethod = 'newVertx'
 	}
 

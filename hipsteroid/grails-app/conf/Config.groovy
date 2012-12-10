@@ -44,12 +44,10 @@ environments {
 		grails.logging.jul.usebridge = true
 		grails.resources.debug = true
 		grails.serverURL = "http://localhost:8080"
-		vertx.eventBus.bridge.port = 8085
-		vertx.eventBus.bridge.host = 'http://localhost'
 	}
 	production {
 		grails.logging.jul.usebridge = false
-		grails.serverURL = 'http://ec2-79-125-65-227.eu-west-1.compute.amazonaws.com'
+		grails.serverURL = 'http://hipsteroid.cloudfoundry.com'
 		vertx.eventBus.bridge.port = System.getenv('PORT_EVENTBUS')?.toInteger() ?: 8085
 		vertx.eventBus.bridge.host = grails.serverURL
 	}
@@ -68,6 +66,20 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+vertx {
+	cluster {
+		host = 'localhost'//InetAddress.localHost.hostAddress
+		port = 25501
+	}
+	eventBus {
+		bridge {
+			port = 8085
+			host = 'http://localhost'
+		}
+	}
+}
+
 
 oauth {
 	providers {
