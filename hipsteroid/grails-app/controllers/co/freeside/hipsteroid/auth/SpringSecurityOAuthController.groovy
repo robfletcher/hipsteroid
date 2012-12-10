@@ -36,6 +36,8 @@ class SpringSecurityOAuthController {
 
     public static final String SPRING_SECURITY_OAUTH_TOKEN = 'springSecurityOAuthToken'
 
+	static allowedMethods = [askToLinkOrCreateAccount: ['GET', 'HEAD'], linkAccount: 'POST', createAccount: 'POST']
+
     def grailsApplication
     def oauthService
     def springSecurityService
