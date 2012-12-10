@@ -23,17 +23,24 @@
 @highlight-color: #1dcaff;
 @picture-background: #eeeee8;
 
-@logo-color-1: lighten(#991B07, 20%); // totem pole
-@logo-color-2: lighten(#044022, 20%); // zucchini
-@logo-color-3: lighten(#262335, 10%); // steel gray
-@logo-color-4: lighten(#0a6f75, 20%); // atoll
-@logo-color-5: lighten(#b32d29, 20%); // tall poppy
-@logo-color-6: lighten(#b7410e, 20%); // rust
+@logo-color-1: lighten(#991B07, 20%);
+// totem pole
+@logo-color-2: lighten(#044022, 20%);
+// zucchini
+@logo-color-3: lighten(#262335, 10%);
+// steel gray
+@logo-color-4: lighten(#0a6f75, 20%);
+// atoll
+@logo-color-5: lighten(#b32d29, 20%);
+// tall poppy
+@logo-color-6: lighten(#b7410e, 20%);
+// rust
 @logo-color-7: @picture-background;
 
 body {
   font-family: @body-font;
   padding-top: @header-height;
+  padding-bottom: 20px;
   background-image: url(../images/100-100-4.png);
   background-color: @background-color;
   color: @text-color;
@@ -63,16 +70,28 @@ h1 {
   font-size: 48px;
   font-weight: normal;
 
-  .char1 { color: @logo-color-1; }
-  .char2, .char10 { color: @logo-color-2; }
+  .char1 {
+    color: @logo-color-1;
+  }
+  .char2, .char10 {
+    color: @logo-color-2;
+  }
   .char3, .char7 {
     color: @logo-color-3;
     text-shadow: -2px 2px 0 fade(cyan, 50%), 2px -2px 0 fade(magenta, 50%);
   }
-  .char4, .char8 { color: @logo-color-4; }
-  .char5 { color: @logo-color-5; }
-  .char6 { color: @logo-color-7; }
-  .char9 { color: @logo-color-6; }
+  .char4, .char8 {
+    color: @logo-color-4;
+  }
+  .char5 {
+    color: @logo-color-5;
+  }
+  .char6 {
+    color: @logo-color-7;
+  }
+  .char9 {
+    color: @logo-color-6;
+  }
 }
 
 label {
@@ -263,7 +282,7 @@ header {
       top: -12px;
       right: -12px;
 
-      background-color: rgba(0,0,0,1);
+      background-color: rgba(0, 0, 0, 1);
       border: 3px solid white;
       .subtle-shadow;
 
@@ -309,7 +328,7 @@ header {
       .label-text {
         .off-screen;
       }
-      
+
       input.masked {
         opacity: 0;
         z-index: 2;
@@ -375,13 +394,7 @@ header {
 
 .sign-in {
 
-  @form-columns: 5;
-  @form-indent: (@columns - @form-columns) / 2;
-
-  .column(@form-columns);
-  .push(@form-indent);
-
-  .overlay-section;
+  .center-column(5);
 
   .oauth {
     margin: 20px 0;
@@ -393,17 +406,37 @@ header {
     }
   }
 
-  .divider {
-    font-family: @logo-font;
-    font-size: 48px;
-    text-align: center;
-    margin: 20px 0;
-  }
+}
+
+.create-account {
+
+  .column(5);
+
+}
+
+.link-account {
+
+  .column(5);
+  .push(1);
+
+}
+
+.sign-in, .create-account, .link-account {
+
+  .overlay-section;
 
   .label-text {
     .off-screen;
   }
 
+}
+
+.create-account, .link-account {
+  padding-top: 20px;
+  legend {
+    font-family: @logo-font;
+    font-size: 32px;
+  }
 }
 
 // Mixins
@@ -439,6 +472,24 @@ header {
 
 .subtle-shadow {
   .box-shadow(0 0 30px fade(#000, 25%));
+}
+
+.divider {
+  font-family: @logo-font;
+  font-size: 48px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.info {
+  font-size: 24px;
+  padding: 20px;
+}
+
+.center-column(@num-columns) {
+  @indent: (@columns - @num-columns) / 2;
+  .column(@num-columns);
+  .push(@indent);
 }
 
 // container for a hidden radio button with a clickable image label

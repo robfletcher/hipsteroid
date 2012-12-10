@@ -42,7 +42,6 @@ class ThumbnailController {
 
 			def filterAddress = "hipsteroid.filter.${filterName}.thumb"
 			vertx.eventBus.send(filterAddress, new Buffer(image.bytes)) { reply ->
-				println "replying to $replyAddress..."
 				def message = [
 						filter: filterName,
 						thumbnail: DataUrlCodec.encode(reply.body.bytes, 'image/jpeg')
