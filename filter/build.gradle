@@ -93,7 +93,7 @@ cloudfoundry {
 	services = []
 
 	file = file("${buildDir}/${appZip}")
-	command = "vert.x-${vertxVersion}/bin/vertx runmod filter"
+	command = "vert.x-${vertxVersion}/bin/vertx runmod hipsteroid-filter"
 }
 
 //cloudfoundryService {
