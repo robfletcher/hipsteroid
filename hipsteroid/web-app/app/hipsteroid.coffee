@@ -5,6 +5,7 @@ class window.HipsteroidApp extends Backbone.Router
   routes:
     timeline: 'timeline'
     upload: 'upload'
+    about: 'about'
 
   initialize: (options) ->
     _.bindAll @
@@ -60,6 +61,9 @@ class window.HipsteroidApp extends Backbone.Router
     @_load new UploadPictureView
       app: @
       el: if @preRendered then @appEl.children() else undefined
+
+  about: ->
+    @_load new AboutView
 
   _load: (view) ->
     @currentView?.remove()

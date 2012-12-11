@@ -64,6 +64,7 @@ modules = {
 		resource url: 'app/views/picture-view.js'
 		resource url: 'app/views/timeline-view.js'
 		resource url: 'app/views/upload-picture-view.js'
+		resource url: 'app/views/about-view.js'
 
 		resource url: 'app/logo.js'
 
