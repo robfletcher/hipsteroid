@@ -21,7 +21,6 @@
   * tests!
 * grunt build
 * pagination on timeline
-* form validation
 * profile view
   * avatars from twitter
 

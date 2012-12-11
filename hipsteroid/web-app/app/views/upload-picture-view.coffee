@@ -43,6 +43,8 @@ class window.UploadPictureView extends Backbone.View
       formData:
         address: @thumbCallbackAddress
 
+    @$el.find(':radio:first').attr('checked', true).trigger('change') unless @$el.find(':radio:checked').length
+
     @
 
   remove: ->
@@ -52,11 +54,6 @@ class window.UploadPictureView extends Backbone.View
 
   _registerThumbReciever: ->
     @app.eventBus.registerHandler @thumbCallbackAddress, @_onThumbRecieved
-
-#  _onThumbStart: (event, data) ->
-
-#  _onThumbProgress: (event, data) ->
-#    progress = parseInt(data.loaded / data.total * 100, 10)
 
   _onThumbRecieved: (message) ->
     @thumbContainer.find(".#{message.filter} img").attr('src', message.thumbnail)
@@ -88,4 +85,9 @@ class window.UploadPictureView extends Backbone.View
     @app.navigate '/timeline', trigger: true
 
   _onUploadFailed: (model, xhr, options) ->
-    console.error 'upload failed', xhr.status
+    errorList = $('<ul></ul>')
+    errorList.append("<li>#{error}</li>") for error in JSON.parse(xhr.responseText).errors
+    if (@$el.find('.errors').length)
+      @$el.find('.errors').html(errorList)
+    else
+      errorList.insertAfter(@$el.find('h1')).wrap('<div class="errors"/>')
