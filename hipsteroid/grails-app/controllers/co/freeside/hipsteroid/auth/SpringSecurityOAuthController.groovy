@@ -141,7 +141,7 @@ class SpringSecurityOAuthController {
 
                     // updateUser(user, oAuthToken)
 
-                    if (!user.validate() || !user.save()) {
+                    if (!user.validate() || !user.save(flush: true)) {
                         status.setRollbackOnly()
                         return false
                     }
@@ -150,6 +150,7 @@ class SpringSecurityOAuthController {
                         UserRole.create user, Role.findByAuthority(roleName)
                     }
 
+					SpringSecurityUtils.reauthenticate(command.username, command.password1)
                     oAuthToken = updateOAuthToken(oAuthToken, user)
                     return true
                 }

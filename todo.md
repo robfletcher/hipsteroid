@@ -23,6 +23,7 @@
 * pagination on timeline
 * profile view
   * avatars from twitter
+* make auth stuff properly one-page
 
 # Bugs
 
