@@ -4,8 +4,8 @@ This is a demo app written for the talk [Grails for Hipsters][talk] at [Groovy &
 
 ## Structure
 
-`filter` contains a vert.x application that does image processing.
-`hipsteroid` contains a Grails application that controls workflow.
+* `filter` contains a vert.x application that does image processing.
+* `hipsteroid` contains a Grails application that controls workflow.
 
 ## Things you need to run this demo
 
