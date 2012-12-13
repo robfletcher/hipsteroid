@@ -86,7 +86,7 @@ The app must be running before you do this.
 [im]:http://www.imagemagick.org/script/index.php
 [coffee]:http://coffeescript.org/
 [less]:http://lesscss.org/
-[handlebars]:http://handlebarsjs.com/
+[hbs]:http://handlebarsjs.com/
 [codekit]:http://incident57.com/codekit/
 [testem]:https://github.com/airportyh/testem
 [casper]:http://casperjs.org/
