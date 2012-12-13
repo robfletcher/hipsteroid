@@ -22,7 +22,7 @@
 
 	<body>
 		<header>
-			<h1>Hipsteroid</h1>
+			<h1><a href="${createLink(uri: '/')}">Hipsteroid</a></h1>
 
 			<aside class="auth">
 				<sec:ifLoggedIn>
