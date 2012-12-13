@@ -82,6 +82,7 @@ The app must be running before you do this.
 [ggx]:http://skillsmatter.com/event/groovy-grails/groovy-grails-exchange-2012
 [grails]:http://grails.org/
 [vert.x]:http://vertx.io/
+[mongo]:http://www.mongodb.org/
 [im]:http://www.imagemagick.org/script/index.php
 [coffee]:http://coffeescript.org/
 [less]:http://lesscss.org/
