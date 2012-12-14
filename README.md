@@ -20,21 +20,37 @@ Some way to compile…
 * [LESS][less]
 * [Handlebars][hbs]
 
-### Compiling front end resources
+## Compiling front end resources
 
-I have used [CodeKit][codekit] for CoffeeScript and LESS but you can use whatever you like. For simplicity the compiled `.js` and `.css` files should just go in the same directories as the source files.
+### CodeKit
 
-To compile on the command line:
+There is a [CodeKit][codekit] config file in `web-app/app` that will allow you to automatically compile CoffeeScript and LESS. You will still need to compile the Handlebars templates another way as CodeKit does not process them.
 
-	coffee -c web-app/app
-	lessc web-app/app/hipsteroid.less > web-app/app/hipsteroid.css
-	handlebars web-app/app/templates/ -f web-app/app/templates.js
+### Grunt
+
+To run the [Grunt][grunt] build you need to first run `npm install` (just once) to pull in the various Grunt plugins. Then you can execute:
+
+	grunt
+
+To compile CoffeeScript, LESS & Handlebars. Or:
+
+	grunt watch
+
+To monitor for changes in those resources and automatically compile them if they change.
+
+### Command line:
 
 To install the command line tools:
 
 	npm install -g coffee-script
 	gem install less
 	npm install -g handlebars
+
+Then use the following commands to compile the resources:
+
+	coffee -c web-app/app
+	lessc web-app/app/hipsteroid.less > web-app/app/hipsteroid.css
+	handlebars web-app/app/templates/ -f web-app/app/templates.js
 
 ## To run the app
 
@@ -90,3 +106,4 @@ The app must be running before you do this.
 [codekit]:http://incident57.com/codekit/
 [testem]:https://github.com/airportyh/testem
 [casper]:http://casperjs.org/
+[grunt]:http://gruntjs.org/
