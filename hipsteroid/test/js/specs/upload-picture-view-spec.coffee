@@ -23,9 +23,6 @@ describe 'UploadPictureView', ->
 
   describe 'generating thumbnails', ->
 
-    beforeEach ->
-      @view._onThumbStart()
-
     it 'replaces the stock image with the generated thumbnail', ->
       message =
         filter: 'lomo'
