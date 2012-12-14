@@ -1,0 +1,10 @@
+{
+	"name": "hipsteroid",
+	"version": "1.0.0",
+	"dependencies": {
+		"grunt": ">= 0.3.17",
+		"grunt-coffee": ">= 0.0.6",
+		"grunt-contrib-less": ">= 0.3.2",
+		"grunt-handlebars": ">= 0.0.6"
+	}
+}

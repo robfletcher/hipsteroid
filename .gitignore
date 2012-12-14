@@ -18,6 +18,11 @@ hipsteroid/web-app/app/*.js
 hipsteroid/web-app/app/*/*.js
 hipsteroid/web-app/app/*.css
 hipsteroid/web-app/app/*/*.css
+
+# Gradle artefacts in filter
 /filter/.gradle/
 /filter/build/
 /filter/vert.x/
+
+# Grunt
+/hipsteroid/node_modules/
