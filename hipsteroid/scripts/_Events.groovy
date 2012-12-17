@@ -5,6 +5,6 @@ eventCompileStart = {
 	}
 
 	event 'StatusUpdate', ['compiling front-end resources']
-	ant.exec executable: 'grunt', failonerror: true
+	ant.exec executable: 'grunt', failonerror: false
 
 }

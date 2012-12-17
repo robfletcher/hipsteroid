@@ -2,17 +2,6 @@
   "CodeKitInfo" : "This is a CodeKit project configuration file. It is designed to sync project settings across multiple machines. Modifying the contents of this file can be a poor life decision if you don't know what you're doing. This file is not useful unless accompanied by the project that created it in CodeKit. For more information, see: http:\/\/incident57.com\/codekit",
   "creatorBuild" : "7978",
   "files" : {
-    "\/hipsteroid.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/hipsteroid.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 1,
-      "outputAbbreviatedPath" : "\/hipsteroid-ck.js",
-      "fileType" : 64
-    },
     "\/view-helpers.coffee" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 0,
@@ -36,6 +25,17 @@
       "outputAbbreviatedPath" : "\/views\/upload-picture-view.js",
       "outputStyle" : 0,
       "fileType" : 32
+    },
+    "\/hipsteroid.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/hipsteroid.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 1,
+      "outputAbbreviatedPath" : "\/hipsteroid-ck.js",
+      "fileType" : 64
     },
     "\/views\/nav-view.coffee" : {
       "ignoreWasSetByUser" : 0,
@@ -66,7 +66,7 @@
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
       "inputAbbreviatedPath" : "\/hipsteroid.css",
-      "outputAbbreviatedPath" : "No Output Path",
+      "outputAbbreviatedPath" : "\/No Output Path",
       "fileType" : 16
     },
     "\/views\/picture-view.coffee" : {
@@ -117,16 +117,17 @@
       "outputStyle" : 0,
       "fileType" : 32
     },
-    "\/collections\/picture-collection.js" : {
+    "\/collections\/picture-collection.coffee" : {
       "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
+      "ignore" : 0,
       "hidden" : 0,
       "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/collections\/picture-collection.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 1,
-      "outputAbbreviatedPath" : "\/collections\/picture-collection-ck.js",
-      "fileType" : 64
+      "inputAbbreviatedPath" : "\/collections\/picture-collection.coffee",
+      "checkOutputStyle" : 0,
+      "minifyOutput" : 1,
+      "outputAbbreviatedPath" : "\/collections\/picture-collection.js",
+      "outputStyle" : 0,
+      "fileType" : 32
     },
     "\/hipsteroid.less" : {
       "ignoreWasSetByUser" : 0,
@@ -141,6 +142,17 @@
       "fileType" : 1,
       "debugStyle" : 0
     },
+    "\/collections\/picture-collection.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/collections\/picture-collection.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 1,
+      "outputAbbreviatedPath" : "\/collections\/picture-collection-ck.js",
+      "fileType" : 64
+    },
     "\/templates.js" : {
       "ignoreWasSetByUser" : 1,
       "ignore" : 1,
@@ -152,18 +164,6 @@
       "outputAbbreviatedPath" : "\/templates-ck.js",
       "fileType" : 64
     },
-    "\/collections\/picture-collection.coffee" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 0,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/collections\/picture-collection.coffee",
-      "checkOutputStyle" : 0,
-      "minifyOutput" : 1,
-      "outputAbbreviatedPath" : "\/collections\/picture-collection.js",
-      "outputStyle" : 0,
-      "fileType" : 32
-    },
     "\/views\/nav-view.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -173,17 +173,6 @@
       "outputStyle" : 1,
       "syntaxCheckerStyle" : 1,
       "outputAbbreviatedPath" : "\/views\/nav-view-ck.js",
-      "fileType" : 64
-    },
-    "\/logo.js" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/logo.js",
-      "outputStyle" : 1,
-      "syntaxCheckerStyle" : 1,
-      "outputAbbreviatedPath" : "\/logo-ck.js",
       "fileType" : 64
     },
     "\/models\/user.js" : {
@@ -197,6 +186,17 @@
       "outputAbbreviatedPath" : "\/models\/user-ck.js",
       "fileType" : 64
     },
+    "\/logo.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/logo.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 1,
+      "outputAbbreviatedPath" : "\/logo-ck.js",
+      "fileType" : 64
+    },
     "\/models\/picture.js" : {
       "ignoreWasSetByUser" : 0,
       "ignore" : 1,
@@ -206,6 +206,17 @@
       "outputStyle" : 1,
       "syntaxCheckerStyle" : 1,
       "outputAbbreviatedPath" : "\/models\/picture-ck.js",
+      "fileType" : 64
+    },
+    "\/templates-ck.js" : {
+      "ignoreWasSetByUser" : 0,
+      "ignore" : 1,
+      "hidden" : 0,
+      "outputPathIsSetByUser" : 0,
+      "inputAbbreviatedPath" : "\/templates-ck.js",
+      "outputStyle" : 1,
+      "syntaxCheckerStyle" : 1,
+      "outputAbbreviatedPath" : "\/templates-ck-ck.js",
       "fileType" : 64
     },
     "\/views\/upload-picture-view.js" : {
@@ -241,15 +252,6 @@
       "syntaxCheckerStyle" : 1,
       "outputAbbreviatedPath" : "\/view-helpers-ck.js",
       "fileType" : 64
-    },
-    "\/css\/hipsteroid.css" : {
-      "ignoreWasSetByUser" : 0,
-      "ignore" : 1,
-      "hidden" : 0,
-      "outputPathIsSetByUser" : 0,
-      "inputAbbreviatedPath" : "\/css\/hipsteroid.css",
-      "outputAbbreviatedPath" : "No Output Path",
-      "fileType" : 16
     },
     "\/views\/timeline-view.coffee" : {
       "ignoreWasSetByUser" : 0,
