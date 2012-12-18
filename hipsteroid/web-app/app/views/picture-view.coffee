@@ -9,9 +9,9 @@ class window.PictureView extends Backbone.View
     _.bindAll @
 
     @model = options.model
-    @model.on 'change', @render
-    @model.on 'destroy', @remove
-    @model.on 'remove', @remove
+    @listenTo @model, 'change', @render
+    @listenTo @model, 'destroy', @remove
+    @listenTo @model, 'remove', @remove
 
   render: ->
     @$el.append @template(@model.toJSON())
@@ -19,11 +19,6 @@ class window.PictureView extends Backbone.View
 
   attach: ->
     @
-
-  remove: ->
-    @model.off 'change', @render
-    @model.off 'destroy', @remove
-    Backbone.View.prototype.remove.call @
 
   delete: ->
     @model.destroy()
