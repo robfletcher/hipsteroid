@@ -53,7 +53,7 @@
 			window.hipsteroid.urlMappings = window.hipsteroid.urlMappings || {};
 			window.hipsteroid.urlMappings.root = '${createLink(uri: '/')}';
 			window.hipsteroid.urlMappings.pictures = '${createLink(controller: 'picture')}';
-			window.hipsteroid.urlMappings.thumbnail = '${createLink(controller: 'thumbnail', action: 'generate')}';
+			window.hipsteroid.urlMappings.thumbnail = '${createLink(controller: 'thumbnail')}';
 			<sec:ifLoggedIn>
 				window.hipsteroid.currentUser = new window.User({
 					id: '${sec.loggedInUserInfo(field: 'id')}',

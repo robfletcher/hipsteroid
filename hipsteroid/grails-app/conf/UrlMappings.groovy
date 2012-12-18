@@ -21,7 +21,9 @@ class UrlMappings {
 			action = [GET: 'show', PUT: 'update', DELETE: 'delete']
 		}
 
-		'/thumbnail' controller: 'thumbnail', action: 'generate'
+		'/thumbnail'(controller: 'thumbnail') {
+			action = [GET: 'index', POST: 'generate']
+		}
 
 		// testing only
 

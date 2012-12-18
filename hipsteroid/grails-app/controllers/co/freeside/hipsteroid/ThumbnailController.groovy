@@ -8,33 +8,25 @@ import static javax.servlet.http.HttpServletResponse.*
 
 class ThumbnailController {
 
-	static allowedMethods = [generate: 'POST']
-
 	def springSecurityService
 	def vertx
 
-	def beforeInterceptor = {
-		if (!springSecurityService.isLoggedIn()) {
-			render status: SC_UNAUTHORIZED
-			return false
-		}
-
-		MultipartFile image = params.image
-		if (!image) {
-			render status: SC_BAD_REQUEST
-			return false
-		} else if (image.contentType != 'image/jpeg') {
-			render status: SC_UNSUPPORTED_MEDIA_TYPE
-			return false
-		}
-
-		return true
+	def index() {
+		redirect controller: 'landing', action: 'upload'
 	}
 
 	@Secured(USER)
 	def generate() {
 
 		MultipartFile image = params.image
+		if (!image) {
+			render status: SC_BAD_REQUEST
+			return
+		} else if (image.contentType != 'image/jpeg') {
+			render status: SC_UNSUPPORTED_MEDIA_TYPE
+			return
+		}
+
 		def replyAddress = params.address
 
 		def filters = ['none', 'gotham', 'toaster', 'nashville', 'lomo', 'kelvin']
