@@ -2,6 +2,8 @@
 
 This is a demo app written for the talk [Grails for Hipsters][talk] at [Groovy & Grails Exchange 2012][ggx]. It is a simple _Instagram_-like photo sharing app.
 
+The slides for the talk can be found on [SlideShare](http://www.slideshare.net/rfletcher/grails-for-hipsters) and the video is available via [SkillsMatter](http://skillsmatter.com/podcast/groovy-grails/grails-for-hipsters).
+
 ## Structure
 
 * `filter` contains a vert.x application that does image processing.
