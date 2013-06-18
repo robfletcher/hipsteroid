@@ -1,4 +1,4 @@
-package co.freeside.hipsteroid
+package com.energizedwork.hipsteroid
 
 import java.awt.*
 import groovy.transform.TupleConstructor
