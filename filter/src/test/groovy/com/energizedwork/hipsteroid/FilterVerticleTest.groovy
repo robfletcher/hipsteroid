@@ -13,12 +13,25 @@ class FilterVerticleTest extends ModuleDeployingTestVerticle {
 	static final Map<String, File> FILTERED_FILES = [
 	        gotham: loadResource("manhattan-gotham.jpg")
 	].asImmutable()
+	static final Map<String, File> THUMB_FILES = [
+	        gotham: loadResource("manhattan-gotham.thumb.jpg")
+	].asImmutable()
 
 	@Test
     public void filtersAnImage() {
 		vertx.fileSystem().readFile(INPUT_FILE.absolutePath, { AsyncResult<Buffer> input ->
 			vertx.eventBus().send("hipsteroid.filter.gotham.full", input.result(), { Message<Buffer> reply ->
 				assertChecksumsEqual FILTERED_FILES.gotham, reply
+				testComplete()
+			} as Handler)
+		} as Handler)
+	}
+
+	@Test
+    public void createsAnImageThumbnail() {
+		vertx.fileSystem().readFile(INPUT_FILE.absolutePath, { AsyncResult<Buffer> input ->
+			vertx.eventBus().send("hipsteroid.filter.gotham.thumb", input.result(), { Message<Buffer> reply ->
+				assertChecksumsEqual THUMB_FILES.gotham, reply
 				testComplete()
 			} as Handler)
 		} as Handler)
