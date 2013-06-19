@@ -18,10 +18,14 @@ class FilterVerticleTest extends ModuleDeployingTestVerticle {
     public void filtersAnImage() {
 		vertx.fileSystem().readFile(INPUT_FILE.absolutePath, { AsyncResult<Buffer> input ->
 			vertx.eventBus().send("hipsteroid.filter.gotham.full", input.result(), { Message<Buffer> reply ->
-				assertEquals "checksums do not match", getChecksum(FILTERED_FILES.gotham), checksum(reply.body())
+				assertChecksumsEqual FILTERED_FILES.gotham, reply
 				testComplete()
 			} as Handler)
 		} as Handler)
+	}
+
+	static void assertChecksumsEqual(File expected, Message<Buffer> actual) {
+		assertEquals "checksums do not match", getChecksum(expected), checksum(actual.body())
 	}
 
 	private static File loadResource(String name) {
