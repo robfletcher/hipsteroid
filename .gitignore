@@ -26,3 +26,4 @@ hipsteroid/web-app/app/*/*.css
 
 # Grunt
 /hipsteroid/node_modules/
+/hipsteroid/.sass-cache/
