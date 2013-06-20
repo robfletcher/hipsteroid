@@ -35,6 +35,8 @@ grails.project.dependency.resolution = {
 				'org.im4java:im4java:1.2.0',
 				'com.github.mfornos:humanize-slim:0.1.4'
 
+		test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
+
 	}
 
 	plugins {
@@ -55,7 +57,9 @@ grails.project.dependency.resolution = {
 
 		build ":tomcat:$grailsVersion"
 
-		test ':spock:0.7'
+		test(":spock:0.7") {
+			exclude "spock-grails-support"
+		}
 
 	}
 }
