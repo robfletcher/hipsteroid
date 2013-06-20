@@ -1,6 +1,7 @@
 @import "compass";
-@import "../lib/semantic-gs/grid";
-@import "../lib/font-awesome/less/font-awesome";
+@import "grid";
+//@import "font-awesome";
+@import "mixins";
 
 $fontAwesomePath: '../lib/font-awesome/font';
 
@@ -76,7 +77,7 @@ h1 {
   }
   .char3, .char7 {
     color: $logo-color-3;
-    text-shadow: -2px 2px 0 fade(cyan, 50%), 2px -2px 0 fade(magenta, 50%);
+    text-shadow: -2px 2px 0 transparentize(cyan, .5), 2px -2px 0 transparentize(magenta, .5);
   }
   .char4, .char8 {
     color: $logo-color-4;
@@ -256,8 +257,8 @@ $image-size: 298px;
   li {
     width: $image-size + 2;
     float: left;
-    margin-right: $gutter-width * 1px;
-    margin-bottom: $gutter-width * 1px;
+    margin-right: $gutter-width;
+    margin-bottom: $gutter-width;
     @include bordered;
   }
 
@@ -441,41 +442,6 @@ $image-size: 298px;
   }
 }
 
-// Mixins
-
-@mixin fixed-at-top {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1;
-}
-
-@mixin bordered($color: #000) {
-  border: 1px solid fade($color, 20%);
-  @include subtle-shadow;
-}
-
-@mixin off-screen {
-  position: absolute;
-  left: -9999px;
-}
-
-@mixin button-as-link {
-  background: transparent;
-  border: none;
-}
-
-@mixin overlay-section {
-  background-color: $picture-background;
-  background-image: image-url('100-50-3.png');
-  padding: 0 20px 20px;
-  @include subtle-shadow;
-}
-
-@mixin subtle-shadow {
-  @include box-shadow(0 0 30px fade(#000, 25%));
-}
-
 .divider {
   font-family: $logo-font;
   font-size: 48px;
@@ -493,7 +459,7 @@ $image-size: 298px;
   font-size: 18px;
   padding: 10px;
   margin-bottom: 20px;
-  @include rounded(10px);
+  @include border-radius(10px);
 
   i {
     float: left;
@@ -506,35 +472,4 @@ $image-size: 298px;
     margin: 0;
     list-style-position: inside;
   }
-}
-
-@mixin center-column($num-columns) {
-  $indent: ($columns - $num-columns) / 2;
-  @include column($num-columns);
-  @include push($indent);
-}
-
-// container for a hidden radio button with a clickable image label
-@mixin radio-overlay($width, $height: $width) {
-  position: relative;
-  width: $width;
-  height: $height;
-  cursor: pointer;
-
-  opacity: 0.5;
-
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  input[type=radio] {
-    opacity: 0; // better than display:none as radio is still tabbable
-  }
-
-  &.checked {
-    opacity: 1;
-  }
-
 }

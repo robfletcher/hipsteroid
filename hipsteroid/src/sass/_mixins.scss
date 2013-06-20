@@ -1,0 +1,63 @@
+@mixin fixed-at-top {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+@mixin bordered($color: #000) {
+  border: 1px solid transparentize($color, .2);
+  @include subtle-shadow;
+}
+
+@mixin off-screen {
+  position: absolute;
+  left: -9999px;
+}
+
+@mixin button-as-link {
+  background: transparent;
+  border: none;
+}
+
+@mixin overlay-section {
+  background-color: $picture-background;
+  background-image: image-url('100-50-3.png');
+  padding: 0 20px 20px;
+  @include subtle-shadow;
+}
+
+@mixin subtle-shadow {
+  @include box-shadow(0 0 30px transparentize(#000, .25));
+}
+
+@mixin center-column($num-columns) {
+  $indent: ($columns - $num-columns) / 2;
+  @include column($num-columns);
+  @include push($indent);
+}
+
+// container for a hidden radio button with a clickable image label
+@mixin radio-overlay($width, $height: $width) {
+  position: relative;
+  width: $width;
+  height: $height;
+  cursor: pointer;
+
+  opacity: 0.5;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  input[type=radio] {
+    opacity: 0; // better than display:none as radio is still tabbable
+  }
+
+  &.checked {
+    opacity: 1;
+  }
+
+}

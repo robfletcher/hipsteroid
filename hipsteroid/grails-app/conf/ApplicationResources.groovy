@@ -42,6 +42,10 @@ modules = {
 		resource url: 'lib/lettering/jquery.lettering-0.6.1.min.js'
 	}
 
+	'font-awesome' {
+		resource url: 'lib/font-awesome/css/font-awesome.min.css', exclude: 'minify'
+	}
+
 	'jquery-file-upload' {
 		dependsOn 'jquery'
 
@@ -52,23 +56,23 @@ modules = {
 	}
 
 	hipsteroid {
-		dependsOn 'jquery', 'backbone', 'handlebars', 'moment', 'vertx', 'jquery-file-upload', 'lettering'
+		dependsOn 'jquery', 'backbone', 'handlebars', 'moment', 'vertx', 'jquery-file-upload', 'lettering', 'font-awesome'
 
-		resource url: 'app/view-helpers.js'
-		resource url: 'app/templates.js'
+		resource url: 'scripts/view-helpers.js'
+		resource url: 'scripts/templates.js'
 
-		resource url: 'app/models/user.js'
-		resource url: 'app/models/picture.js'
-		resource url: 'app/collections/picture-collection.js'
-		resource url: 'app/views/nav-view.js'
-		resource url: 'app/views/picture-view.js'
-		resource url: 'app/views/timeline-view.js'
-		resource url: 'app/views/upload-picture-view.js'
+		resource url: 'scripts/models/user.js'
+		resource url: 'scripts/models/picture.js'
+		resource url: 'scripts/collections/picture-collection.js'
+		resource url: 'scripts/views/nav-view.js'
+		resource url: 'scripts/views/picture-view.js'
+		resource url: 'scripts/views/timeline-view.js'
+		resource url: 'scripts/views/upload-picture-view.js'
 
-		resource url: 'app/logo.js'
+		resource url: 'scripts/logo.js'
 
-		resource url: 'app/hipsteroid.js'
-		resource url: 'app/hipsteroid.css'
+		resource url: 'scripts/hipsteroid.js'
+		resource url: 'styles/hipsteroid.css'
 	}
 
 }
