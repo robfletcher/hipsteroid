@@ -99,6 +99,7 @@ grails.plugins.springsecurity.oauth.domainClass = 'co.freeside.hipsteroid.auth.O
 grails.plugins.springsecurity.oauth.registration.roleNames = [Role.USER]
 grails.plugins.springsecurity.oauth.registration.askToLinkOrCreateAccountUri = '/link-account'
 
-grails.resources.mappers.handlebars.templatesRoot = 'app/templates'
+grails.resources.mappers.handlebars.templatesRoot = 'templates'
+grails.resources.mappers.handlebars.templateExtension = '.hbs'
 
 grails.plugin.cloudfoundry.showStackTrace = true

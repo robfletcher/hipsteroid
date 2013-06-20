@@ -41,7 +41,7 @@ class BootStrap {
 	 */
 	private void fixHandlebarsTemplateLoader(ServletContext servletContext) {
 		def templatesRoot = grailsApplication.config.grails.resources.mappers.handlebars.templatesRoot ?: ''
-		def templateLoader = new ServletContextTemplateLoader(servletContext, templatesRoot, '.handlebars')
+		def templateLoader = new ServletContextTemplateLoader(servletContext, templatesRoot, '.hbs')
 		handlebarsService.handlebars = new Handlebars(templateLoader)
 	}
 
