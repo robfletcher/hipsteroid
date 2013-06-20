@@ -61,8 +61,7 @@ You need to run 3 things simultaneously. I just use 3 terminal tabs.
 ### The vert.x app
 
 	cd filter
-	gradle build
-	VERTX_MODS=build/work/mods vertx runmod hipsteroid-filter -cluster
+	./gradlew build runMod
 
 ### The grails app
 
