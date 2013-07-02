@@ -10,7 +10,7 @@ class SendMessageSpec extends Specification {
 
 	void 'can send a message to a receiver'() {
 		given: 'a receiver'
-		def receiver = new Receiver()
+		def receiver = new Receiver(new ReverserHandler())
 
 		and: 'a sender'
 		def sender = new Sender(QUEUE_NAME)
@@ -32,6 +32,15 @@ class SendMessageSpec extends Specification {
 		sender?.close()
 	}
 
+}
+
+@CompileStatic
+class ReverserHandler implements MessageHandler {
+
+	@Override
+	byte[] onMessage(byte[] message) {
+		new String(message).reverse().bytes
+	}
 }
 
 /**

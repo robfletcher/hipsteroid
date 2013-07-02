@@ -10,6 +10,8 @@ class Receiver {
 
 	private static final String QUEUE_NAME = "hello"
 
+	private final MessageHandler handler
+
 	private final Channel channel
 	private final Connection connection
 	private boolean stopped = false
@@ -17,11 +19,13 @@ class Receiver {
 	private final AtomicInteger counter = new AtomicInteger()
 	private final CountDownLatch stopLatch = new CountDownLatch(1)
 
-	Receiver() {
+	Receiver(MessageHandler handler) {
 		def factory = new ConnectionFactory()
 		factory.host = "localhost"
 		connection = factory.newConnection()
 		channel = connection.createChannel()
+
+		this.handler = handler
 	}
 
 	void start() {
@@ -40,12 +44,10 @@ class Receiver {
 				def props = delivery.properties
 				def replyProps = new AMQP.BasicProperties.Builder().correlationId(props.correlationId).build()
 
-				def message = new String(delivery.body)
-				println " [x] Received '$message'"
-				def reply = doWork(message)
+				def reply = handler.onMessage(delivery.body)
 
 				println " [x] Done"
-				channel.basicPublish "", props.replyTo, replyProps, reply.bytes
+				channel.basicPublish "", props.replyTo, replyProps, reply
 				channel.basicAck delivery.envelope.deliveryTag, false
 			}
 		}
