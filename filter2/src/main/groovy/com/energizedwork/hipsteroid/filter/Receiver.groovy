@@ -8,8 +8,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Receiver {
 
-	private static final String QUEUE_NAME = "hello"
-
+	private final String queueName
 	private final MessageHandler handler
 
 	private final Channel channel
@@ -19,21 +18,22 @@ class Receiver {
 	private final AtomicInteger counter = new AtomicInteger()
 	private final CountDownLatch stopLatch = new CountDownLatch(1)
 
-	Receiver(MessageHandler handler) {
+	Receiver(String queueName, MessageHandler handler) {
+		this.queueName = queueName
+		this.handler = handler
+
 		def factory = new ConnectionFactory()
 		factory.host = "localhost"
 		connection = factory.newConnection()
 		channel = connection.createChannel()
-
-		this.handler = handler
 	}
 
 	void start() {
-		channel.queueDeclare QUEUE_NAME, false, false, false, null
+		channel.queueDeclare queueName, false, false, false, null
 		println " [*] Waiting for messages."
 
 		def consumer = new QueueingConsumer(channel)
-		channel.basicConsume QUEUE_NAME, false, consumer
+		channel.basicConsume queueName, false, consumer
 
 		while (!stopped && channel.isOpen()) {
 			def delivery = consumer.nextDelivery(50)

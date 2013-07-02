@@ -3,14 +3,16 @@ package com.energizedwork.hipsteroid.filter
 import com.rabbitmq.client.*
 import groovy.transform.CompileStatic
 import spock.lang.Specification
+import spock.lang.Timeout
 
 class SendMessageSpec extends Specification {
 
 	private static final String QUEUE_NAME = "hello"
 
+	@Timeout(1)
 	void 'can send a message to a receiver'() {
 		given: 'a receiver'
-		def receiver = new Receiver(new ReverserHandler())
+		def receiver = new Receiver(QUEUE_NAME, new ReverserHandler())
 
 		and: 'a sender'
 		def sender = new Sender(QUEUE_NAME)
@@ -22,10 +24,10 @@ class SendMessageSpec extends Specification {
 
 		and: 'a message is sent'
 		def message = "Hello World!"
-		def reply = sender.call(message)
+		def reply = sender.call(message.bytes)
 
 		then: 'the response is received'
-		reply == message.reverse()
+		reply == message.reverse().bytes
 
 		cleanup:
 		receiver?.close()
@@ -67,8 +69,8 @@ class Sender {
 		channel.basicConsume replyQueueName, true, consumer
 	}
 
-	String call(String message) {
-		def response = null
+	byte[] call(byte[] message) {
+		byte[] response = null
 		def corrId = UUID.randomUUID().toString()
 
 		def props = new AMQP.BasicProperties.Builder()
@@ -76,12 +78,12 @@ class Sender {
 				.replyTo(replyQueueName)
 				.build()
 
-		channel.basicPublish "", requestQueueName, props, message.bytes
+		channel.basicPublish "", requestQueueName, props, message
 
 		while (true) {
 			QueueingConsumer.Delivery delivery = consumer.nextDelivery()
 			if (delivery.properties.correlationId == corrId) {
-				response = new String(delivery.body)
+				response = delivery.body
 				break
 			}
 		}
