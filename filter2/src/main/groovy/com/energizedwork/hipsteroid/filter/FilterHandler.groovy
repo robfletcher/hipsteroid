@@ -17,7 +17,6 @@ class FilterHandler implements MessageHandler {
 			stream << message
 		}
 		filter.execute file, file, size
-		println "ok filtered"
 		return file.bytes
 	}
 

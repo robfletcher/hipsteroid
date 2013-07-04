@@ -22,8 +22,8 @@ class FilterHandlerSpec extends Specification {
 		checksum(result) == checksum(getResource("manhattan-gotham.thumb.jpg"))
 	}
 
-	@Timeout(10)
-	void "filters image data send via MQ"() {
+	@Timeout(1)
+	void "filters image data sent via MQ"() {
 		given: "a handler"
 		def handler = new FilterHandler(Filter.GOTHAM, new Dimension(100, 100))
 
