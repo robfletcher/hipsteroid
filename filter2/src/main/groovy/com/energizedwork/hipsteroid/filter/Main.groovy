@@ -1,7 +1,6 @@
 package com.energizedwork.hipsteroid.filter
 
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.*
 import groovy.transform.CompileStatic
 import groovy.util.logging.Log
 
@@ -29,12 +28,13 @@ class Main {
 		}
 
 		addShutdownHook {
+			log.info "Stopping work queue..."
+			executor.shutdown()
 			for (receiver in receivers) {
 				log.info "Stopping $receiver.queueName..."
 				receiver.close()
 				log.info "Stopped $receiver.queueName"
 			}
-			log.info "Stopping work queue..."
 			executor.awaitTermination(3, TimeUnit.SECONDS)
 			log.info "kthxbye"
 		}

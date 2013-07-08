@@ -1,7 +1,5 @@
 package com.energizedwork.hipsteroid.filter
 
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.atomic.AtomicInteger
 import com.rabbitmq.client.*
 import groovy.transform.CompileStatic
 import groovy.util.logging.Log
@@ -15,10 +13,6 @@ class Receiver {
 
 	private final Channel channel
 	private final Connection connection
-	private boolean stopped = false
-
-	private final AtomicInteger counter = new AtomicInteger()
-	private final CountDownLatch stopLatch = new CountDownLatch(1)
 
 	Receiver(String queueName, MessageHandler handler) {
 		this.queueName = queueName
@@ -37,11 +31,9 @@ class Receiver {
 		def consumer = new QueueingConsumer(channel)
 		channel.basicConsume queueName, false, consumer
 
-		while (!stopped && channel.isOpen()) {
-			def delivery = consumer.nextDelivery(50)
-
-			if (delivery) {
-				counter.incrementAndGet()
+		try {
+			while (channel.isOpen()) {
+				def delivery = consumer.nextDelivery()
 
 				def props = delivery.properties
 				def replyProps = new AMQP.BasicProperties.Builder().correlationId(props.correlationId).build()
@@ -51,23 +43,17 @@ class Receiver {
 				channel.basicPublish "", props.replyTo, replyProps, reply
 				channel.basicAck delivery.envelope.deliveryTag, false
 			}
+		} catch (InterruptedException e) {
+			log.warning "Receiver for $queueName interrupted: $e.message"
+		} catch (ShutdownSignalException e) {
+			log.warning "Connection for $queueName shut down: $e.message"
+		} catch (ConsumerCancelledException e) {
+			log.warning "Consumer for $queueName cancelled: $e.message"
 		}
-		stopLatch.countDown()
 	}
 
 	void close() {
-		stopped = true
-		stopLatch.await()
 		channel?.close()
 		connection?.close()
-	}
-
-	int getCount() {
-		counter.get()
-	}
-
-	private String doWork(String task) {
-		sleep 1000
-		task.reverse()
 	}
 }
