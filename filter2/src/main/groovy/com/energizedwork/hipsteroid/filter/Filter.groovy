@@ -2,11 +2,13 @@ package com.energizedwork.hipsteroid.filter
 
 import java.awt.*
 import groovy.transform.*
+import groovy.util.logging.Log
 import org.im4java.core.*
 import static java.lang.Math.round
 
 @CompileStatic
 @TupleConstructor
+@Log
 abstract class Filter {
 
 	final String name
@@ -25,7 +27,7 @@ abstract class Filter {
 
 		def command = new ConvertCmd()
 		ops.inject(input) { File file, Operation operation ->
-			println "$operation [$file, $output]"
+			log.fine "Executing...\n$operation [$file, $output]"
 			command.run(operation, file.absolutePath, output.absolutePath)
 			output
 		}

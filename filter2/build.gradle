@@ -1,4 +1,5 @@
 apply plugin: "groovy"
+apply plugin: "application"
 
 repositories {
 	mavenCentral()
@@ -10,3 +11,5 @@ dependencies {
 			"org.im4java:im4java:1.4.0"
 	testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
 }
+
+mainClassName = "com.energizedwork.hipsteroid.filter.Main"

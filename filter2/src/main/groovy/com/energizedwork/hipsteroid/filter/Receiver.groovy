@@ -4,11 +4,13 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.atomic.AtomicInteger
 import com.rabbitmq.client.*
 import groovy.transform.CompileStatic
+import groovy.util.logging.Log
 
 @CompileStatic
+@Log
 class Receiver {
 
-	private final String queueName
+	final String queueName
 	private final MessageHandler handler
 
 	private final Channel channel
@@ -30,7 +32,7 @@ class Receiver {
 
 	void start() {
 		channel.queueDeclare queueName, false, false, false, null
-		println " [*] Waiting for messages."
+		log.info "Waiting for messages on $queueName..."
 
 		def consumer = new QueueingConsumer(channel)
 		channel.basicConsume queueName, false, consumer
@@ -46,7 +48,6 @@ class Receiver {
 
 				def reply = handler.onMessage(delivery.body)
 
-				println " [x] Done"
 				channel.basicPublish "", props.replyTo, replyProps, reply
 				channel.basicAck delivery.envelope.deliveryTag, false
 			}
