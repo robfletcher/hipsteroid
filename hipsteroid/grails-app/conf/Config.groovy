@@ -47,7 +47,7 @@ environments {
 	}
 	production {
 		grails.logging.jul.usebridge = false
-		grails.serverURL = 'http://hipsteroid.cloudfoundry.com'
+		grails.serverURL = 'http://hipsteroid.energizedwork.com'
 		vertx.eventBus.bridge.port = System.getenv('PORT_EVENTBUS')?.toInteger() ?: 8085
 		vertx.eventBus.bridge.host = grails.serverURL
 	}
