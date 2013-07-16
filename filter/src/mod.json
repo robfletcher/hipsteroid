@@ -1,5 +1,4 @@
 {
 	"main": "App.groovy",
-	"preserve-cwd": true,
-	"includes": "vertx.formupload-v1.0"
+	"preserve-cwd": true
 }
