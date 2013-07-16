@@ -170,8 +170,8 @@ header {
     line-height: $header-height; // font is off the baseline
 
     .fontface & {
-      line-height: $header-height - 8px;
-      padding-top: 8px;
+      line-height: $header-height - 4px;
+      padding-top: 4px;
     }
 
     margin: 0;
