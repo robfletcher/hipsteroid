@@ -33,7 +33,7 @@ modules = {
 	vertx {
 		dependsOn 'sockjs'
 
-		resource url: 'lib/vertx/vertxbus-1.3.0.final.js'
+		resource url: 'lib/vertx/vertxbus-1.3.1.final.js'
 	}
 
 	lettering {
