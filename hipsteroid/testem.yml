@@ -1,7 +1,7 @@
 framework: jasmine
-before_tests: coffee -c web-app/app/*.coffee && handlebars web-app/app/templates/ -f web-app/app/templates.js && coffee -c test/js/specs/*.coffee
+before_tests: grunt && coffee -c test/js/specs/*.coffee
 src_files:
-- web-app/app/*.coffee
+- src/coffee/*.coffee
 - test/js/specs/*.coffee
 serve_files:
 - target/plugins/jquery-1.8.3/web-app/js/jquery/jquery-1.8.3.min.js
@@ -11,11 +11,11 @@ serve_files:
 - web-app/lib/moment/*.js
 - web-app/lib/sockjs/*.js
 - web-app/lib/vertx/*.js
-- web-app/app/view-helpers.js
-- web-app/app/templates.js
-- web-app/app/models/*.js
-- web-app/app/collections/*.js
-- web-app/app/views/*.js
+- web-app/scripts/view-helpers.js
+- web-app/scripts/templates.js
+- web-app/scripts/models/*.js
+- web-app/scripts/collections/*.js
+- web-app/scripts/views/*.js
 - test/js/lib/*.js
 - test/js/specs/*.js
 on_exit: find test/js/specs -name "*.js" -exec rm {} \;

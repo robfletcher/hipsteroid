@@ -19,7 +19,7 @@ modules = {
 	}
 
 	handlebars {
-		resource url: 'lib/handlebars/handlebars-1.0.rc.1.min.js', exclude: 'minify'
+		resource url: 'lib/handlebars/handlebars-1.0.0.js'
 	}
 
 	moment {
