@@ -35,7 +35,8 @@ grails.project.dependency.resolution = {
 
 		compile 'org.vert-x:vertx-lang-groovy:1.3.1.final',
 				'org.im4java:im4java:1.2.0',
-				'com.github.mfornos:humanize-slim:0.1.4'
+				'com.github.mfornos:humanize-slim:0.1.4',
+				'org.springframework.social:spring-social-twitter:1.0.5.RELEASE'
 
 		test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
 
@@ -46,7 +47,11 @@ grails.project.dependency.resolution = {
 		compile ":cache-headers:1.1.4",
 				":handlebars:1.1.0",
 				":spring-security-core:1.2.7.3",
-				":spring-security-oauth:2.0.1.1"
+				":oauth:2.1.0"
+
+		compile(":spring-security-oauth:2.0.1.1") {
+			excludes "spring-social-twitter"
+		}
 
 		runtime ":mongodb:1.2.0",
 				":jquery:1.8.3",
