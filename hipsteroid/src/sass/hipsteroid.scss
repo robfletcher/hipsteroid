@@ -14,6 +14,7 @@ $total-width: 100%;
 }
 
 $header-height: 80px;
+$touch-target-size: 44px;
 
 $body-font: Cabin, 'Century Gothic', Futura, sans-serif;
 $logo-font: 'Maiden Orange', sans-serif;
@@ -198,9 +199,7 @@ header {
 
   a {
     color: $text-color;
-    line-height: $header-height;
     text-decoration: none;
-
     display: inline-block;
 
     @include transition;
@@ -224,9 +223,13 @@ header {
   nav, .auth {
     a {
       font-size: 0;
-      min-width: 44px;
+      min-width: $touch-target-size;
+      line-height: $touch-target-size;
       text-align: center;
 
+      @media only screen and (min-width: 480px) {
+        line-height: $header-height;
+      }
       @media only screen and (min-width: 768px) {
         font-size: 18px;
         min-width: auto;
@@ -238,7 +241,9 @@ header {
       [class^="icon-"],
       [class*=" icon-"] {
         font-size: 22px;
-        line-height: $header-height;
+        @media only screen and (min-width: 480px) {
+          line-height: $header-height;
+        }
       }
     }
   }
