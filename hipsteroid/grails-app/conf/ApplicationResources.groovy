@@ -9,13 +9,13 @@ modules = {
 	}
 
 	underscore {
-		resource url: 'lib/underscore/underscore-1.4.2.min.js', exclude: 'minify'
+		resource url: 'lib/underscore/underscore-1.5.1.min.js', exclude: 'minify'
 	}
 
 	backbone {
 		dependsOn 'underscore'
 
-		resource url: 'lib/backbone/backbone-0.9.9.min.js', exclude: 'minify'
+		resource url: 'lib/backbone/backbone-1.0.0.min.js', exclude: 'minify'
 	}
 
 	handlebars {
