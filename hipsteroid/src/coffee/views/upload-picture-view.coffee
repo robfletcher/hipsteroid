@@ -10,9 +10,7 @@ class window.UploadPictureView extends Backbone.View
     'change input[name=image]': '_onImageSelected'
     'change input[name=filter]': '_onFilterSelected'
 
-  initialize: (options) ->
-    _.bindAll @
-
+  initialize: (options) =>
     @app = options.app
     @thumbCallbackAddress = "hipsteroid.filter.thumb.callback.#{hipsteroid.uuid}"
     @uploadCallbackAddress = "hipsteroid.filter.upload.callback.#{hipsteroid.uuid}"
@@ -24,12 +22,12 @@ class window.UploadPictureView extends Backbone.View
 
     @model = new Picture
 
-  render: ->
+  render: =>
     @$el.html @template(hipsteroid.urlMappings)
     @attach()
     @
 
-  attach: ->
+  attach: =>
     @thumbContainer = @$el.find('.thumb-container')
 
     @maskInput = $ '<input type="text" readonly class="mask" placeholder="Choose an image file&hellip;" tabindex="-1">'
@@ -47,18 +45,18 @@ class window.UploadPictureView extends Backbone.View
 
     @
 
-  remove: ->
+  remove: =>
     @app.eventBus.unregisterHandler @thumbCallbackAddress, @_onThumbRecieved
     @app.eventBus.unregisterHandler @uploadCallbackAddress, @_uploadCallback
     Backbone.View.prototype.remove.call @
 
-  _registerThumbReciever: ->
+  _registerThumbReciever: =>
     @app.eventBus.registerHandler @thumbCallbackAddress, @_onThumbRecieved
 
-  _onThumbRecieved: (message) ->
+  _onThumbRecieved: (message) =>
     @thumbContainer.find(".#{message.filter} img").attr('src', message.thumbnail)
 
-  _onImageSelected: (event) ->
+  _onImageSelected: (event) =>
     file = event.target.files[0]
 
     @maskInput.val(file.name)
@@ -68,12 +66,12 @@ class window.UploadPictureView extends Backbone.View
       @model.set image: loadEvent.target.result
     reader.readAsDataURL(file)
 
-  _onFilterSelected: (event) ->
+  _onFilterSelected: (event) =>
     @model.set filter: $(event.target).val()
 
     @thumbContainer.find('label').removeClass('checked').find(':checked').parent().addClass('checked')
 
-  _onSubmit: ->
+  _onSubmit: =>
     @app.eventBus.registerHandler @uploadCallbackAddress, @_uploadCallback
     @model.save
       callbackAddress: @uploadCallbackAddress
@@ -81,10 +79,10 @@ class window.UploadPictureView extends Backbone.View
       error: @_onUploadFailed
     false
 
-  _uploadCallback: ->
+  _uploadCallback: =>
     @app.navigate '/timeline', trigger: true
 
-  _onUploadFailed: (model, xhr, options) ->
+  _onUploadFailed: (model, xhr, options) =>
     errorList = $('<ul></ul>')
     errorList.append("<li>#{error}</li>") for error in JSON.parse(xhr.responseText).errors
     if (@$el.find('.errors').length)

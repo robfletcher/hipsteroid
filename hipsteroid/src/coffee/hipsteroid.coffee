@@ -6,9 +6,7 @@ class window.HipsteroidApp extends Backbone.Router
     timeline: 'timeline'
     upload: 'upload'
 
-  initialize: (options) ->
-    _.bindAll @
-
+  initialize: (options) =>
     $.ajaxSetup
       statusCode:
         401: ->
@@ -36,7 +34,7 @@ class window.HipsteroidApp extends Backbone.Router
       @eventBus.registerHandler 'hipsteroid.pictures.deleted', (picture) =>
         @pictures.remove picture.id
 
-  start: (options) ->
+  start: (options) =>
     @preRendered = options?.preRendered ? false
 
     if options?.models
@@ -50,18 +48,18 @@ class window.HipsteroidApp extends Backbone.Router
     unless hasRoute
       @navigate 'timeline', trigger: true
 
-  timeline: ->
+  timeline: =>
     @pictures.fetch() unless @preRendered
     @_load new TimelineView
       model: @pictures
       el: if @preRendered then @appEl.children() else undefined
 
-  upload: ->
+  upload: =>
     @_load new UploadPictureView
       app: @
       el: if @preRendered then @appEl.children() else undefined
 
-  _load: (view) ->
+  _load: (view) =>
     @currentView?.remove()
     @currentView = view
 

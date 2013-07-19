@@ -5,20 +5,18 @@ class window.PictureView extends Backbone.View
   events:
     'click button.delete': 'delete'
 
-  initialize: (options) ->
-    _.bindAll @
-
+  initialize: (options) =>
     @model = options.model
     @listenTo @model, 'change', @render
     @listenTo @model, 'destroy', @remove
     @listenTo @model, 'remove', @remove
 
-  render: ->
+  render: =>
     @$el.append @template(@model.toJSON())
     @attach()
 
-  attach: ->
+  attach: =>
     @
 
-  delete: ->
+  delete: =>
     @model.destroy()
