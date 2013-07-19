@@ -46,7 +46,7 @@ class window.HipsteroidApp extends Backbone.Router
       root: hipsteroid.urlMappings.root
 
     unless hasRoute
-      @navigate 'timeline', trigger: true
+      @navigate '/timeline', trigger: true
 
   timeline: =>
     @pictures.fetch() unless @preRendered

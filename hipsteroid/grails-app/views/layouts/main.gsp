@@ -37,8 +37,8 @@
 			</aside>
 
 			<nav>
-				<a href="timeline"><i class="icon-time"></i> Timeline</a>
-				<a href="upload"><i class="icon-camera-retro"></i> Upload a picture</a>
+				<a href="/timeline"><i class="icon-time"></i> Timeline</a>
+				<a href="/upload"><i class="icon-camera-retro"></i> Upload a picture</a>
 			</nav>
 		</header>
 

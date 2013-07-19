@@ -9,5 +9,6 @@ class window.NavView extends Backbone.View
     'click a': '_handleClick'
 
   _handleClick: (event) =>
-    @router.navigate $(event.target).attr('href'), trigger: true
+    url = $(event.target).closest('a').attr('href')
+    @router.navigate url, trigger: true
     false
