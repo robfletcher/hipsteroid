@@ -17,7 +17,7 @@ $header-height: 80px;
 
 $body-font: Cabin, 'Century Gothic', Futura, sans-serif;
 $logo-font: 'Maiden Orange', sans-serif;
-$handwriting-font: 'Just Another Hand', cursive;
+$handwriting-font: 'Just Another Hand', sans-serif;
 
 $background-color: #ded698;
 $text-color: #333;
@@ -69,8 +69,12 @@ header {
 
 h1 {
   font-family: $logo-font;
-  font-size: 48px;
   font-weight: normal;
+  font-size: 36px;
+
+  @media only screen and (min-width: 768px) {
+    font-size: 48px;
+  }
 
   .char1 {
     color: $logo-color-1;
@@ -346,13 +350,16 @@ header {
 }
 
 .upload {
-
-  $form-columns: 10;
-  $form-indent: ($columns - $form-columns) / 2;
-
-  @include column($form-columns);
-  @include push($form-indent);
+  @include column(12);
   @include overlay-section;
+
+  @media only screen and (min-width: 768px) {
+    $form-columns: 10;
+    $form-indent: ($columns - $form-columns) / 2;
+    @include column($form-columns);
+    @include push($form-indent);
+    @include pull($form-indent);
+  }
 
   label {
     margin-top: 10px;
@@ -402,7 +409,7 @@ header {
 
       @include radio-overlay($thumb-size + 2px, $thumb-size + 22px);
       display: inline-block;
-      margin: 0 5px;
+      margin: 0 5px 10px;
       vertical-align: middle;
 
       @include bordered;
