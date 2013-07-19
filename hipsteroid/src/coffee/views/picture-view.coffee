@@ -13,6 +13,7 @@ class window.PictureView extends Backbone.View
 
   render: =>
     @$el.append @template(@model.toJSON())
+    @$el.data('id', @model.id)
     @attach()
 
   attach: =>

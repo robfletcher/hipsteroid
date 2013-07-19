@@ -31,7 +31,16 @@ class window.TimelineView extends Backbone.View
     view = new PictureView
       model: picture
 
-    @pictureList.find('li').eq(options.index).before view.render().el
+    $pictureListItems = @pictureList.find('li')
+    newListItem = view.render().el
+    if $pictureListItems.length is 0
+      @pictureList.append newListItem
+    else
+      index = collection.indexOf picture
+      if index is 0
+        @pictureList.prepend newListItem
+      else
+        $pictureListItems.eq(index - 1).after newListItem
 
   removeAll: =>
     @pictureList.children().remove()
