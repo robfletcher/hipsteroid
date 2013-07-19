@@ -286,15 +286,16 @@ header {
   ul {
     padding: 12px 0 0;
     list-style: none;
+    text-align: center;
 
     @include column(12);
   }
 
   li {
     width: $image-size + 2px;
-    float: left;
-    margin-right: $gutter-width;
-    margin-bottom: $gutter-width;
+    display: inline-block;
+    margin: 0 ($gutter-width / 2) $gutter-width;
+    text-align: left;
     @include bordered;
   }
 
