@@ -16,17 +16,13 @@
 package co.freeside.hipsteroid.auth
 
 import grails.plugin.springsecurity.oauth.OAuthToken
+import grails.plugin.springsecurity.oauth.TwitterOAuthToken
 import org.codehaus.groovy.grails.plugins.springsecurity.GormUserDetailsService
 import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 import org.springframework.security.core.authority.GrantedAuthorityImpl
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.savedrequest.DefaultSavedRequest
-
-import co.freeside.hipsteroid.auth.User
-import co.freeside.hipsteroid.auth.Role
-import co.freeside.hipsteroid.auth.UserRole
-import co.freeside.hipsteroid.auth.OAuthID
 
 /**
  * Simple helper controller for handling OAuth authentication and integrating it
@@ -71,16 +67,26 @@ class SpringSecurityOAuthController {
         if (oAuthToken.principal instanceof GrailsUser) {
             authenticateAndRedirect(oAuthToken, defaultTargetUrl)
         } else {
-            // This OAuth account hasn't been registered against an internal
-            // account yet. Give the oAuthID the opportunity to create a new
-            // internal account or link to an existing one.
-            session[SPRING_SECURITY_OAUTH_TOKEN] = oAuthToken
+			boolean created = User.withTransaction { status ->
+				User user = new User(username: ((TwitterOAuthToken)oAuthToken).twitterProfile.screenName, password: oAuthToken.credentials, enabled: true)
+				user.addToOAuthIDs(provider: oAuthToken.providerName, accessToken: oAuthToken.socialId, user: user)
 
-            def redirectUrl = SpringSecurityUtils.securityConfig.oauth.registration.askToLinkOrCreateAccountUri
-            assert redirectUrl, "grails.plugins.springsecurity.oauth.registration.askToLinkOrCreateAccountUri" +
-                    " configuration option must be set!"
-            log.debug "Redirecting to askToLinkOrCreateAccountUri: ${redirectUrl}"
-            redirect(redirectUrl instanceof Map ? redirectUrl : [uri: redirectUrl])
+				user.save flush: true, failOnError: true
+				log.info "new user @$user.username registered via Twitter"
+
+				for (roleName in SpringSecurityUtils.securityConfig.oauth.registration.roleNames) {
+					UserRole.create user, Role.findByAuthority(roleName)
+				}
+
+				SpringSecurityUtils.reauthenticate(user.username, oAuthToken.credentials)
+				oAuthToken = updateOAuthToken(oAuthToken, user)
+				return true
+			}
+
+			if (created) {
+				authenticateAndRedirect oAuthToken, defaultTargetUrl
+				return
+			}
         }
     }
 

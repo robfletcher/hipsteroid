@@ -26,13 +26,13 @@
 
 			<aside class="auth">
 				<sec:ifLoggedIn>
-					<span class="logged-in-message">Signed in as <sec:loggedInUserInfo field="username"/></span>
+					<span class="logged-in-message">Signed in as @<sec:loggedInUserInfo field="username"/></span>
 					<g:form controller="logout" action="index">
 						<button type="submit" class="logout"><i class="icon-signout"></i> Sign out</button>
 					</g:form>
 				</sec:ifLoggedIn>
 				<sec:ifNotLoggedIn>
-					<g:link controller="login" action="auth" class="login"><i class="icon-signin"></i> Sign in</g:link>
+					<oauth:connect provider="twitter" id="twitter-connect-link"><i class="icon-signin"></i> Sign in</oauth:connect>
 				</sec:ifNotLoggedIn>
 			</aside>
 

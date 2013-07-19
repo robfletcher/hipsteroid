@@ -1,7 +1,7 @@
 <figure>
 	<img src="{{url}}">
 	<figcaption>
-		<p class="meta">Uploaded {{friendlyTime dateCreated}} by {{uploadedBy.username}}</p>
+		<p class="meta">Uploaded {{friendlyTime dateCreated}} by @{{uploadedBy.username}}</p>
 		{{#isCurrentUser uploadedBy}}
 		<button type="button" class="delete" title="Delete"><i class="icon-trash"></i></button>
 		{{/isCurrentUser}}
