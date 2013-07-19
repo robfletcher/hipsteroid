@@ -6,7 +6,7 @@
 $fontAwesomePath: '../lib/font-awesome/font';
 
 // customize semantic.gs grid
-//@total-width: 100%;
+$total-width: 100%;
 
 // margin is *outside* width & height
 *, *:before, *:after {
@@ -16,7 +16,7 @@ $fontAwesomePath: '../lib/font-awesome/font';
 $header-height: 80px;
 
 $body-font: Cabin, 'Century Gothic', Futura, sans-serif;
-$logo-font: 'Maiden Orange', cursive;
+$logo-font: 'Maiden Orange', sans-serif;
 $handwriting-font: 'Just Another Hand', cursive;
 
 $background-color: #ded698;
@@ -40,11 +40,14 @@ $logo-color-7: $picture-background;
 
 body {
   font-family: $body-font;
-  padding-top: $header-height;
   padding-bottom: 20px;
   background-image: image-url('100-100-4.png');
   background-color: $background-color;
   color: $text-color;
+
+  @media only screen and (min-width: 768px) {
+    padding-top: $header-height;
+  }
 }
 
 button {
@@ -152,22 +155,25 @@ header {
   $text-color: #fff;
   $highlight-color: #ff0;
 
-  @include fixed-at-top;
-  @include subtle-shadow;
-
-  height: $header-height;
   background: $background-color;
   color: $text-color;
-
   padding: 0 20px;
+
+  @include clearfix;
+  @include subtle-shadow;
+
+  @media only screen and (min-width: 768px) {
+    height: $header-height;
+    @include fixed-at-top;
+  }
 
   h1 {
     font-family: $logo-font;
-    font-size: 72px;
+    font-size: 56px;
     text-transform: lowercase;
-    float: left;
-
+    height: $header-height;
     line-height: $header-height; // font is off the baseline
+    text-align: center;
 
     .fontface & {
       line-height: $header-height - 4px;
@@ -175,6 +181,15 @@ header {
     }
 
     margin: 0;
+
+    @media only screen and (min-width: 480px) {
+      text-align: left;
+      float: left;
+      margin-right: 20px;
+    }
+    @media only screen and (min-width: 768px) {
+      font-size: 72px;
+    }
   }
 
   a {
@@ -183,7 +198,6 @@ header {
     text-decoration: none;
 
     display: inline-block;
-    margin-left: 20px;
 
     @include transition;
 
@@ -194,9 +208,34 @@ header {
 
   nav {
     float: left;
+    @media only screen and (min-width: 480px) and (max-width: 767px) {
+      float: right;
+    }
 
     a {
-      font-size: 22px;
+      margin-right: 20px;
+    }
+  }
+
+  nav, .auth {
+    a {
+      font-size: 0;
+      min-width: 44px;
+      text-align: center;
+
+      @media only screen and (min-width: 768px) {
+        font-size: 18px;
+        min-width: auto;
+        text-align: left;
+      }
+      @media only screen and (min-width: 1024px) {
+        font-size: 22px;
+      }
+      [class^="icon-"],
+      [class*=" icon-"] {
+        font-size: 22px;
+        line-height: $header-height;
+      }
     }
   }
 
@@ -214,18 +253,11 @@ header {
     }
 
     button, a {
-      font-family: $handwriting-font;
-      font-size: 32px;
       color: $text-color;
       @include transition;
 
       &:hover {
         color: $highlight-color;
-      }
-
-      [class^="icon-"],
-      [class*=" icon-"] {
-        font-size: 22px;
       }
     }
 
@@ -243,7 +275,9 @@ header {
 
 .timeline {
 
-$image-size: 298px;
+  $image-size: 298px;
+
+  @include clearfix;
 
   h1 {
     @include off-screen;
@@ -252,10 +286,12 @@ $image-size: 298px;
   ul {
     padding: 12px 0 0;
     list-style: none;
+
+    @include column(12);
   }
 
   li {
-    width: $image-size + 2;
+    width: $image-size + 2px;
     float: left;
     margin-right: $gutter-width;
     margin-bottom: $gutter-width;
