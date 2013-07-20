@@ -46,6 +46,7 @@ body {
   background-image: image-url('100-100-4.png');
   background-color: $background-color;
   color: $text-color;
+  min-width: 320px;
 
   @media only screen and (min-width: 768px) {
     padding-top: $header-height;
