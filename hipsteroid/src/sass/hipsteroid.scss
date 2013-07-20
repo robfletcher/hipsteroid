@@ -218,7 +218,7 @@ header {
   }
 
   nav, .auth {
-    a {
+    button, a {
       font-size: 0;
       min-width: $touch-target-size;
       line-height: $touch-target-size;
@@ -235,15 +235,30 @@ header {
       @media only screen and (min-width: 1024px) {
         font-size: 22px;
       }
+
+      [class^="icon-"],
+      [class*=" icon-"] {
+        font-size: 22px;
+        @media only screen and (min-width: 480px) {
+          line-height: $header-height;
+        }
+      }
     }
   }
 
   .auth {
     float: right;
 
+    .logged-in-message, form {
+      vertical-align: middle;
+    }
+
     .logged-in-message {
-      display: inline-block;
+      display: none;
       line-height: $header-height;
+      @media only screen and (min-width: 768px) {
+        display: inline-block;
+      }
     }
 
     form {
@@ -257,14 +272,6 @@ header {
 
       &:hover {
         color: $highlight-color;
-      }
-
-      [class^="icon-"],
-      [class*=" icon-"] {
-        font-size: 22px;
-        @media only screen and (min-width: 480px) {
-          line-height: $header-height;
-        }
       }
     }
 
