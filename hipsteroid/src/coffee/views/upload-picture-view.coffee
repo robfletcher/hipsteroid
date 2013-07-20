@@ -22,6 +22,8 @@ class window.UploadPictureView extends Backbone.View
 
     @model = new Picture
 
+    @$submitButton = @$el.find(':submit')
+
   render: =>
     @$el.html @template(hipsteroid.urlMappings)
     @attach()
@@ -74,7 +76,7 @@ class window.UploadPictureView extends Backbone.View
   _onSubmit: =>
     @app.eventBus.registerHandler @uploadCallbackAddress, @_uploadCallback
 
-    @model.on 'request', @_onUploadStart
+    @model.on 'request', @_disableSubmit
 
     @model.save
       callbackAddress: @uploadCallbackAddress
@@ -85,9 +87,6 @@ class window.UploadPictureView extends Backbone.View
   _uploadCallback: =>
     @app.navigate '/timeline', trigger: true
 
-  _onUploadStart: =>
-    @$el.find(':submit').prop('disabled', true)
-
   _onUploadFailed: (model, response) =>
     errorList = $('<ul></ul>')
     errorList.append("<li>#{error}</li>") for error in JSON.parse(response.responseText).errors
@@ -95,3 +94,14 @@ class window.UploadPictureView extends Backbone.View
       @$el.find('.errors').html(errorList)
     else
       errorList.insertAfter(@$el.find('h1')).wrap('<div class="errors"/>')
+
+    @_enableSubmit()
+
+  _enableSubmit: =>
+    @_toggleSubmit true
+
+  _disableSubmit: =>
+    @_toggleSubmit false
+
+  _toggleSubmit: (enable) =>
+    @$submitButton.prop('disabled', not enable).find('i').toggleClass('icon-cloud-upload', enable).toggleClass('icon-spinner icon-spin', not enable)

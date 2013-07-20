@@ -42,7 +42,6 @@
 * cache headers on restful actions
 * no javascript support
 * infinite scroll on timeline
-* skip the link account page when signing in via twitter
 * cloudbees jenkins running all the tests
 * run Casper & Testem in IntelliJ
 
