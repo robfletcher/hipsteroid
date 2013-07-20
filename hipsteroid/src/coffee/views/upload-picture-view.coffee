@@ -73,6 +73,9 @@ class window.UploadPictureView extends Backbone.View
 
   _onSubmit: =>
     @app.eventBus.registerHandler @uploadCallbackAddress, @_uploadCallback
+
+    @model.on 'request', @_onUploadStart
+
     @model.save
       callbackAddress: @uploadCallbackAddress
     ,
@@ -82,9 +85,12 @@ class window.UploadPictureView extends Backbone.View
   _uploadCallback: =>
     @app.navigate '/timeline', trigger: true
 
-  _onUploadFailed: (model, xhr, options) =>
+  _onUploadStart: =>
+    @$el.find(':submit').prop('disabled', true)
+
+  _onUploadFailed: (model, response) =>
     errorList = $('<ul></ul>')
-    errorList.append("<li>#{error}</li>") for error in JSON.parse(xhr.responseText).errors
+    errorList.append("<li>#{error}</li>") for error in JSON.parse(response.responseText).errors
     if (@$el.find('.errors').length)
       @$el.find('.errors').html(errorList)
     else
