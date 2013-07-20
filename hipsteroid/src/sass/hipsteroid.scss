@@ -53,10 +53,6 @@ body {
   }
 }
 
-button {
-  font-family: $handwriting-font;
-}
-
 a {
   color: darken($highlight-color, 15%);
   @include single-transition(color);
@@ -240,13 +236,6 @@ header {
       @media only screen and (min-width: 1024px) {
         font-size: 22px;
       }
-      [class^="icon-"],
-      [class*=" icon-"] {
-        font-size: 22px;
-        @media only screen and (min-width: 480px) {
-          line-height: $header-height;
-        }
-      }
     }
   }
 
@@ -269,6 +258,14 @@ header {
 
       &:hover {
         color: $highlight-color;
+      }
+
+      [class^="icon-"],
+      [class*=" icon-"] {
+        font-size: 22px;
+        @media only screen and (min-width: 480px) {
+          line-height: $header-height;
+        }
       }
     }
 
