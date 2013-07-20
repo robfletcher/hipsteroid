@@ -13,7 +13,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<%-- TODO: load with JS --%>
-		<link href="http://fonts.googleapis.com/css?family=Just+Another+Hand|Cabin:400|Maiden+Orange" rel="stylesheet" type="text/css">
+		<link href="http://fonts.googleapis.com/css?family=Just+Another+Hand|Quattrocento+Sans:400|Maiden+Orange" rel="stylesheet" type="text/css">
 
 		<r:use modules="modernizr, normalize, hipsteroid"/>
 		<g:layoutHead/>
