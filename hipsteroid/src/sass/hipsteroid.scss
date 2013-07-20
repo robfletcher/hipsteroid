@@ -3,6 +3,7 @@
 //@import "font-awesome";
 @import "mixins";
 
+$default-transition-duration : 0.25s;
 $fontAwesomePath: '../lib/font-awesome/font';
 
 // customize semantic.gs grid
@@ -57,7 +58,7 @@ button {
 
 a {
   color: darken($highlight-color, 15%);
-  @include transition;
+  @include single-transition(color);
 
   &:hover {
     color: $highlight-color;
@@ -202,7 +203,7 @@ header {
     text-decoration: none;
     display: inline-block;
 
-    @include transition;
+    @include single-transition(color);
 
     &:hover {
       color: $highlight-color;
@@ -263,7 +264,7 @@ header {
 
     button, a {
       color: $text-color;
-      @include transition;
+      @include single-transition(color);
 
       &:hover {
         color: $highlight-color;
@@ -344,7 +345,7 @@ header {
       font-size: 32px;
       color: #fff;
 
-      @include transition;
+      @include single-transition(background-color);
 
       &:hover {
         background-color: $logo-color-1;
