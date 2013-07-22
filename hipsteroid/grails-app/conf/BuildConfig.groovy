@@ -44,7 +44,7 @@ grails.project.dependency.resolution = {
 
 	plugins {
 
-		compile ":cache-headers:1.1.4",
+		compile ":cache-headers:1.1.5",
 				":handlebars:1.1.0",
 				":spring-security-core:1.2.7.3",
 				":oauth:2.1.0"

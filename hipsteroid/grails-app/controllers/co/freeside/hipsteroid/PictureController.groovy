@@ -6,7 +6,9 @@ import grails.validation.Validateable
 import org.bson.types.ObjectId
 import org.vertx.groovy.core.buffer.Buffer
 import static co.freeside.hipsteroid.auth.Role.USER
+import static java.util.Calendar.SECOND
 import static javax.servlet.http.HttpServletResponse.*
+import static org.apache.commons.lang.time.DateUtils.round
 
 class PictureController {
 
@@ -29,7 +31,8 @@ class PictureController {
 			def picture = Picture.get(new ObjectId(id))
 
 			delegate.lastModified {
-				picture?.lastUpdated
+				// mongo stores dates with millisecond precision but If-Modified-Since header only has second precision
+				picture ? round(picture.lastUpdated, SECOND) : null
 			}
 
 			generate {
