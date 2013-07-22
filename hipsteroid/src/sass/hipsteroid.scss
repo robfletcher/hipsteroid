@@ -354,6 +354,11 @@ header {
       &:hover {
         background-color: $logo-color-1;
       }
+
+      [class^="icon-"],
+      [class*=" icon-"] {
+        visibility: text-top;
+      }
     }
   }
 
