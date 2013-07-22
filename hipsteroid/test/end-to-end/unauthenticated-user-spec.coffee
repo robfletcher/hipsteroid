@@ -12,7 +12,7 @@ casper.thenOpen baseUrl, ->
   @test.assertExists '.timeline li:nth-child(4)', 'timeline pictures are shown'
   @test.assertDoesntExist 'button.delete', 'no delete buttons are present'
 
-casper.thenClick 'nav a[href="upload"]', ->
+casper.thenClick 'nav a[href="/upload"]', ->
   @test.info 'when an anonymous user clicks on the "Upload a picture" link in the nav'
   @test.assertTitle 'Hipsteroid: Sign in', 'they are redirected to the login page'
 

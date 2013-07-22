@@ -13,9 +13,9 @@ casper.thenOpen "#{baseUrl}/timeline", ->
   @test.assertEquals @fetchText('.timeline li:first-child .meta'), 'Uploaded right now by hipsteroid', 'the templates have rendered correctly'
 
   @test.info 'when the user navigates away from the timeline and returns'
-  @click 'nav a[href="upload"]'
+  @click 'nav a[href="/upload"]'
 
-casper.thenClick 'nav a[href="timeline"]', ->
+casper.thenClick 'nav a[href="/timeline"]', ->
   @test.assertExists '.timeline li:nth-child(4)', 'there are 4 images'
   @test.assertDoesntExist '.timeline li:nth-child(5)', 'there are not more than 4 images'
 

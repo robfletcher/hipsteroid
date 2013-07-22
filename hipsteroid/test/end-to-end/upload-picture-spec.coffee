@@ -16,7 +16,7 @@ casper.start "#{baseUrl}/fixture/nuke", ->
 casper.thenOpen "#{baseUrl}/timeline", ->
   @test.info 'when a user logs in...'
 
-casper.thenClick 'a.login', ->
+casper.thenOpen "#{baseUrl}/sign-in", ->
   @fill 'form',
     j_username: username
     j_password: 'hipsteroid'
@@ -24,7 +24,7 @@ casper.thenClick 'a.login', ->
 
 casper.then ->
   @test.assertEquals @fetchText('.logged-in-message'), "Signed in as #{username}", 'user is now logged in'
-  @click 'nav a[href="upload"]'
+  @click 'nav a[href="/upload"]'
 
 casper.then ->
   @test.info 'thumbnails are automatically generated when an image is selected'
