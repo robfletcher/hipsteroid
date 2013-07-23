@@ -11,8 +11,8 @@ The slides for the talk can be found on [SlideShare](http://www.slideshare.net/r
 
 ## Things you need to run this demo
 
-* [Grails 2.1.2][grails]
-* [Vert.x][vert.x]
+* [Grails 2.2.3][grails]
+* [Vert.x 1.3.1][vert.x]
 * [MongoDB][mongo]
 * [ImageMagick][im] (you may have this already - try running `convert` in a terminal)
 
@@ -23,10 +23,6 @@ Some way to compile…
 * [Handlebars][hbs]
 
 ## Compiling front end resources
-
-### CodeKit
-
-There is a [CodeKit][codekit] config file in `web-app/app` that will allow you to automatically compile CoffeeScript and LESS. You will still need to compile the Handlebars templates another way as CodeKit does not process them.
 
 ### Grunt
 
@@ -40,12 +36,14 @@ To compile CoffeeScript, LESS & Handlebars. Or:
 
 To monitor for changes in those resources and automatically compile them if they change.
 
+Grails will automatically run grunt when it's compiled
+
 ### Command line:
 
 To install the command line tools:
 
 	npm install -g coffee-script
-	gem install less
+	gem install compass
 	npm install -g handlebars
 
 Then use the following commands to compile the resources:
