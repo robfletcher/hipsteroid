@@ -1,29 +1,14 @@
 # Pages
 
-* picture timeline
-* upload picture
 * view individual picture
 * user profile
+* make auth stuff properly one-page
 
 # Cool things
 
-* Testem
-* Casper
-* CoffeeScript
-* Grunt / CodeKit
-* dual rendering for optimized loading
-* async expensive ops with vert.x & Rabbit MQ
-* extending event bus to browser
-
-# Features
-
-* push updates to timeline
-  * tests!
-* grunt build
-* pagination on timeline
-* profile view
-  * avatars from twitter
-* make auth stuff properly one-page
+* Upgrade filter to use Vert.x 2
+* Use Karma rather than Testem
+* Use Grunt to watch & recompile resources when you use `grails run-app`
 
 # Bugs
 
@@ -33,8 +18,6 @@
 
 # Nice to haves
 
-* compiled js & css in different dirs so it can be ignored more easily
-* convert /login/auth to a backbone route
 * drop jQuery file upload
 * drop jQuery. Organic JS!
 * handle errors in an AJAX sensitive way
@@ -43,8 +26,4 @@
 * no javascript support
 * infinite scroll on timeline
 * cloudbees jenkins running all the tests
-* run Casper & Testem in IntelliJ
-
-# Mention but don't demo
-
-* Pre-rendering Angular using Phantom
+* run tests in IntelliJ
